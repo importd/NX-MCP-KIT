@@ -159,14 +159,57 @@ class Bridge(object):
         self._write_status()
 
 
+_TIMER = {}
+
+
+def _claim_process():
+    # NX can load startup python from more than one registered directory; keep
+    # exactly one bridge per NX process.
+    import ctypes
+    from ctypes import wintypes as w
+
+    kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+    kernel32.CreateMutexW.argtypes = [ctypes.c_void_p, w.BOOL, w.LPCWSTR]
+    kernel32.CreateMutexW.restype = w.HANDLE
+    handle = kernel32.CreateMutexW(None, False, u"Local\\NXAgentKit_%d" % os.getpid())
+    _TIMER["mutex"] = handle
+    return ctypes.get_last_error() != 183
+
+
+def _start_timer(bridge):
+    # NXOpen has no portable timer for Python; Win32 SetTimer on the NX UI
+    # thread is the mechanism proven on NX10 (same technique as NXAgentLink).
+    import ctypes
+    from ctypes import wintypes as w
+
+    user32 = ctypes.WinDLL("user32", use_last_error=True)
+    timer_proc_type = ctypes.WINFUNCTYPE(None, w.HWND, w.UINT, ctypes.c_size_t, w.DWORD)
+    user32.SetTimer.argtypes = [w.HWND, ctypes.c_size_t, w.UINT, timer_proc_type]
+    user32.SetTimer.restype = ctypes.c_size_t
+    user32.KillTimer.argtypes = [w.HWND, ctypes.c_size_t]
+    user32.KillTimer.restype = w.BOOL
+
+    def callback(hwnd, msg, idevent, dwtime):
+        try:
+            bridge.tick()
+        except Exception:
+            bridge._log("tick error: " + traceback.format_exc())
+
+    proc = timer_proc_type(callback)
+    timer_id = user32.SetTimer(None, 0, 250, proc)
+    if not timer_id:
+        raise RuntimeError("SetTimer failed, WinError %d" % ctypes.get_last_error())
+    _TIMER.update({"user32": user32, "id": timer_id, "proc": proc})
+    return timer_id
+
+
 def main():
+    if not _claim_process():
+        return
     session = NXOpen.Session.GetSession()
     bridge = Bridge(session)
     bridge._log("bridge started, io=" + bridge.io)
-    try:
-        session.SetTimer(250, bridge.tick)
-    except Exception:
-        bridge._log("SetTimer unavailable; run tick() manually")
+    _start_timer(bridge)
 
 
 main()
