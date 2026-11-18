@@ -1,0 +1,10 @@
+{
+  "target": "3.3",
+  "source": "NX10 embedded Python 3.3.2",
+  "checks": ["PY33_FSTRING", "PY33_WALRUS", "PY33_ANNOTATION"],
+  "notes": [
+    "NX10 无 pythonStubs，只能用标准库",
+    "NX12 为 3.6.1（支持 f-string，不支持海象）",
+    "2512 为 3.12（全部支持）"
+  ]
+}
