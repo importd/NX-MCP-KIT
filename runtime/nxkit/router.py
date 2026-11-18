@@ -11,12 +11,13 @@ from .result import make_error, make_ok
 
 
 class Router:
-    def __init__(self, registry, bridge, library, gate, expose: str = "catalog"):
+    def __init__(self, registry, bridge, library, gate, expose: str = "catalog", jobs=None):
         self.registry = registry
         self.bridge = bridge
         self.library = library
         self.gate = gate
         self.expose = expose
+        self.jobs = jobs
         self.part = "current"
         self.handlers = dict(META_HANDLERS)
         self.handlers.update(EXP_HANDLERS)

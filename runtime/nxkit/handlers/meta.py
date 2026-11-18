@@ -95,3 +95,28 @@ HANDLERS = {
     "help": handle_help,
     "call": handle_call,
 }
+
+
+def handle_job(router, args, request_id):
+    jobs = getattr(router, "jobs", None)
+    if jobs is None:
+        return make_error(request_id, "JOBS_UNAVAILABLE", "bridge", "job 调度未启用")
+    action = args.get("action") or "status"
+    if action == "list":
+        return make_ok(request_id, data={"jobs": jobs.list()})
+    job_id = args.get("id")
+    if not job_id:
+        return make_error(request_id, "BAD_ARGUMENT", "precheck", "需要 id", next="先 action=list")
+    if action == "status":
+        try:
+            return make_ok(request_id, data=jobs.status(job_id))
+        except KeyError:
+            return make_error(request_id, "JOB_NOT_FOUND", "bridge", "未知 job：%s" % job_id)
+    if action == "cancel":
+        return make_ok(request_id, data={"cancelled": jobs.cancel(job_id)})
+    return make_error(
+        request_id, "BAD_ARGUMENT", "precheck", "action 只能是 status|cancel|list"
+    )
+
+
+HANDLERS["job"] = handle_job

@@ -14,6 +14,7 @@ from pathlib import Path
 from . import __version__
 from .bridge import BridgeClient
 from .gate import Gate
+from .jobs import Jobs
 from .library.store import Library
 from .registry import ContractError, Registry
 from .router import Router
@@ -117,7 +118,8 @@ def main(argv: list[str] | None = None) -> int:
     bridge = BridgeClient(io_dir)
     library = Library(library_root).init()
     gate = Gate(workflow)
-    router = Router(registry, bridge, library, gate, expose)
+    jobs = Jobs(io_dir)
+    router = Router(registry, bridge, library, gate, expose, jobs=jobs)
     server = Server(registry, expose, router)
 
     while True:
