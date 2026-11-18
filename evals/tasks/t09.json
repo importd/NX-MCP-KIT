@@ -1,0 +1,8 @@
+{
+  "id": "t09",
+  "goal": "写代码前预检（NX10 语法）",
+  "steps": [
+    { "tool": "nx_check", "args": { "code": "x = 1\nresult = x + 1", "target_ver": "nx10" } }
+  ],
+  "expect_ok": true
+}

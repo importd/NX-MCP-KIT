@@ -1,0 +1,9 @@
+{
+  "id": "t01",
+  "goal": "建 50x40x30 的方块并量体积",
+  "steps": [
+    { "tool": "nx_block", "args": { "x": 0, "y": 0, "z": 0, "length": 50, "width": 40, "height": 30 } },
+    { "tool": "nx_measure", "args": { "target": "last", "what": "volume" } }
+  ],
+  "expect_ok": true
+}

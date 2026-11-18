@@ -1,0 +1,10 @@
+{
+  "id": "t03",
+  "goal": "改孔位：打孔后测量并确认包围盒",
+  "steps": [
+    { "tool": "nx_block", "args": { "length": 80, "width": 60, "height": 20 } },
+    { "tool": "nx_hole", "args": { "target": "last", "position": [40, 30, 20], "diameter": 10, "depth": 15 } },
+    { "tool": "nx_measure", "args": { "target": "last", "what": "bbox" } }
+  ],
+  "expect_ok": true
+}

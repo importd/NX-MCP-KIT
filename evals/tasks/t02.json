@@ -1,0 +1,10 @@
+{
+  "id": "t02",
+  "goal": "方块上打一个直径 8 的通孔",
+  "steps": [
+    { "tool": "nx_block", "args": { "length": 50, "width": 40, "height": 30 } },
+    { "tool": "nx_hole", "args": { "target": "last", "position": [25, 20, 30], "diameter": 8 } },
+    { "tool": "nx_inspect", "args": {} }
+  ],
+  "expect_ok": true
+}

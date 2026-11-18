@@ -1,0 +1,9 @@
+{
+  "id": "t06",
+  "goal": "用模板出 400x300x200 模架",
+  "steps": [
+    { "tool": "nx_template", "args": { "action": "list" } },
+    { "tool": "nx_template", "args": { "action": "apply", "name": "模架", "params": { "L": 400, "W": 300, "H": 200 } } }
+  ],
+  "expect_ok": true
+}

@@ -1,0 +1,8 @@
+{
+  "id": "t08",
+  "goal": "模板参数越界应被拒绝",
+  "steps": [
+    { "tool": "nx_template", "args": { "action": "apply", "name": "圆形镶件", "params": { "d": 5, "h": 40 } } }
+  ],
+  "expect_ok": false
+}

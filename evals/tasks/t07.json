@@ -1,0 +1,8 @@
+{
+  "id": "t07",
+  "goal": "用模板出直径 60 高 40 的圆镶件",
+  "steps": [
+    { "tool": "nx_template", "args": { "action": "apply", "name": "圆形镶件", "params": { "d": 60, "h": 40 } } }
+  ],
+  "expect_ok": true
+}

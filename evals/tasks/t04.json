@@ -1,0 +1,9 @@
+{
+  "id": "t04",
+  "goal": "先读结构再决定改哪里（inspect 优先）",
+  "steps": [
+    { "tool": "nx_inspect", "args": {} },
+    { "tool": "nx_measure", "args": { "target": "last", "what": "volume" } }
+  ],
+  "expect_ok": true
+}

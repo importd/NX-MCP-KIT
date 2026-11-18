@@ -1,0 +1,8 @@
+{
+  "id": "t10",
+  "goal": "无头批处理跑建块计划",
+  "steps": [
+    { "tool": "nx_batch", "args": { "steps": [ { "tool": "nx_block", "args": { "length": 10, "width": 10, "height": 10 } } ] } }
+  ],
+  "expect_ok": true
+}
