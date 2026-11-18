@@ -16,6 +16,7 @@ from .bridge import BridgeClient
 from .gate import Gate
 from .headless import HeadlessRunner
 from .jobs import Jobs
+from .kb.search import Kb
 from .library.store import Library
 from .precheck import Precheck
 from .registry import ContractError, Registry
@@ -124,6 +125,8 @@ def main(argv: list[str] | None = None) -> int:
     gate = Gate(workflow)
     jobs = Jobs(io_dir)
     nx_root_env = os.environ.get("NXKIT_NX_ROOT")
+    kb_db_env = os.environ.get("NXKIT_KB_DB")
+    kb = Kb(Path(kb_db_env)) if kb_db_env and Path(kb_db_env).is_file() else None
     router = Router(
         registry,
         bridge,
@@ -135,6 +138,7 @@ def main(argv: list[str] | None = None) -> int:
         snapshots=SnapshotStore(repo / "snapshots"),
         headless=HeadlessRunner(Path(nx_root_env) if nx_root_env else None),
         templates=TemplateStore(default_contract_dir()),
+        kb=kb,
     )
     server = Server(registry, expose, router)
 

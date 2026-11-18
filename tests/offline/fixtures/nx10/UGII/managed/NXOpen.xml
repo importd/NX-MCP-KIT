@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+  <assembly><name>NXOpen</name></assembly>
+  <members>
+    <member name="T:NXOpen.Features.ExtrudeBuilder">
+      <summary>Represents a builder for extrude features.</summary>
+      <remarks><para>License requirements: solid_modeling ("SOLIDS MODELING")</para></remarks>
+    </member>
+    <member name="T:NXOpen.CAM.CamBase">
+      <summary>Base class for CAM objects.</summary>
+      <remarks><para>License requirements: cam_base ("CAM BASE")</para></remarks>
+    </member>
+    <member name="M:NXOpen.Features.ExtrudeBuilder.Commit">
+      <summary>Commits the builder.</summary>
+      <remarks><para>License requirements: solid_modeling ("SOLIDS MODELING")</para></remarks>
+    </member>
+  </members>
+</doc>
