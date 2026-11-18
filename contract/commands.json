@@ -1,0 +1,18 @@
+{
+  "commands": [
+    { "name": "nx_part", "changes_geometry": false, "min_py": "3.3" },
+    { "name": "nx_save", "changes_geometry": false, "min_py": "3.3" },
+    { "name": "nx_block", "changes_geometry": true, "min_py": "3.3" },
+    { "name": "nx_extrude", "changes_geometry": true, "min_py": "3.3" },
+    { "name": "nx_revolve", "changes_geometry": true, "min_py": "3.3" },
+    { "name": "nx_hole", "changes_geometry": true, "min_py": "3.3" },
+    { "name": "nx_fillet", "changes_geometry": true, "min_py": "3.3" },
+    { "name": "nx_chamfer", "changes_geometry": true, "min_py": "3.3" },
+    { "name": "nx_boolean", "changes_geometry": true, "min_py": "3.3" },
+    { "name": "nx_move_face", "changes_geometry": true, "min_py": "3.3" },
+    { "name": "nx_run_python", "changes_geometry": true, "min_py": "3.3" },
+    { "name": "nx_screenshot", "changes_geometry": false, "min_py": "3.3" },
+    { "name": "nx_inspect", "changes_geometry": false, "min_py": "3.3" },
+    { "name": "nx_measure", "changes_geometry": false, "min_py": "3.3" }
+  ]
+}

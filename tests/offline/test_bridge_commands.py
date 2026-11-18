@@ -4,6 +4,8 @@ from pathlib import Path
 
 import pytest
 
+import nxstub
+
 REPO = Path(__file__).resolve().parents[2]
 BRIDGE = REPO / "bridge"
 
@@ -71,33 +73,12 @@ class FakeSt:
 
 
 def _install_nxopen_stub():
-    nx = types.ModuleType("NXOpen")
-    features = types.ModuleType("NXOpen.Features")
-
-    class Point3d:
-        def __init__(self, x, y, z):
-            self.X = x
-            self.Y = y
-            self.Z = z
-
-    class BlockFeatureBuilder:
-        class Types:
-            OriginAndEdgeLengths = 1
-
-    class Feature:
-        Null = None
-
-    features.BlockFeatureBuilder = BlockFeatureBuilder
-    features.Feature = Feature
-    nx.Point3d = Point3d
-    nx.Features = features
-    sys.modules["NXOpen"] = nx
-    sys.modules["NXOpen.Features"] = features
+    nxstub.install()
 
 
 @pytest.fixture
 def commands():
-    _install_nxopen_stub()
+    nxstub.install()
     sys.path.insert(0, str(BRIDGE))
     for name in list(sys.modules):
         if name == "commands" or name.startswith("commands."):

@@ -1,0 +1,172 @@
+{
+  "group": "model",
+  "label": "建模",
+  "order": 20,
+  "tools": [
+    {
+      "name": "nx_block",
+      "s": "长方体（可布尔）",
+      "k": ["方块", "长方体", "block", "box"],
+      "desc": "按原点+边长创建长方体；可 unite/subtract/intersect 到目标体。",
+      "next": "失败先 nx_errors 或 nx_inspect；目标体用 last 或几何描述",
+      "route": { "kind": "nx", "cmd": "nx_block" },
+      "flags": { "gate": true, "verify": true, "expstep": true },
+      "schema": {
+        "type": "object",
+        "required": ["length", "width", "height"],
+        "properties": {
+          "x": { "type": "number" }, "y": { "type": "number" }, "z": { "type": "number" },
+          "length": { "type": "number" }, "width": { "type": "number" }, "height": { "type": "number" },
+          "boolean": { "type": "string", "enum": ["create", "unite", "subtract", "intersect"] },
+          "target": { "type": "string", "description": "last / JournalIdentifier" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
+    },
+    {
+      "name": "nx_extrude",
+      "s": "拉伸曲线成实体",
+      "k": ["拉伸", "extrude"],
+      "desc": "把选中的曲线/草图轮廓沿方向拉伸指定距离。",
+      "next": "没有草图工具时先用 nx_run_python 建曲线",
+      "route": { "kind": "nx", "cmd": "nx_extrude" },
+      "flags": { "gate": true, "verify": true, "expstep": true },
+      "schema": {
+        "type": "object",
+        "required": ["profile", "distance"],
+        "properties": {
+          "profile": { "type": "string", "description": "曲线/草图选择器" },
+          "distance": { "type": "number" },
+          "direction": { "type": "array", "items": { "type": "number" } },
+          "draft": { "type": "number" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
+    },
+    {
+      "name": "nx_revolve",
+      "s": "旋转曲线成实体",
+      "k": ["旋转", "回转", "revolve"],
+      "desc": "把轮廓绕轴旋转指定角度。",
+      "next": "轴用点+方向描述；失败先查草图是否封闭",
+      "route": { "kind": "nx", "cmd": "nx_revolve" },
+      "flags": { "gate": true, "verify": true, "expstep": true },
+      "schema": {
+        "type": "object",
+        "required": ["profile", "angle"],
+        "properties": {
+          "profile": { "type": "string" },
+          "angle": { "type": "number" },
+          "axis_point": { "type": "array", "items": { "type": "number" } },
+          "axis_dir": { "type": "array", "items": { "type": "number" } }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
+    },
+    {
+      "name": "nx_hole",
+      "s": "打孔（圆柱减料）",
+      "k": ["孔", "hole", "钻孔"],
+      "desc": "按位置/方向/直径在目标体上做通孔或指定深度孔（圆柱减料，零件导航器显示为圆柱特征）。",
+      "next": "位置不确定先 nx_inspect point=[x,y,z]",
+      "route": { "kind": "nx", "cmd": "nx_hole" },
+      "flags": { "gate": true, "verify": true, "expstep": true },
+      "schema": {
+        "type": "object",
+        "required": ["target", "position", "diameter"],
+        "properties": {
+          "target": { "type": "string" },
+          "position": { "type": "array", "items": { "type": "number" } },
+          "diameter": { "type": "number" },
+          "depth": { "type": "number", "description": "省略=通孔" },
+          "direction": { "type": "array", "items": { "type": "number" } }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
+    },
+    {
+      "name": "nx_fillet",
+      "s": "边倒圆",
+      "k": ["圆角", "倒圆", "fillet", "blend"],
+      "desc": "对目标体指定位置的边倒圆。",
+      "next": "边点位置不准先 nx_measure 或 nx_inspect",
+      "route": { "kind": "nx", "cmd": "nx_fillet" },
+      "flags": { "gate": true, "verify": true, "expstep": true },
+      "schema": {
+        "type": "object",
+        "required": ["target", "radius"],
+        "properties": {
+          "target": { "type": "string" },
+          "radius": { "type": "number" },
+          "edges": { "type": "array", "items": { "type": "array", "items": { "type": "number" } } }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
+    },
+    {
+      "name": "nx_chamfer",
+      "s": "边倒斜角",
+      "k": ["倒角", "chamfer"],
+      "desc": "对目标体指定位置的边倒斜角。",
+      "next": "对称 C 角用 width；失败先减小 width",
+      "route": { "kind": "nx", "cmd": "nx_chamfer" },
+      "flags": { "gate": true, "verify": true, "expstep": true },
+      "schema": {
+        "type": "object",
+        "required": ["target", "width"],
+        "properties": {
+          "target": { "type": "string" },
+          "width": { "type": "number" },
+          "edges": { "type": "array", "items": { "type": "array", "items": { "type": "number" } } }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
+    },
+    {
+      "name": "nx_boolean",
+      "s": "布尔运算",
+      "k": ["布尔", "求和", "求差", "boolean", "unite", "subtract"],
+      "desc": "目标体与工具体做 unite/subtract/intersect。",
+      "next": "两体必须相交；失败先 nx_inspect 看包围盒",
+      "route": { "kind": "nx", "cmd": "nx_boolean" },
+      "flags": { "gate": true, "verify": true, "expstep": true },
+      "schema": {
+        "type": "object",
+        "required": ["target", "tool", "operation"],
+        "properties": {
+          "target": { "type": "string" },
+          "tool": { "type": "string" },
+          "operation": { "type": "string", "enum": ["unite", "subtract", "intersect"] }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
+    },
+    {
+      "name": "nx_move_face",
+      "s": "移动面（偏移）",
+      "k": ["移动面", "偏置面", "move face", "offset"],
+      "desc": "把目标体的选定面沿向量移动/偏置。",
+      "next": "面选择用点列表；失败先 nx_inspect 确认面法向",
+      "route": { "kind": "nx", "cmd": "nx_move_face" },
+      "flags": { "gate": true, "verify": true, "expstep": true },
+      "schema": {
+        "type": "object",
+        "required": ["target", "delta"],
+        "properties": {
+          "target": { "type": "string" },
+          "delta": { "type": "array", "items": { "type": "number" } },
+          "faces": { "type": "array", "items": { "type": "array", "items": { "type": "number" } } }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
+    }
+  ]
+}

@@ -14,10 +14,13 @@ from pathlib import Path
 from . import __version__
 from .bridge import BridgeClient
 from .gate import Gate
+from .headless import HeadlessRunner
 from .jobs import Jobs
 from .library.store import Library
+from .precheck import Precheck
 from .registry import ContractError, Registry
 from .router import Router
+from .snapshot import SnapshotStore
 
 PROTOCOL_VERSION = "2024-11-05"
 SERVER_INFO = {"name": "nx-agent-kit", "version": __version__}
@@ -119,7 +122,18 @@ def main(argv: list[str] | None = None) -> int:
     library = Library(library_root).init()
     gate = Gate(workflow)
     jobs = Jobs(io_dir)
-    router = Router(registry, bridge, library, gate, expose, jobs=jobs)
+    nx_root_env = os.environ.get("NXKIT_NX_ROOT")
+    router = Router(
+        registry,
+        bridge,
+        library,
+        gate,
+        expose,
+        jobs=jobs,
+        precheck=Precheck(default_contract_dir()),
+        snapshots=SnapshotStore(repo / "snapshots"),
+        headless=HeadlessRunner(Path(nx_root_env) if nx_root_env else None),
+    )
     server = Server(registry, expose, router)
 
     while True:

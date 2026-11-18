@@ -1,0 +1,27 @@
+{
+  "group": "api",
+  "label": "NX API 知识",
+  "order": 60,
+  "tools": [
+    {
+      "name": "nx_api",
+      "s": "查本机 NXOpen 真实签名",
+      "k": ["接口", "api", "签名", "许可", "查函数"],
+      "desc": "检索本机 NX 安装的 NXOpen XML/pyi 文档，返回签名、许可要求与来源；防模型编 API。",
+      "next": "写代码前先看 lic；py= 来自存根时才精确",
+      "route": { "kind": "local", "handler": "api" },
+      "flags": {},
+      "schema": {
+        "type": "object",
+        "required": ["q"],
+        "properties": {
+          "q": { "type": "string" },
+          "src": { "type": "string", "enum": ["all", "pyi", "hxx", "xml"] },
+          "k": { "type": "integer" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
+    }
+  ]
+}

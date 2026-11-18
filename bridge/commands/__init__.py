@@ -1,13 +1,26 @@
 """Command dispatch for the in-NX bridge.
 
 Python 3.3 syntax only: NX10 embeds CPython 3.3.2, so no f-strings, no walrus,
-no annotations, no dataclasses anywhere under bridge/.
+no annotations, no dataclasses anywhere under bridge/. The key set here must
+match contract/commands.json exactly (checked by tests/offline).
 """
 
-from . import model, query
+from . import exec as exec_cmd
+from . import model, part, query, view
 
 COMMANDS = {
+    "nx_part": part.create_part,
+    "nx_save": part.save_part,
     "nx_block": model.create_block,
+    "nx_extrude": model.create_extrude,
+    "nx_revolve": model.create_revolve,
+    "nx_hole": model.create_hole,
+    "nx_fillet": model.create_fillet,
+    "nx_chamfer": model.create_chamfer,
+    "nx_boolean": model.create_boolean,
+    "nx_move_face": model.create_move_face,
+    "nx_run_python": exec_cmd.run_python,
+    "nx_screenshot": view.screenshot,
     "nx_inspect": query.inspect_part,
     "nx_measure": query.measure,
 }

@@ -1,0 +1,62 @@
+{
+  "group": "query",
+  "label": "查询/看图",
+  "order": 40,
+  "tools": [
+    {
+      "name": "nx_inspect",
+      "s": "读体/特征/几何信息",
+      "k": ["查看", "结构", "inspect", "bodies", "特征"],
+      "desc": "列出工作零件的体（id/面数/边数/包围盒/体积），可问点落在哪个体上。",
+      "next": "认对象优先认几何，不要写死 JournalIdentifier",
+      "route": { "kind": "nx", "cmd": "nx_inspect" },
+      "flags": {},
+      "schema": {
+        "type": "object",
+        "properties": {
+          "target": { "type": "string" },
+          "point": { "type": "array", "items": { "type": "number" } }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
+    },
+    {
+      "name": "nx_measure",
+      "s": "量体积/包围盒/面积",
+      "k": ["测量", "measure", "体积", "体积"],
+      "desc": "测量目标体的体积、包围盒或表面积，返回实测 facts 供 nx_assert 使用。",
+      "next": "expect 填图纸值，用 verify 判定，不许口算",
+      "route": { "kind": "nx", "cmd": "nx_measure" },
+      "flags": {},
+      "schema": {
+        "type": "object",
+        "required": ["target"],
+        "properties": {
+          "target": { "type": "string" },
+          "what": { "type": "string", "enum": ["volume", "bbox", "area"] }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
+    },
+    {
+      "name": "nx_screenshot",
+      "s": "截图（可命名视图）",
+      "k": ["截图", "screenshot", "看图", "视图"],
+      "desc": "用 NX 自带 ImageExport 导出 PNG；可先切命名视图。",
+      "next": "图看不全先 nx_screenshot view=fit",
+      "route": { "kind": "nx", "cmd": "nx_screenshot" },
+      "flags": {},
+      "schema": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "view": { "type": "string", "description": "可选：fit / trimetric / 命名视图" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
+    }
+  ]
+}

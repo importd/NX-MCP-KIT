@@ -1,0 +1,102 @@
+{
+  "group": "exec",
+  "label": "执行/验证",
+  "order": 50,
+  "tools": [
+    {
+      "name": "nx_check",
+      "s": "代码预检（语法/规则）",
+      "k": ["检查", "check", "预检", "语法"],
+      "desc": "执行前静态校验：目标 NX 的 Python 语法级别、Builder Commit/Destroy、已知坑规则。有 error 不发。",
+      "next": "errors 非空按 next 改；空则 nx_run_python",
+      "route": { "kind": "local", "handler": "check" },
+      "flags": {},
+      "schema": {
+        "type": "object",
+        "required": ["code"],
+        "properties": {
+          "code": { "type": "string" },
+          "target_ver": { "type": "string", "enum": ["nx10", "nx12", "nx2412", "nx2512"] }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "verified", "nx2512": "verified" }
+    },
+    {
+      "name": "nx_run_python",
+      "s": "在 NX 里执行 Python",
+      "k": ["执行代码", "run python", "脚本"],
+      "desc": "在已打开的 NX 会话里执行 Python（命名空间跨调用保留）；执行前自动跑 nx_check。",
+      "next": "先 nx_check；失败读 error.next；长任务看 nx_job",
+      "route": { "kind": "nx", "cmd": "nx_run_python" },
+      "flags": { "gate": true, "precheck": true },
+      "schema": {
+        "type": "object",
+        "required": ["code"],
+        "properties": {
+          "code": { "type": "string" },
+          "target_ver": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
+    },
+    {
+      "name": "nx_plan",
+      "s": "多步计划+失败回滚",
+      "k": ["计划", "plan", "多步"],
+      "desc": "按步骤顺序执行多个工具；开始前拍快照，任一步失败回到快照。",
+      "next": "steps 是 [{tool,args}] 列表；失败先看 rollback",
+      "route": { "kind": "local", "handler": "plan" },
+      "flags": { "gate": true },
+      "schema": {
+        "type": "object",
+        "required": ["steps", "part"],
+        "properties": {
+          "steps": { "type": "array", "items": { "type": "object" } },
+          "part": { "type": "string", "description": "当前 .prt 路径（拍快照用）" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "verified", "nx2512": "verified" }
+    },
+    {
+      "name": "nx_batch",
+      "s": "无头 run_journal 跑批",
+      "k": ["批处理", "无头", "headless", "batch"],
+      "desc": "起独立 NX 进程跑计划（run_journal），判据=日志 marker+产物，不识退出码。",
+      "next": "先跑 1 个样本再全量；超时会杀进程树",
+      "route": { "kind": "batch", "handler": "batch" },
+      "flags": {},
+      "schema": {
+        "type": "object",
+        "required": ["steps"],
+        "properties": {
+          "steps": { "type": "array", "items": { "type": "object" } },
+          "timeout_s": { "type": "number" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
+    },
+    {
+      "name": "nx_assert",
+      "s": "声明式判据",
+      "k": ["判据", "assert", "验收", "断言"],
+      "desc": "把实测 facts 与图纸期望值比较，返回 pass/got/expect/delta。",
+      "next": "facts 来自 nx_measure/nx_inspect 的实测；不许编",
+      "route": { "kind": "local", "handler": "assert" },
+      "flags": {},
+      "schema": {
+        "type": "object",
+        "required": ["spec", "facts"],
+        "properties": {
+          "spec": { "type": "object" },
+          "facts": { "type": "object" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "verified", "nx2512": "verified" }
+    }
+  ]
+}

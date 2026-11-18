@@ -1,0 +1,27 @@
+{
+  "group": "mold",
+  "label": "模具模板",
+  "order": 30,
+  "tools": [
+    {
+      "name": "nx_template",
+      "s": "模板列表/实例化",
+      "k": ["模板", "镶件", "模架", "滑块", "流道", "template"],
+      "desc": "列出模具模板或按参数实例化（模板=参数 schema + 步骤 + 判据，数据驱动）。",
+      "next": "参数越界会报 TemplateParamError；先 action=list 看参数",
+      "route": { "kind": "local", "handler": "template" },
+      "flags": { "gate": true },
+      "schema": {
+        "type": "object",
+        "required": ["action"],
+        "properties": {
+          "action": { "type": "string", "enum": ["list", "apply"] },
+          "name": { "type": "string" },
+          "params": { "type": "object" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "verified", "nx2512": "verified" }
+    }
+  ]
+}

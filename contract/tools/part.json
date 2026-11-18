@@ -1,0 +1,64 @@
+{
+  "group": "part",
+  "label": "零件",
+  "order": 10,
+  "tools": [
+    {
+      "name": "nx_part",
+      "s": "新建/打开零件",
+      "k": ["新建", "打开", "new", "open"],
+      "desc": "新建零件或打开现有 .prt；坐标单位 mm。",
+      "next": "打开后先 nx_status 确认当前零件再建模",
+      "route": { "kind": "nx", "cmd": "nx_part" },
+      "flags": {},
+      "schema": {
+        "type": "object",
+        "required": ["action"],
+        "properties": {
+          "action": { "type": "string", "enum": ["new", "open"] },
+          "path": { "type": "string", "description": ".prt 路径（new 时可省）" },
+          "units": { "type": "string", "enum": ["mm", "inch"] }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
+    },
+    {
+      "name": "nx_save",
+      "s": "保存当前零件",
+      "k": ["保存", "save"],
+      "desc": "保存当前工作零件到其路径（或另存为 path）。",
+      "next": "大改前先 nx_snapshot",
+      "route": { "kind": "nx", "cmd": "nx_save" },
+      "flags": {},
+      "schema": {
+        "type": "object",
+        "properties": { "path": { "type": "string" } },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
+    },
+    {
+      "name": "nx_snapshot",
+      "s": "快照/列表/还原",
+      "k": ["快照", "snapshot", "回滚", "还原"],
+      "desc": "二进制 .prt 快照：save/list/restore；快照存在仓库 snapshots/。",
+      "next": "restore 覆盖 NX 正开的件会被拒；先关掉或传 to=<新路径>",
+      "route": { "kind": "local", "handler": "snapshot" },
+      "flags": {},
+      "schema": {
+        "type": "object",
+        "required": ["action"],
+        "properties": {
+          "action": { "type": "string", "enum": ["save", "list", "restore"] },
+          "id": { "type": "string" },
+          "note": { "type": "string" },
+          "to": { "type": "string" },
+          "path": { "type": "string", "description": "save 时的源 .prt 路径" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "verified", "nx2512": "verified" }
+    }
+  ]
+}

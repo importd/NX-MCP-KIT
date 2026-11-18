@@ -1,0 +1,28 @@
+{
+  "group": "exp",
+  "label": "经验",
+  "order": 70,
+  "tools": [
+    {
+      "name": "nx_exp",
+      "s": "经验读取/保存/重放/打包",
+      "k": ["经验", "exp", "招式", "坑", "方案"],
+      "desc": "操作本机经验库：get 取条目、save 入库（需实测 evidence，否则进草稿）、replay 取回 impl、export/import 打包。",
+      "next": "入库前必须有 verify.evidence；先用 exp_search 查重",
+      "route": { "kind": "local", "handler": "exp" },
+      "flags": {},
+      "schema": {
+        "type": "object",
+        "required": ["action"],
+        "properties": {
+          "action": { "type": "string", "enum": ["get", "save", "replay", "export", "import"] },
+          "id": { "type": "string" },
+          "entry": { "type": "object" },
+          "path": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "verified", "nx2512": "verified" }
+    }
+  ]
+}

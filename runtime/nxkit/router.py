@@ -6,21 +6,42 @@ import uuid
 from .bridge import BridgeTimeout, BridgeUnavailable
 from .handlers.exp import HANDLERS as EXP_HANDLERS
 from .handlers.meta import HANDLERS as META_HANDLERS
+from .handlers.tools import HANDLERS as TOOLS_HANDLERS
 from .registry import ContractError
 from .result import make_error, make_ok
 
 
 class Router:
-    def __init__(self, registry, bridge, library, gate, expose: str = "catalog", jobs=None):
+    def __init__(
+        self,
+        registry,
+        bridge,
+        library,
+        gate,
+        expose: str = "catalog",
+        jobs=None,
+        precheck=None,
+        snapshots=None,
+        headless=None,
+        kb=None,
+        templates=None,
+    ):
         self.registry = registry
         self.bridge = bridge
         self.library = library
         self.gate = gate
         self.expose = expose
         self.jobs = jobs
+        self.precheck = precheck
+        self.snapshots = snapshots
+        self.headless = headless
+        self.kb = kb
+        self.templates = templates
+        self.current_part_path = None
         self.part = "current"
         self.handlers = dict(META_HANDLERS)
         self.handlers.update(EXP_HANDLERS)
+        self.handlers.update(TOOLS_HANDLERS)
 
     def call(self, name: str, args: dict | None = None) -> dict:
         args = dict(args or {})
@@ -52,7 +73,7 @@ class Router:
                 )
 
         kind = tool.route.get("kind")
-        if kind == "local":
+        if kind in ("local", "batch"):
             handler = self.handlers.get(tool.route.get("handler"))
             if handler is None:
                 return make_error(
