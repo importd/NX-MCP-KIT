@@ -32,7 +32,9 @@ class HeadlessRunner:
         if not run_journal.is_file():
             run_journal = self.nx_root / "UGII" / "run_journal.exe"
         journal = REPO / "bridge" / "headless" / "run.py"
-        return [str(run_journal), str(journal), str(plan_path)]
+        # NX run_journal accepts one journal file followed by -args; passing the
+        # plan path through the environment keeps the call simple and stable.
+        return [str(run_journal), str(journal)]
 
     def run(self, plan: dict, timeout_s: float = 600.0) -> dict:
         self.plan_dir.mkdir(parents=True, exist_ok=True)
@@ -41,6 +43,8 @@ class HeadlessRunner:
 
         plan_path.write_text(json.dumps(plan, ensure_ascii=False, indent=2), encoding="utf-8")
         started = time.monotonic()
+        env = dict(os.environ)
+        env["NXKIT_PLAN"] = str(plan_path)
         proc = subprocess.Popen(
             self._command(plan_path),
             stdout=subprocess.PIPE,
@@ -48,6 +52,7 @@ class HeadlessRunner:
             text=True,
             encoding="utf-8",
             errors="replace",
+            env=env,
         )
         try:
             log, _ = proc.communicate(timeout=timeout_s)

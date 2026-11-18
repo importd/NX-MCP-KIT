@@ -7,8 +7,10 @@ def _write_fake_run_journal(workdir):
     script = workdir / "fake_run_journal.py"
     script.write_text(
         "import json\n"
+        "import os\n"
         "import sys\n"
-        "plan = json.load(open(sys.argv[1], 'r'))\n"
+        "path = os.environ.get('NXKIT_PLAN') or sys.argv[1]\n"
+        "plan = json.load(open(path, 'r'))\n"
         "print('NXKIT_BEGIN')\n"
         "if plan.get('fail'):\n"
         "    print('NXKIT_FAIL:NX_BOOL_EMPTY')\n"

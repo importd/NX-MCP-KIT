@@ -1,0 +1,25 @@
+{
+  "nx": "NX 10.0",
+  "root": "D:\\Program Files\\Siemens\\NX 10.0",
+  "ugraf": "D:\\Program Files\\Siemens\\NX 10.0\\UGII\\ugraf.exe",
+  "version": "10.0.0.24",
+  "py": "3.3",
+  "xml": true,
+  "matrix_source": "probe+live",
+  "tools": {
+    "nx_part": "verified",
+    "nx_block": "verified",
+    "nx_hole": "verified",
+    "nx_inspect": "verified",
+    "nx_measure": "verified",
+    "nx_run_python": "expected",
+    "nx_screenshot": "expected",
+    "nx_extrude": "expected",
+    "nx_revolve": "expected",
+    "nx_fillet": "expected",
+    "nx_chamfer": "expected",
+    "nx_boolean": "expected",
+    "nx_move_face": "expected",
+    "nx_save": "expected"
+  }
+}

@@ -73,7 +73,9 @@ class HeadlessState(object):
 
 
 def main():
-    plan_path = sys.argv[1]
+    plan_path = os.environ.get("NXKIT_PLAN")
+    if not plan_path:
+        plan_path = sys.argv[1]
     fh = open(plan_path, "r")
     try:
         plan = json.loads(fh.read())

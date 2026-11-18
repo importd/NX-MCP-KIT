@@ -79,6 +79,7 @@ class KbBuilder:
             if not match:
                 continue
             kind, full = match.group(1), match.group(2)
+            full = re.sub(r"\(.*", "", full)
             body = block.split("</member>", 1)[0]
             summary = " ".join(_TAG.sub(" ", body).split())
             summary = re.sub(r"License requirements:.*", "", summary).strip()

@@ -5,6 +5,10 @@ import sqlite3
 from ..library.index import tokens
 
 
+def _normalize(text):
+    return (text or "").lower().replace("_", "")
+
+
 class Kb:
     def __init__(self, db_path):
         self.conn = sqlite3.connect(str(db_path))
@@ -30,9 +34,28 @@ class Kb:
             params.append(src)
         elif src != "all":
             return []
-        sql += " ORDER BY rank LIMIT ?"
-        params.append(int(k))
+        sql += " LIMIT ?"
+        params.append(max(int(k) * 5, 20))
         rows = self.conn.execute(sql, params).fetchall()
+
+        wanted = _normalize(query)
+
+        def rank(row):
+            name, short = row[0], row[1]
+            score = 0
+            if _normalize(short) == wanted:
+                score += 10
+            elif _normalize(name).endswith(wanted):
+                score += 5
+            elif wanted in _normalize(name):
+                score += 2
+            if row[6] == "T":
+                score += 2
+            if row[3] == "pyi":
+                score += 1
+            return -score
+
+        rows = sorted(rows, key=rank)[: int(k)]
         return [
             {
                 "name": row[0],
