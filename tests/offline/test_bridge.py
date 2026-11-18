@@ -80,6 +80,15 @@ def test_timeout_raises(workdir):
         BridgeClient(io_dir).submit(8016, "nx_block", {}, timeout_s=0.2)
 
 
+def test_timeout_withdraws_request(workdir):
+    io_dir = workdir / "io"
+    pid_dir = io_dir / "8016"
+    (pid_dir / "inbox").mkdir(parents=True)
+    with pytest.raises(BridgeTimeout):
+        BridgeClient(io_dir).submit(8016, "nx_block", {}, timeout_s=0.2)
+    assert list((pid_dir / "inbox").glob("*.json")) == []
+
+
 def test_stale_outbox_not_reused(workdir):
     io_dir = workdir / "io"
     stop = _fake_bridge(io_dir)

@@ -75,6 +75,12 @@ class BridgeClient:
                 except (OSError, ValueError) as exc:
                     raise BridgeUnavailable("bad bridge response: %s" % exc) from exc
             time.sleep(POLL_INTERVAL_S)
+        # Withdraw the request so the bridge cannot execute it after we gave up.
+        for stale in (ready, pending):
+            try:
+                stale.unlink()
+            except OSError:
+                pass
         raise BridgeTimeout(
             "bridge did not answer %s within %.1fs (request_id=%s)" % (cmd, timeout_s, request_id)
         )

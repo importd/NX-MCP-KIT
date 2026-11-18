@@ -57,6 +57,13 @@ def test_get_and_usage(workdir):
     assert usage["fail"] == 1
 
 
+def test_single_char_query_matches_bigram_entry(workdir):
+    lib = Library(workdir)
+    lib.init()
+    lib.save(_entry(id="M0009", t="钻孔工艺", k=["钻孔"], evidence={"expect": 1.0, "got": 1.0, "tol": 0.01}))
+    assert [hit["id"] for hit in lib.search("孔")] == ["M0009"]
+
+
 def test_pack_export_import(workdir):
     lib = Library(workdir / "lib1")
     lib.init()

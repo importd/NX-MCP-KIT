@@ -2,6 +2,7 @@ from pathlib import Path
 
 from nxkit.gate import Gate
 from nxkit.library.store import Library
+from nxkit.precheck import Precheck
 from nxkit.registry import Registry, ToolDef
 from nxkit.router import Router
 
@@ -104,3 +105,38 @@ def test_exp_search_marks_gate_searched(workdir, contract_dir):
     router = _router(workdir, contract_dir)
     router.call("exp_search", {"q": "方块"})
     assert router.gate.state["searched"] is True
+
+
+def test_bridge_facts_become_verify_evidence(workdir, contract_dir):
+    router = _router(workdir, contract_dir)
+    envelope = router.call("nx_block", {"x": 1, "skip_search": True})
+    assert envelope["ok"] is True
+    assert envelope["verify"]["facts"]["volume"] == 1000.0
+    assert envelope["verify"]["evidence"]
+
+
+def test_handler_exception_becomes_error_envelope(workdir, contract_dir):
+    router = _router(workdir, contract_dir)
+
+    def boom(ctx, args, request_id):
+        raise RuntimeError("boom")
+
+    router.handlers["status"] = boom
+    envelope = router.call("nx_status", {})
+    assert envelope["ok"] is False
+    assert envelope["error"]["code"] == "INTERNAL_ERROR"
+
+
+def test_precheck_blocks_run_python_before_bridge(workdir, contract_dir):
+    registry = Registry(contract_dir)
+    library = Library(workdir / "library").init()
+    gate = Gate(workdir / "workflow.json")
+    bridge = FakeBridge()
+    router = Router(registry, bridge, library, gate, precheck=Precheck(contract_dir))
+    envelope = router.call(
+        "nx_run_python",
+        {"code": 'print(f"{1}")', "target_ver": "nx10", "skip_search": True},
+    )
+    assert envelope["ok"] is False
+    assert envelope["error"]["code"] == "PRECHECK_FAILED"
+    assert bridge.calls == []

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "NX Agent Kit tool definition",
   "type": "object",
-  "required": ["name", "group", "s", "desc", "route", "schema"],
+  "required": ["name", "s", "desc", "route", "schema"],
   "additionalProperties": false,
   "properties": {
     "name": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },

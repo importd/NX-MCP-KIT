@@ -30,6 +30,7 @@ $config = @{
                 NXKIT_IO_DIR   = (Join-Path $RuntimeHome "io")
                 NXKIT_LIBRARY  = (Join-Path $RuntimeHome "library")
                 NXKIT_CONTRACT_DIR = (Join-Path $RuntimeHome "contract")
+                NXKIT_KB_DB    = (Join-Path $RuntimeHome "kb\nxopen.db")
             }
         }
     }

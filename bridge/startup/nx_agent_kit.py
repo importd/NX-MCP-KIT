@@ -20,6 +20,7 @@ if _HOME not in sys.path:
     sys.path.append(_HOME)
 
 from commands import handle  # noqa: E402
+from commands.paths import default_io  # noqa: E402
 
 _LOG_NAME = "nxkit_bridge.log"
 
@@ -32,10 +33,10 @@ class Bridge(object):
     def __init__(self, session):
         self.session = session
         self.uf = NXOpen.UF.UFSession.GetUFSession()
-        self.io = os.environ.get("NXKIT_IO") or os.path.join(_HOME, "io", str(os.getpid()))
+        self.io = os.environ.get("NXKIT_IO") or default_io(_HOME, os.getpid())
         self.inbox = os.path.join(self.io, "inbox")
         self.outbox = os.path.join(self.io, "outbox")
-        self.stop_file = os.path.join(self.io, "STOP")
+        self.stop_file = os.path.join(os.path.dirname(self.io), "STOP")
         for path in (self.inbox, self.outbox):
             if not os.path.isdir(path):
                 os.makedirs(path)
@@ -50,11 +51,15 @@ class Bridge(object):
 
     def _write_json(self, path, data):
         tmp = path + ".tmp"
-        fh = open(tmp, "w")
+        fh = open(tmp, "w", encoding="utf-8")
         try:
             fh.write(json.dumps(data))
         finally:
             fh.close()
+        try:
+            os.remove(path)
+        except OSError:
+            pass
         os.rename(tmp, path)
 
     def _write_status(self):
@@ -77,7 +82,7 @@ class Bridge(object):
         return names
 
     def _run_job(self, path):
-        fh = open(path, "r")
+        fh = open(path, "r", encoding="utf-8")
         try:
             job = json.loads(fh.read())
         finally:

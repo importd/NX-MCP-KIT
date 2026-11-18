@@ -73,29 +73,65 @@ class Router:
                 )
 
         kind = tool.route.get("kind")
-        if kind in ("local", "batch"):
-            handler = self.handlers.get(tool.route.get("handler"))
-            if handler is None:
-                return make_error(
+        try:
+            if kind in ("local", "batch"):
+                handler = self.handlers.get(tool.route.get("handler"))
+                if handler is None:
+                    return make_error(
+                        request_id,
+                        "TOOL_NOT_IMPLEMENTED",
+                        "bridge",
+                        "工具 %s 的 handler %r 未实现" % (name, tool.route.get("handler")),
+                    )
+                result = handler(self, args, request_id)
+            elif kind == "nx":
+                result = self._call_nx(tool, args, request_id)
+            else:
+                result = make_error(
                     request_id,
-                    "TOOL_NOT_IMPLEMENTED",
+                    "ROUTE_NOT_IMPLEMENTED",
                     "bridge",
-                    "工具 %s 的 handler %r 未实现" % (name, tool.route.get("handler")),
+                    "route.kind=%r 尚未实现" % kind,
                 )
-            result = handler(self, args, request_id)
-        elif kind == "nx":
-            result = self._call_nx(tool, args, request_id)
-        else:
+        except Exception as exc:  # handlers must never crash the server
             result = make_error(
                 request_id,
-                "ROUTE_NOT_IMPLEMENTED",
+                "INTERNAL_ERROR",
                 "bridge",
-                "route.kind=%r 尚未实现（T9 无头执行器）" % kind,
+                "工具 %s 内部异常：%r" % (name, exc),
+                next="把 code/参数贴给开发者；先用 nx_status 确认连接",
             )
         result["elapsed_ms"] = round((time.monotonic() - started) * 1000.0, 1)
         return result
 
+    @staticmethod
+    def _pick_session(sessions):
+        alive = [session for session in sessions if session.get("alive")]
+        fresh = [
+            session
+            for session in alive
+            if session.get("heartbeat_age_s") is None or session.get("heartbeat_age_s") < 300
+        ]
+        pool = fresh or alive or sessions
+        return pool[0].get("pid")
+
     def _call_nx(self, tool, args, request_id: str) -> dict:
+        if tool.flags.get("precheck") and args.get("code"):
+            precheck = self.precheck
+            if precheck is not None:
+                issues = precheck.check(
+                    args["code"], args.get("target_ver") or "nx2512"
+                )
+                if issues:
+                    first = issues[0]
+                    return make_error(
+                        request_id,
+                        "PRECHECK_FAILED",
+                        "precheck",
+                        first.msg,
+                        next=first.next,
+                        hint_tool=first.hint_tool,
+                    )
         try:
             sessions = self.bridge.sessions()
         except BridgeUnavailable as exc:
@@ -109,7 +145,7 @@ class Router:
                 next="先打开 NX 并确认桥已加载（nx_status）",
                 hint_tool="nx_status",
             )
-        pid = args.pop("pid", None) or sessions[0].get("pid")
+        pid = args.pop("pid", None) or self._pick_session(sessions)
         timeout_s = float(args.pop("timeout_s", 120.0))
         try:
             payload = self.bridge.submit(pid, tool.route["cmd"], args, timeout_s=timeout_s)
@@ -121,7 +157,7 @@ class Router:
                 "BRIDGE_TIMEOUT",
                 "bridge",
                 str(exc),
-                next="用 nx_job 查看任务；超时任务不会自动重放",
+                next="用 nx_job 查看任务；超时请求已从队列撤回",
                 hint_tool="nx_job",
             )
         if isinstance(payload, dict) and payload.get("error"):
@@ -134,9 +170,18 @@ class Router:
                 next=error.get("next"),
                 hint_tool=error.get("hint_tool"),
             )
+        payload = payload or {}
+        facts = payload.get("facts") or {}
+        verify = None
+        if facts:
+            verify = {
+                "facts": facts,
+                "source": "bridge",
+                "evidence": "measured inside NX: %s" % ", ".join("%s=%s" % (k, v) for k, v in facts.items()),
+            }
         return make_ok(
             request_id,
-            data=(payload or {}).get("data"),
-            verify=(payload or {}).get("verify"),
-            job=(payload or {}).get("job"),
+            data=payload.get("data"),
+            verify=verify,
+            job=payload.get("job"),
         )

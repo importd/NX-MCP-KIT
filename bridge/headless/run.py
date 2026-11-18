@@ -76,7 +76,7 @@ def main():
     plan_path = os.environ.get("NXKIT_PLAN")
     if not plan_path:
         plan_path = sys.argv[1]
-    fh = open(plan_path, "r")
+    fh = open(plan_path, "r", encoding="utf-8")
     try:
         plan = json.loads(fh.read())
     finally:
@@ -93,7 +93,7 @@ def main():
             _marker("NXKIT_FAIL:" + str(payload["error"].get("code", "NX_ERROR")))
             break
     out_path = plan_path + ".result.json"
-    fh = open(out_path, "w")
+    fh = open(out_path, "w", encoding="utf-8")
     try:
         fh.write(json.dumps({"ok": ok, "steps": results}))
     finally:
