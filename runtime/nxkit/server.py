@@ -21,6 +21,7 @@ from .precheck import Precheck
 from .registry import ContractError, Registry
 from .router import Router
 from .snapshot import SnapshotStore
+from .templates import TemplateStore
 
 PROTOCOL_VERSION = "2024-11-05"
 SERVER_INFO = {"name": "nx-agent-kit", "version": __version__}
@@ -133,6 +134,7 @@ def main(argv: list[str] | None = None) -> int:
         precheck=Precheck(default_contract_dir()),
         snapshots=SnapshotStore(repo / "snapshots"),
         headless=HeadlessRunner(Path(nx_root_env) if nx_root_env else None),
+        templates=TemplateStore(default_contract_dir()),
     )
     server = Server(registry, expose, router)
 

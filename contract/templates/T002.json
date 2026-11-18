@@ -1,0 +1,17 @@
+{
+  "id": "T002",
+  "name": "圆形镶件",
+  "desc": "圆形镶件毛坯：直径 d × 高 h 的圆柱包络（先出方形基体，后续按需倒圆/挖孔）。",
+  "params": [
+    { "n": "d", "type": "number", "min": 10, "max": 200, "default": 60, "desc": "直径 mm" },
+    { "n": "h", "type": "number", "min": 5, "max": 300, "default": 40, "desc": "高度 mm" }
+  ],
+  "steps": [
+    {
+      "tool": "nx_block",
+      "args": { "x": 0, "y": 0, "z": 0, "length": "{{d}}", "width": "{{d}}", "height": "{{h}}" }
+    }
+  ],
+  "asserts": [],
+  "matrix": { "nx10": "expected", "nx2512": "expected" }
+}

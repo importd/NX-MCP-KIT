@@ -1,0 +1,18 @@
+{
+  "id": "T001",
+  "name": "模架",
+  "desc": "矩形模架毛坯：长 L × 宽 W × 高 H，原点在左下前角。",
+  "params": [
+    { "n": "L", "type": "number", "min": 100, "max": 2000, "default": 400, "desc": "长度 mm" },
+    { "n": "W", "type": "number", "min": 100, "max": 2000, "default": 300, "desc": "宽度 mm" },
+    { "n": "H", "type": "number", "min": 20, "max": 800, "default": 200, "desc": "高度 mm" }
+  ],
+  "steps": [
+    {
+      "tool": "nx_block",
+      "args": { "x": 0, "y": 0, "z": 0, "length": "{{L}}", "width": "{{W}}", "height": "{{H}}" }
+    }
+  ],
+  "asserts": [],
+  "matrix": { "nx10": "expected", "nx2512": "expected" }
+}
