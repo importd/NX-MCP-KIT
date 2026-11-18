@@ -21,6 +21,7 @@ from .library.store import Library
 from .precheck import Precheck
 from .registry import ContractError, Registry
 from .router import Router
+from .security import SecurityPolicy
 from .snapshot import SnapshotStore
 from .templates import TemplateStore
 
@@ -139,6 +140,7 @@ def main(argv: list[str] | None = None) -> int:
         headless=HeadlessRunner(Path(nx_root_env) if nx_root_env else None),
         templates=TemplateStore(default_contract_dir()),
         kb=kb,
+        security=SecurityPolicy.from_env(repo),
     )
     server = Server(registry, expose, router)
 

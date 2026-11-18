@@ -16,7 +16,7 @@
     "nx_move_face": "verified",
     "nx_inspect": "verified",
     "nx_measure": "verified",
-    "nx_run_python": "expected",
+    "nx_run_python": "verified",
     "nx_screenshot": "verified",
     "nx_extrude": "verified",
     "nx_revolve": "verified",

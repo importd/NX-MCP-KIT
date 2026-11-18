@@ -9,6 +9,7 @@ from .handlers.meta import HANDLERS as META_HANDLERS
 from .handlers.tools import HANDLERS as TOOLS_HANDLERS
 from .registry import ContractError
 from .result import make_error, make_ok
+from .security import SecurityError, walk_would_do
 
 
 class Router:
@@ -25,6 +26,7 @@ class Router:
         headless=None,
         kb=None,
         templates=None,
+        security=None,
     ):
         self.registry = registry
         self.bridge = bridge
@@ -37,6 +39,7 @@ class Router:
         self.headless = headless
         self.kb = kb
         self.templates = templates
+        self.security = security
         self.current_part_path = None
         self.part = "current"
         self.handlers = dict(META_HANDLERS)
@@ -60,6 +63,7 @@ class Router:
             )
 
         skip_search = bool(args.pop("skip_search", False))
+        dry_run = bool(args.pop("dry_run", False))
         if tool.flags.get("gate") and not skip_search:
             blocked = self.gate.check(tool, self.part, self.library)
             if blocked is not None:
@@ -71,6 +75,27 @@ class Router:
                     next=blocked["next"],
                     hint_tool="exp_search",
                 )
+        if self.security is not None:
+            try:
+                self.security.check_args(args)
+            except SecurityError as exc:
+                return make_error(
+                    request_id,
+                    "PATH_NOT_ALLOWED",
+                    "precheck",
+                    str(exc),
+                    next="把文件放到工作区，或用 NXKIT_WORKSPACE 增加允许目录",
+                )
+            if name == "nx_run_python" and not self.security.allow_execute:
+                return make_error(
+                    request_id,
+                    "EXECUTE_DISABLED",
+                    "precheck",
+                    "nx_run_python 已在配置中禁用（NXKIT_ALLOW_EXECUTE=0）",
+                    next="需要执行代码时显式开启 NXKIT_ALLOW_EXECUTE=1",
+                )
+        if dry_run:
+            return make_ok(request_id, data=walk_would_do(tool, args))
 
         kind = tool.route.get("kind")
         try:
