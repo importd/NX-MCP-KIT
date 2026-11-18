@@ -1,0 +1,25 @@
+{
+  "nx": "DesigncenterNX2512",
+  "root": "D:\\Program Files\\Siemens\\DesigncenterNX2512",
+  "ugraf": "D:\\Program Files\\Siemens\\DesigncenterNX2512\\NXBIN\\ugraf.exe",
+  "version": "2512.1700",
+  "py": "3.12",
+  "xml": true,
+  "matrix_source": "probe+live(interactive)",
+  "tools": {
+    "nx_part": "verified",
+    "nx_block": "verified",
+    "nx_hole": "verified",
+    "nx_boolean": "verified",
+    "nx_fillet": "verified",
+    "nx_chamfer": "verified",
+    "nx_move_face": "verified",
+    "nx_extrude": "verified",
+    "nx_revolve": "verified",
+    "nx_inspect": "verified",
+    "nx_measure": "verified",
+    "nx_save": "verified",
+    "nx_screenshot": "verified",
+    "nx_run_python": "verified"
+  }
+}

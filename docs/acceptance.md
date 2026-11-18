@@ -56,12 +56,26 @@ pytest tests\headless.py -v
 | NX2512 双版本 | 打开 2512 并重复上述步骤 |
 | `nx_fillet` / `nx_chamfer` / `nx_extrude` / `nx_revolve` / `nx_move_face` | 桥内仍是"待校准"错误；用 `nx_api` 查签名后逐个实机验证 |
 
+## 已验证（NX 2512 交互式真机，2026-11-18 23:1x）
+
+桥由同一份 3.3 兼容代码在 NX2512（内嵌 Python 3.12.11）上自动加载，无需改代码：
+
+| 项 | 结果 |
+|---|---|
+| `nx_status` | ✅ 自动识别 2512 会话（py=3.12.11），NX10 死会话标 `alive:false` |
+| `nx_part / nx_block 50×40×30` | ✅ 体积 60000 |
+| `nx_hole φ8 通孔` | ✅ 体积 58492.0355，面 7 / 边 14 |
+| `nx_measure` | ✅ 实测 facts |
+| `nx_screenshot` | ✅ 原生 `ImageExportBuilder` 导出 926×945 PNG（仅视口，无 UI） |
+| `nx_fillet R2` | ✅ `BLEND(2)`，体积 58042.7466 |
+
 ## 已知限制
 
 - 交互式桥需重启 NX 生效（NX 启动时扫描 startup 目录）。
 - 占位命令（上表 5 个）在 `contract` 里标 `expected`，实机校准后改 `verified`。
 - 无头模式不能截图；无头截图需求走 `Drafting` 导 PDF 或 STL 离线渲染。
 - 本机 NX 版本混装（NX10 与 2512），跑测试时用 `NXKIT_NX_ROOT` 明确指定。
+
 
 
 

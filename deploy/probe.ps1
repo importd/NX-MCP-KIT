@@ -48,7 +48,10 @@ foreach ($root in @($NxRoot)) {
     $pyDlls = Get-ChildItem -LiteralPath (Join-Path $root "NXBIN") -Filter "python*.dll" -ErrorAction SilentlyContinue
     if ($pyDlls) {
         foreach ($dll in $pyDlls) {
-            if ($dll.Name -match "python3(\d+)(\d+)") {
+            if ($dll.Name -match "python3(\d)(\d)") {
+                $pyVersion = "3." + $Matches[1] + $Matches[2]
+            }
+            elseif ($dll.Name -match "python3(\d)") {
                 $pyVersion = "3." + $Matches[1]
             }
         }
