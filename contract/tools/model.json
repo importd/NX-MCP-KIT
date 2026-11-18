@@ -26,17 +26,17 @@
     },
     {
       "name": "nx_extrude",
-      "s": "拉伸曲线成实体",
+      "s": "闭合轮廓点拉伸成实体",
       "k": ["拉伸", "extrude"],
-      "desc": "把选中的曲线/草图轮廓沿方向拉伸指定距离。",
-      "next": "没有草图工具时先用 nx_run_python 建曲线",
+      "desc": "把 points 给出的闭合轮廓（至少 3 点，自动闭合）沿方向拉伸 distance。",
+      "next": "点要共面且不共线；失败先检查轮廓是否闭合",
       "route": { "kind": "nx", "cmd": "nx_extrude" },
       "flags": { "gate": true, "verify": true, "expstep": true },
       "schema": {
         "type": "object",
-        "required": ["profile", "distance"],
+        "required": ["points", "distance"],
         "properties": {
-          "profile": { "type": "string", "description": "曲线/草图选择器" },
+          "points": { "type": "array", "items": { "type": "array", "items": { "type": "number" } } },
           "distance": { "type": "number" },
           "direction": { "type": "array", "items": { "type": "number" } },
           "draft": { "type": "number" }
@@ -47,17 +47,17 @@
     },
     {
       "name": "nx_revolve",
-      "s": "旋转曲线成实体",
+      "s": "闭合轮廓点旋转成实体",
       "k": ["旋转", "回转", "revolve"],
-      "desc": "把轮廓绕轴旋转指定角度。",
-      "next": "轴用点+方向描述；失败先查草图是否封闭",
+      "desc": "把 points 给出的闭合轮廓绕轴旋转 angle 度（默认 360）。",
+      "next": "轴用 axis_point + axis_dir；轮廓不能跨轴",
       "route": { "kind": "nx", "cmd": "nx_revolve" },
       "flags": { "gate": true, "verify": true, "expstep": true },
       "schema": {
         "type": "object",
-        "required": ["profile", "angle"],
+        "required": ["points", "angle"],
         "properties": {
-          "profile": { "type": "string" },
+          "points": { "type": "array", "items": { "type": "array", "items": { "type": "number" } } },
           "angle": { "type": "number" },
           "axis_point": { "type": "array", "items": { "type": "number" } },
           "axis_dir": { "type": "array", "items": { "type": "number" } }

@@ -286,16 +286,83 @@ def create_move_face(st, args):
     return _result(feature, st)
 
 
-def _needs_calibration(name):
-    raise RuntimeError(
-        "%s 的 NXOpen Section API 需要实机校准；暂时用 nx_run_python + nx_api 查签名替代"
-        % name
+def _point3(x, y, z):
+    return NXOpen.Point3d(float(x), float(y), float(z))
+
+
+def _unit(direction):
+    norm = math.sqrt(direction[0] ** 2 + direction[1] ** 2 + direction[2] ** 2) or 1.0
+    return [direction[i] / norm for i in range(3)]
+
+
+def _section_from_points(st, points):
+    """Build a closed polyline from points and turn it into one Section."""
+    if not points or len(points) < 3:
+        raise RuntimeError("points 至少需要 3 个点（闭合轮廓）")
+    wp = st.session.Parts.Work
+    pts = [tuple(float(v) for v in point) for point in points]
+    if pts[0] != pts[-1]:
+        pts.append(pts[0])
+    curves = []
+    for index in range(len(pts) - 1):
+        curves.append(
+            wp.Curves.CreateLine(
+                _point3(pts[index][0], pts[index][1], pts[index][2]),
+                _point3(pts[index + 1][0], pts[index + 1][1], pts[index + 1][2]),
+            )
+        )
+    sections = wp.Sections.CreateSectionsUsingCurves(
+        curves, wp.Sections.LoopOption.SeparateOuter, 0.01, 0.01, 0.5
     )
+    if not sections:
+        raise RuntimeError("这些点没有构成闭合轮廓")
+    return sections[0]
 
 
 def create_extrude(st, args):
-    _needs_calibration("nx_extrude")
+    wp = _work_part(st)
+    st.undo_mark("nx_extrude")
+    section = _section_from_points(st, args["points"])
+    direction = _unit([float(v) for v in args.get("direction") or [0.0, 0.0, 1.0]])
+    builder = wp.Features.CreateExtrudeBuilder(NXOpen.Features.Extrude.Null)
+    try:
+        builder.Section = section
+        builder.Direction = wp.Directions.CreateDirection(
+            _point3(0.0, 0.0, 0.0),
+            NXOpen.Vector3d(direction[0], direction[1], direction[2]),
+            NXOpen.SmartObject.UpdateOption.WithinModeling,
+        )
+        builder.Limits.StartExtend.SetValue("0")
+        builder.Limits.EndExtend.SetValue(str(args["distance"]))
+        feature = builder.CommitFeature()
+    finally:
+        builder.Destroy()
+    return _result(feature, st)
 
 
 def create_revolve(st, args):
-    _needs_calibration("nx_revolve")
+    wp = _work_part(st)
+    st.undo_mark("nx_revolve")
+    section = _section_from_points(st, args["points"])
+    axis_point = [float(v) for v in args.get("axis_point") or [0.0, 0.0, 0.0]]
+    axis_dir = _unit([float(v) for v in args.get("axis_dir") or [0.0, 1.0, 0.0]])
+    origin = _point3(axis_point[0], axis_point[1], axis_point[2])
+    builder = wp.Features.CreateRevolveBuilder(NXOpen.Features.Revolve.Null)
+    try:
+        builder.Section = section
+        direction = wp.Directions.CreateDirection(
+            origin,
+            NXOpen.Vector3d(axis_dir[0], axis_dir[1], axis_dir[2]),
+            NXOpen.SmartObject.UpdateOption.WithinModeling,
+        )
+        builder.Axis = wp.Axes.CreateAxis(
+            wp.Points.CreatePoint(origin),
+            direction,
+            NXOpen.SmartObject.UpdateOption.WithinModeling,
+        )
+        builder.Limits.StartExtend.SetValue("0")
+        builder.Limits.EndExtend.SetValue(str(args.get("angle", 360.0)))
+        feature = builder.CommitFeature()
+    finally:
+        builder.Destroy()
+    return _result(feature, st)

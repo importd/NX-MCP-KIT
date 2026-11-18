@@ -18,8 +18,8 @@
     "nx_measure": "verified",
     "nx_run_python": "expected",
     "nx_screenshot": "verified",
-    "nx_extrude": "expected",
-    "nx_revolve": "expected",
+    "nx_extrude": "verified",
+    "nx_revolve": "verified",
     "nx_save": "verified"
   }
 }
