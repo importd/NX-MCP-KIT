@@ -19,7 +19,13 @@ def screenshot(st, args):
             )
         except Exception:
             pass
-    builder = NXOpen.UI.GetUI().CreateImageExportBuilder()
+    try:
+        builder = NXOpen.UI.GetUI().CreateImageExportBuilder()
+    except Exception:
+        raise RuntimeError(
+            "当前 NX 版本没有 ImageExportBuilder（NX10 缺失）；"
+            "截图请改用 NX 2512，或先导出 PDF/STL 再离线渲染"
+        )
     try:
         builder.RegionMode = False
         builder.FileFormat = NXOpen.Gateway.ImageExportBuilder.FileFormats.Png

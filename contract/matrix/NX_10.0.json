@@ -5,7 +5,7 @@
   "version": "10.0.0.24",
   "py": "3.3",
   "xml": true,
-  "matrix_source": "probe+live",
+  "matrix_source": "probe+live(headless+interactive)",
   "tools": {
     "nx_part": "verified",
     "nx_block": "verified",
@@ -13,7 +13,7 @@
     "nx_inspect": "verified",
     "nx_measure": "verified",
     "nx_run_python": "expected",
-    "nx_screenshot": "expected",
+    "nx_screenshot": "unavailable",
     "nx_extrude": "expected",
     "nx_revolve": "expected",
     "nx_fillet": "expected",

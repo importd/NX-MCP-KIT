@@ -3,7 +3,23 @@
 > 实测环境：NX 10.0.0.24（内嵌 Python 3.3.2，`UGII\run_journal.exe`），
 > 宿主 Python 3.12.14（DSH 运行时）。测试日期：2026-11-18。
 
-## 已验证（NX10 无头真机）
+## 已验证（NX10 交互式真机，2026-11-18 22:19）
+
+启动方式：桥的 `startup\nx_agent_kit.py` 部署到 NX10 的 `UGII_USER_DIR\startup`（同时把
+`D:\NX_Agent\nx-agent-kit\bridge` 追加进 `custom_dirs.dat`），NX10 启动时自动加载；
+Win32 `SetTimer(250ms)` 在 UI 线程 tick，单实例互斥锁防重复加载。
+
+| 项 | 结果 |
+|---|---|
+| `nx_status` | ✅ 自动识别活会话（另一个已死的 NX 会话按心跳标 `alive:false`，不再被选中） |
+| `nx_part action=new` | ✅ 新建零件 `interactive.prt` |
+| `nx_block 50×40×30` | ✅ 体积 60000，bbox `[0,0,0,50,40,30]`，面 6 / 边 12，表面积 9400 |
+| `nx_measure` | ✅ 实测 facts 回传（`verify.facts`） |
+| `nx_hole φ8 通孔` | ✅ 体积 58492.0355（理论 58492.04），面 7 / 边 14 |
+| `nx_inspect` | ✅ `BLOCK(0)` 清单 + facts，part=`interactive` |
+| `nx_screenshot` | ⛔ NX10 无 `NXOpen.UI.CreateImageExportBuilder` → 矩阵标 `unavailable`，报错给出替代路径 |
+
+## 另已验证（NX10 无头，run_journal）
 
 | 项 | 结果 |
 |---|---|
