@@ -54,6 +54,28 @@ def _capture_nx_window(path):
     pid = os.getpid()
     user32 = ctypes.WinDLL("user32", use_last_error=True)
     gdi32 = ctypes.WinDLL("gdi32", use_last_error=True)
+    # 64-bit handles must be declared explicitly; ctypes defaults to a 32-bit int.
+    user32.GetWindowDC.argtypes = [w.HWND]
+    user32.GetWindowDC.restype = w.HDC
+    user32.ReleaseDC.argtypes = [w.HWND, w.HDC]
+    user32.ReleaseDC.restype = ctypes.c_int
+    user32.PrintWindow.argtypes = [w.HWND, w.HDC, w.UINT]
+    user32.PrintWindow.restype = w.BOOL
+    gdi32.CreateCompatibleDC.argtypes = [w.HDC]
+    gdi32.CreateCompatibleDC.restype = w.HDC
+    gdi32.CreateCompatibleBitmap.argtypes = [w.HDC, ctypes.c_int, ctypes.c_int]
+    gdi32.CreateCompatibleBitmap.restype = w.HANDLE
+    gdi32.SelectObject.argtypes = [w.HDC, w.HANDLE]
+    gdi32.SelectObject.restype = w.HANDLE
+    gdi32.DeleteObject.argtypes = [w.HANDLE]
+    gdi32.DeleteObject.restype = w.BOOL
+    gdi32.DeleteDC.argtypes = [w.HDC]
+    gdi32.DeleteDC.restype = w.BOOL
+    gdi32.BitBlt.argtypes = [
+        w.HDC, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int,
+        w.HDC, ctypes.c_int, ctypes.c_int, w.DWORD,
+    ]
+    gdi32.BitBlt.restype = w.BOOL
 
     enum_proc = ctypes.WINFUNCTYPE(w.BOOL, w.HWND, w.LPARAM)
     windows = []

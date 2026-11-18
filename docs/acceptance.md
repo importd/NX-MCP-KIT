@@ -21,7 +21,7 @@ Win32 `SetTimer(250ms)` 在 UI 线程 tick，单实例互斥锁防重复加载�
 | `nx_chamfer width=1.5`（全边） | ✅ `CHAMFER(1)`，面 26/边 48，体积 59478.0 |
 | `nx_boolean unite`（两体） | ✅ `UNITE(2)`，体积 40000（50×40×20 ∪ 20³，扣重叠 8000） |
 | `nx_move_face delta=[0,0,2]`（顶面） | ✅ z 从 30 → 32，体积 64000；NX10 的 MoveFace 是 direct-edit，`feature=null` |`n| `nx_save`（另存为） | ✅ `saved_live.prt` 已落盘 |
-| `nx_screenshot` | ⚠️ NX10 无 `ImageExportBuilder`，已实现降级：NX 进程内 Win32 PrintWindow/BitBlt 抓主窗口 + zlib 自写 PNG（无 PIL）；窗口最小化时返回明确错误 |
+| `nx_screenshot` | ✅ NX10 降级成功：NX 进程内 Win32 PrintWindow（PW_RENDERFULLCONTENT）抓主窗口，含 OpenGL 模型视口；zlib 自写 PNG（1634×1174）。窗口最小化时返回明确错误 |
 
 > 桥支持热重载（NX 不必重启）：`nx_run_python` 里执行
 > `import sys, imp; [imp.reload(sys.modules[m]) for m in ('commands.model','commands.query','commands.part','commands.view','commands.exec')]; import commands; imp.reload(commands)`
@@ -62,4 +62,5 @@ pytest tests\headless.py -v
 - 占位命令（上表 5 个）在 `contract` 里标 `expected`，实机校准后改 `verified`。
 - 无头模式不能截图；无头截图需求走 `Drafting` 导 PDF 或 STL 离线渲染。
 - 本机 NX 版本混装（NX10 与 2512），跑测试时用 `NXKIT_NX_ROOT` 明确指定。
+
 
