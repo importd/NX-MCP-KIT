@@ -1,0 +1,12 @@
+[project]
+name = "nx-agent-kit"
+version = "0.1.0"
+description = "Contract-first MCP runtime for Siemens NX automation"
+requires-python = ">=3.12"
+# Dependencies are intentionally empty for offline/intranet installs.
+# MCP transport is implemented in-tree (stdio JSON-RPC 2024-11-05);
+# contract validation is a subset validator in nxkit/contracts.py.
+dependencies = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

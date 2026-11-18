@@ -1,0 +1,115 @@
+{
+  "group": "meta",
+  "label": "元工具",
+  "order": 0,
+  "tools": [
+    {
+      "name": "nx_status",
+      "s": "连接/版本/当前零件状态",
+      "k": ["状态", "status", "连接", "connected"],
+      "desc": "返回 NX 连接状态、版本、当前零件、会话 pid 与 job 队列概况。多开 NX 时用 pid 钉住一个会话。",
+      "next": "未连接先跑 deploy/install.ps1 或 one_click；多开先用 sessions 里的 pid",
+      "route": { "kind": "local", "handler": "status" },
+      "flags": { "always": true },
+      "schema": {
+        "type": "object",
+        "properties": {
+          "pid": { "type": "integer", "description": "指定 NX 会话 pid（可选）" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "verified", "nx2512": "verified" }
+    },
+    {
+      "name": "nx_find",
+      "s": "按关键词/模块搜工具",
+      "k": ["找工具", "find", "搜索工具", "目录"],
+      "desc": "搜索全部已注册工具，返回 {t,g,s,need} 卡片；need 是必填参数名，多数情况拿到就能直接 nx_call。",
+      "next": "拿到卡片后用 nx_help 看完整 schema，或直接 nx_call",
+      "route": { "kind": "local", "handler": "find" },
+      "flags": { "always": true },
+      "schema": {
+        "type": "object",
+        "properties": {
+          "q": { "type": "string", "description": "关键词，中英皆可" },
+          "module": { "type": "string", "description": "只看某个模块：meta/part/model/mold/query/exec/api/exp" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "verified", "nx2512": "verified" }
+    },
+    {
+      "name": "nx_help",
+      "s": "单个工具的完整 schema",
+      "k": ["帮助", "help", "参数", "schema"],
+      "desc": "返回工具的完整 description、inputSchema、next 提示与版本矩阵。",
+      "next": "按 schema 传参，或先 nx_api 查 API 签名",
+      "route": { "kind": "local", "handler": "help" },
+      "flags": { "always": true },
+      "schema": {
+        "type": "object",
+        "required": ["t"],
+        "properties": { "t": { "type": "string", "description": "工具名，如 nx_hole" } },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "verified", "nx2512": "verified" }
+    },
+    {
+      "name": "nx_call",
+      "s": "调用任意已注册工具",
+      "k": ["调用", "call", "执行工具"],
+      "desc": "与直接调用同名工具完全等价（预检/verify/经验落坑/日志都在），只是名字来自 nx_find。",
+      "next": "失败先读 error.next；写几何前确保已 exp_search",
+      "route": { "kind": "local", "handler": "call" },
+      "flags": { "always": true },
+      "schema": {
+        "type": "object",
+        "required": ["t"],
+        "properties": {
+          "t": { "type": "string", "description": "目标工具名" },
+          "args": { "type": "object", "description": "目标工具的入参" },
+          "skip_search": { "type": "boolean", "description": "跳过经验闸门（逃生门）" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "verified", "nx2512": "verified" }
+    },
+    {
+      "name": "nx_job",
+      "s": "异步任务状态/取消/列出",
+      "k": ["任务", "job", "异步", "取消"],
+      "desc": "查询、取消或列出异步任务。长耗时操作（>timeout_s）返回 job_id 后用本工具跟进。",
+      "next": "status 显示 running 时稍等再查；cancel 有头为协作式、无头为杀进程树",
+      "route": { "kind": "local", "handler": "job" },
+      "flags": { "always": true },
+      "schema": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "description": "job id" },
+          "action": { "type": "string", "enum": ["status", "cancel", "list"], "description": "默认 status" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "verified", "nx2512": "verified" }
+    },
+    {
+      "name": "exp_search",
+      "s": "经验库检索（闸门钥匙）",
+      "k": ["经验", "搜索经验", "exp", "招"],
+      "desc": "检索本机经验库（招式/坑/方案/模板）。改几何前必须先查库；跑过一次（0 命中也算）才会放开经验闸门。",
+      "next": "命中就 exp_get/exp_replay；0 命中继续 nx_api 查签名",
+      "route": { "kind": "local", "handler": "exp_search" },
+      "flags": { "always": true },
+      "schema": {
+        "type": "object",
+        "required": ["q"],
+        "properties": {
+          "q": { "type": "string", "description": "短词，中英皆可" },
+          "limit": { "type": "integer", "description": "最多返回条数，默认 10" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "verified", "nx2512": "verified" }
+    }
+  ]
+}

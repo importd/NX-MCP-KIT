@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NX Agent Kit tool definition",
+  "type": "object",
+  "required": ["name", "group", "s", "desc", "route", "schema"],
+  "additionalProperties": false,
+  "properties": {
+    "name": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+    "group": { "type": "string", "enum": ["meta", "part", "model", "mold", "query", "exec", "api", "exp"] },
+    "s": { "type": "string", "maxLength": 60 },
+    "k": { "type": "array", "items": { "type": "string" } },
+    "desc": { "type": "string" },
+    "next": { "type": "string" },
+    "route": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": {
+        "kind": { "type": "string", "enum": ["nx", "local", "batch"] },
+        "cmd": { "type": "string" },
+        "handler": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "flags": {
+      "type": "object",
+      "properties": {
+        "always": { "type": "boolean" },
+        "verify": { "type": "boolean" },
+        "gate": { "type": "boolean" },
+        "expstep": { "type": "boolean" },
+        "precheck": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "schema": { "type": "object", "required": ["type"], "properties": { "type": { "const": "object" } } },
+    "matrix": { "type": "object" }
+  }
+}
