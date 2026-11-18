@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NX Agent Kit result envelope",
+  "type": "object",
+  "required": ["ok", "request_id", "data", "verify", "error", "job", "elapsed_ms"],
+  "additionalProperties": false,
+  "properties": {
+    "ok": { "type": "boolean" },
+    "request_id": { "type": "string" },
+    "data": { "type": ["object", "null"] },
+    "verify": { "type": ["object", "null"] },
+    "error": {
+      "type": ["object", "null"],
+      "required": ["code", "stage", "msg"],
+      "properties": {
+        "code": { "type": "string" },
+        "stage": { "enum": ["precheck", "bridge", "nx", "verify", "rollback"] },
+        "msg": { "type": "string" },
+        "next": { "type": ["string", "null"] },
+        "hint_tool": { "type": ["string", "null"] }
+      }
+    },
+    "job": { "type": ["string", "null"] },
+    "elapsed_ms": { "type": ["number", "null"] }
+  }
+}
