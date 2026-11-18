@@ -56,11 +56,9 @@ class Bridge(object):
             fh.write(json.dumps(data))
         finally:
             fh.close()
-        try:
-            os.remove(path)
-        except OSError:
-            pass
-        os.rename(tmp, path)
+        # Atomic replace: readers may poll status.json every tick and must never
+        # observe a missing file between remove and rename.
+        os.replace(tmp, path)
 
     def _write_status(self):
         payload = {

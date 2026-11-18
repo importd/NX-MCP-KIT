@@ -1,8 +1,9 @@
 """Modeling commands. Python 3.3 syntax only (see commands/__init__.py).
 
-block / hole / boolean are implemented from working NXOpen patterns.
-extrude / revolve / fillet / chamfer / move_face carry explicit "calibrate in
-live NX" errors: their builders need live validation before claiming support.
+Calibrated against a live NX 10.0.0.24 session on 2026-11-18:
+block / hole / boolean (headless), fillet / chamfer / move_face (interactive).
+extrude / revolve still need a Section API calibration; they raise a clear
+error instead of pretending to work.
 """
 
 import math
@@ -36,14 +37,89 @@ def _find_body(wp, ref):
 
 
 def _result(feature, st, extra=None):
-    bodies = feature.GetBodies()
-    body = bodies[0] if len(bodies) > 0 else None
-    data = {"feature": feature.JournalIdentifier}
+    data = {}
+    if feature is not None:
+        data["feature"] = feature.JournalIdentifier
+        bodies = feature.GetBodies()
+        body = bodies[0] if len(bodies) > 0 else None
+    else:
+        body = None
+        data["feature"] = None
+    if body is None:
+        body = list(st.session.Parts.Work.Bodies)[-1] if list(st.session.Parts.Work.Bodies) else None
     if body is not None:
         data["body"] = body.JournalIdentifier
     if extra:
         data.update(extra)
     return {"data": data, "facts": st.facts(body)}
+
+
+def _point_distance(a, b):
+    return math.sqrt((a[0] - b[0]) ** 2 + (a[1] - b[1]) ** 2 + (a[2] - b[2]) ** 2)
+
+
+def _edge_midpoint(edge):
+    pts = []
+    for vertex in edge.GetVertices():
+        pts.append((vertex.X, vertex.Y, vertex.Z))
+    if not pts:
+        return None
+    n = float(len(pts))
+    return (sum(p[0] for p in pts) / n, sum(p[1] for p in pts) / n, sum(p[2] for p in pts) / n)
+
+
+def _edge_collector(st, body, points):
+    """Collect body edges: all of them, or the ones nearest the given points."""
+    edges = list(body.GetEdges())
+    if points:
+        picked = []
+        for point in points:
+            best = None
+            best_distance = None
+            for edge in edges:
+                mid = _edge_midpoint(edge)
+                if mid is None:
+                    continue
+                distance = _point_distance(tuple(float(v) for v in point), mid)
+                if best_distance is None or distance < best_distance:
+                    best = edge
+                    best_distance = distance
+            if best is not None and best not in picked:
+                picked.append(best)
+        edges = picked
+    if not edges:
+        raise RuntimeError("没有可用的边")
+    collector = st.session.Parts.Work.ScCollectors.CreateCollector()
+    collector.ReplaceRules(
+        [st.session.Parts.Work.ScRuleFactory.CreateRuleEdgeDumb(edges)], False
+    )
+    return collector
+
+
+def _faces_near(st, body, points):
+    faces = list(body.GetFaces())
+    picked = []
+    for point in points:
+        best = None
+        best_distance = None
+        for face in faces:
+            for edge in face.GetEdges():
+                mid = _edge_midpoint(edge)
+                if mid is None:
+                    continue
+                distance = _point_distance(tuple(float(v) for v in point), mid)
+                if best_distance is None or distance < best_distance:
+                    best = face
+                    best_distance = distance
+        if best is not None and best not in picked:
+            picked.append(best)
+    if not picked:
+        raise RuntimeError("没有找到匹配的面")
+    collector = st.session.Parts.Work.ScCollectors.CreateCollector()
+    collector.ReplaceRules(
+        [st.session.Parts.Work.ScRuleFactory.CreateRuleFaceDumb(picked)], False
+    )
+    return collector
 
 
 def create_block(st, args):
@@ -146,9 +222,73 @@ def create_boolean(st, args):
     return _result(feature, st)
 
 
+def create_fillet(st, args):
+    wp = _work_part(st)
+    body = _find_body(wp, args.get("target"))
+    st.undo_mark("nx_fillet")
+    collector = _edge_collector(st, body, args.get("edges"))
+    builder = wp.Features.CreateEdgeBlendBuilder(NXOpen.Features.EdgeBlend.Null)
+    try:
+        builder.AddChainset(collector, str(args["radius"]))
+        feature = builder.CommitFeature()
+    finally:
+        builder.Destroy()
+    return _result(feature, st)
+
+
+def create_chamfer(st, args):
+    wp = _work_part(st)
+    body = _find_body(wp, args.get("target"))
+    st.undo_mark("nx_chamfer")
+    collector = _edge_collector(st, body, args.get("edges"))
+    builder = wp.Features.CreateChamferBuilder(NXOpen.Features.Chamfer.Null)
+    try:
+        builder.Option = NXOpen.Features.ChamferBuilder.ChamferOption.SymmetricOffsets
+        builder.SmartCollector = collector
+        builder.FirstOffset = str(args["width"])
+        feature = builder.CommitFeature()
+    finally:
+        builder.Destroy()
+    return _result(feature, st)
+
+
+def create_move_face(st, args):
+    wp = _work_part(st)
+    body = _find_body(wp, args.get("target"))
+    st.undo_mark("nx_move_face")
+    delta = [float(v) for v in args["delta"]]
+    length = math.sqrt(delta[0] ** 2 + delta[1] ** 2 + delta[2] ** 2)
+    if length <= 1e-9:
+        raise RuntimeError("delta 不能为零向量")
+    unit = [v / length for v in delta]
+    if not args.get("faces"):
+        raise RuntimeError("move_face 需要 faces：给面附近的点坐标列表")
+    collector = _faces_near(st, body, args["faces"])
+    builder = wp.Features.CreateMoveFaceBuilder(NXOpen.Features.MoveFace.Null)
+    try:
+        builder.Type = NXOpen.Features.MoveFaceBuilder.Types.TranslateDirectionAndDistance
+        builder.MoveFaceCollector.ReplaceRules(
+            [wp.ScRuleFactory.CreateRuleFaceDumb(
+                collector.GetObjects()
+            )],
+            False,
+        )
+        origin = NXOpen.Point3d(0.0, 0.0, 0.0)
+        builder.Direction = wp.Directions.CreateDirection(
+            origin,
+            NXOpen.Vector3d(unit[0], unit[1], unit[2]),
+            NXOpen.SmartObject.UpdateOption.WithinModeling,
+        )
+        builder.Distance.RightHandSide = repr(length)
+        feature = builder.CommitFeature()
+    finally:
+        builder.Destroy()
+    return _result(feature, st)
+
+
 def _needs_calibration(name):
     raise RuntimeError(
-        "%s 的 NXOpen builder 需要实机校准（离线无法验证签名）；暂时用 nx_run_python + nx_api 查签名替代"
+        "%s 的 NXOpen Section API 需要实机校准；暂时用 nx_run_python + nx_api 查签名替代"
         % name
     )
 
@@ -159,15 +299,3 @@ def create_extrude(st, args):
 
 def create_revolve(st, args):
     _needs_calibration("nx_revolve")
-
-
-def create_fillet(st, args):
-    _needs_calibration("nx_fillet")
-
-
-def create_chamfer(st, args):
-    _needs_calibration("nx_chamfer")
-
-
-def create_move_face(st, args):
-    _needs_calibration("nx_move_face")
