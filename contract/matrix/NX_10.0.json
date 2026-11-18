@@ -10,16 +10,16 @@
     "nx_part": "verified",
     "nx_block": "verified",
     "nx_hole": "verified",
+    "nx_boolean": "verified",
+    "nx_fillet": "verified",
+    "nx_chamfer": "verified",
+    "nx_move_face": "verified",
     "nx_inspect": "verified",
     "nx_measure": "verified",
     "nx_run_python": "expected",
     "nx_screenshot": "unavailable",
     "nx_extrude": "expected",
     "nx_revolve": "expected",
-    "nx_fillet": "expected",
-    "nx_chamfer": "expected",
-    "nx_boolean": "expected",
-    "nx_move_face": "expected",
     "nx_save": "expected"
   }
 }

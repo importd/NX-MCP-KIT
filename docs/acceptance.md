@@ -17,7 +17,15 @@ Win32 `SetTimer(250ms)` 在 UI 线程 tick，单实例互斥锁防重复加载�
 | `nx_measure` | ✅ 实测 facts 回传（`verify.facts`） |
 | `nx_hole φ8 通孔` | ✅ 体积 58492.0355（理论 58492.04），面 7 / 边 14 |
 | `nx_inspect` | ✅ `BLOCK(0)` 清单 + facts，part=`interactive` |
+| `nx_fillet radius=2`（全边） | ✅ `BLEND(1)`，面 26/边 48，体积 59598.68（算例：50×40×30 圆角） |
+| `nx_chamfer width=1.5`（全边） | ✅ `CHAMFER(1)`，面 26/边 48，体积 59478.0 |
+| `nx_boolean unite`（两体） | ✅ `UNITE(2)`，体积 40000（50×40×20 ∪ 20³，扣重叠 8000） |
+| `nx_move_face delta=[0,0,2]`（顶面） | ✅ z 从 30 → 32，体积 64000；NX10 的 MoveFace 是 direct-edit，`feature=null` |
 | `nx_screenshot` | ⛔ NX10 无 `NXOpen.UI.CreateImageExportBuilder` → 矩阵标 `unavailable`，报错给出替代路径 |
+
+> 桥支持热重载（NX 不必重启）：`nx_run_python` 里执行
+> `import sys, imp; [imp.reload(sys.modules[m]) for m in ('commands.model','commands.query','commands.part','commands.view','commands.exec')]; import commands; imp.reload(commands)`
+> （NX10 的 Python 3.3 用 `imp.reload`，不是 `importlib.reload`）。
 
 ## 另已验证（NX10 无头，run_journal）
 
