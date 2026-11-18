@@ -89,6 +89,36 @@ def test_timeout_withdraws_request(workdir):
     assert list((pid_dir / "inbox").glob("*.json")) == []
 
 
+def test_sessions_marks_stale_heartbeat_dead(workdir):
+    import time
+
+    io_dir = workdir / "io"
+    pid_dir = io_dir / "8016"
+    pid_dir.mkdir(parents=True)
+    (pid_dir / "status.json").write_text(
+        json.dumps({"pid": 8016, "alive": True, "updated": time.time() - 3600}),
+        encoding="utf-8",
+    )
+    sessions = BridgeClient(io_dir).sessions()
+    assert sessions[0]["alive"] is False
+    assert sessions[0]["heartbeat_age_s"] > 60
+
+
+def test_sessions_keeps_fresh_heartbeat_alive(workdir):
+    import time
+
+    io_dir = workdir / "io"
+    pid_dir = io_dir / "8017"
+    pid_dir.mkdir(parents=True)
+    (pid_dir / "status.json").write_text(
+        json.dumps({"pid": 8017, "alive": True, "updated": time.time() - 1}),
+        encoding="utf-8",
+    )
+    sessions = BridgeClient(io_dir).sessions()
+    assert sessions[0]["alive"] is True
+    assert sessions[0]["heartbeat_age_s"] < 10
+
+
 def test_stale_outbox_not_reused(workdir):
     io_dir = workdir / "io"
     stop = _fake_bridge(io_dir)

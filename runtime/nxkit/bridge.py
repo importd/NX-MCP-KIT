@@ -38,8 +38,17 @@ class BridgeClient:
                 status = json.loads(status_path.read_text(encoding="utf-8"))
             except (OSError, ValueError):
                 continue
-            if isinstance(status, dict):
-                sessions.append(status)
+            if not isinstance(status, dict):
+                continue
+            # The bridge updates status.json every tick; compute liveness here so
+            # callers never route work to a dead NX session with a stale file.
+            updated = status.get("updated")
+            if isinstance(updated, (int, float)):
+                age = max(0.0, time.time() - float(updated))
+                status["heartbeat_age_s"] = round(age, 1)
+                if age > 60.0:
+                    status["alive"] = False
+            sessions.append(status)
         return sessions
 
     def submit(self, pid: int, cmd: str, args: dict, timeout_s: float = 120.0) -> dict:
