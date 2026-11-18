@@ -12,7 +12,11 @@ import sys
 from pathlib import Path
 
 from . import __version__
+from .bridge import BridgeClient
+from .gate import Gate
+from .library.store import Library
 from .registry import ContractError, Registry
+from .router import Router
 
 PROTOCOL_VERSION = "2024-11-05"
 SERVER_INFO = {"name": "nx-agent-kit", "version": __version__}
@@ -37,9 +41,10 @@ def _tool_result(payload: dict) -> dict:
 
 
 class Server:
-    def __init__(self, registry: Registry, expose: str = "catalog"):
+    def __init__(self, registry: Registry, expose: str = "catalog", router: Router | None = None):
         self.registry = registry
         self.expose = expose
+        self.router = router
 
     def handle(self, method: str, params: dict) -> dict:
         if method == "initialize":
@@ -65,32 +70,20 @@ class Server:
             raise _RpcError(INVALID_PARAMS, "tools/call needs params.name")
         name = params["name"]
         arguments = params.get("arguments") or {}
-        try:
-            tool = self.registry.get(name)
-        except ContractError:
+        if not isinstance(arguments, dict):
+            raise _RpcError(INVALID_PARAMS, "tools/call arguments must be an object")
+        if self.router is None:
             return _tool_result(
                 {
                     "ok": False,
                     "error": {
-                        "code": "TOOL_NOT_FOUND",
+                        "code": "TOOL_NOT_IMPLEMENTED",
                         "stage": "bridge",
-                        "msg": "未知工具：%s" % name,
-                        "next": "用 nx_find 搜索工具名",
-                        "hint_tool": "nx_find",
+                        "msg": "server has no Router configured",
                     },
                 }
             )
-        return _tool_result(
-            {
-                "ok": False,
-                "error": {
-                    "code": "TOOL_NOT_IMPLEMENTED",
-                    "stage": "bridge",
-                    "msg": "工具 %s 尚未接入 Router（T6 之后可用）" % tool.name,
-                    "next": "继续按计划接入 Router",
-                },
-            }
-        )
+        return _tool_result(self.router.call(name, arguments))
 
 
 class _RpcError(Exception):
@@ -117,7 +110,15 @@ def main(argv: list[str] | None = None) -> int:
         sys.stderr.write("nxkit.server: contract error: %s\n" % exc)
         return 2
     expose = os.environ.get("NXKIT_EXPOSE", "catalog")
-    server = Server(registry, expose)
+    repo = Path(__file__).resolve().parents[2]
+    io_dir = Path(os.environ.get("NXKIT_IO_DIR", str(repo / "io")))
+    library_root = Path(os.environ.get("NXKIT_LIBRARY", str(repo / "library")))
+    workflow = Path(os.environ.get("NXKIT_WORKFLOW", str(io_dir / "workflow.json")))
+    bridge = BridgeClient(io_dir)
+    library = Library(library_root).init()
+    gate = Gate(workflow)
+    router = Router(registry, bridge, library, gate, expose)
+    server = Server(registry, expose, router)
 
     while True:
         line = sys.stdin.readline()
