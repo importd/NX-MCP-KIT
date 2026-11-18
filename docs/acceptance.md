@@ -1,4 +1,4 @@
-﻿# NX Agent Kit v1 验收清单
+# NX Agent Kit v1 验收清单
 
 > 实测环境：NX 10.0.0.24（内嵌 Python 3.3.2，`UGII\run_journal.exe`），
 > 宿主 Python 3.12.14（DSH 运行时）。测试日期：2026-11-18。
@@ -68,6 +68,13 @@ pytest tests\headless.py -v
 | `nx_measure` | ✅ 实测 facts |
 | `nx_screenshot` | ✅ 原生 `ImageExportBuilder` 导出 926×945 PNG（仅视口，无 UI） |
 | `nx_fillet R2` | ✅ `BLEND(2)`，体积 58042.7466 |
+
+## 新增工具（2026-11-18 23:2x，NX10 实测）
+
+| 项 | 结果 |
+|---|---|
+| `nx_shell`（壁厚 2，顶面开口） | ✅ `SHELL(1)`，体积 13632 = 60000 − 46×36×28（需显式 `Tolerance=0.01`） |
+| `nx_delete_body` | ✅ `Delete Body(2)`，删除后活体 1 个（NX 残留零面死体已在 inspect 中过滤） |
 
 ## 已知限制
 

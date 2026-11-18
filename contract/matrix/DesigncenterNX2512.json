@@ -20,6 +20,8 @@
     "nx_measure": "verified",
     "nx_save": "verified",
     "nx_screenshot": "verified",
-    "nx_run_python": "verified"
+    "nx_run_python": "verified",
+    "nx_shell": "expected",
+    "nx_delete_body": "expected"
   }
 }

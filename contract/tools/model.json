@@ -167,6 +167,45 @@
         "additionalProperties": false
       },
       "matrix": { "nx10": "expected", "nx2512": "expected" }
+    },
+    {
+      "name": "nx_shell",
+      "s": "抽壳（指定开口面）",
+      "k": ["抽壳", "壳", "shell", "减料"],
+      "desc": "把目标体抽成壁厚 thickness 的壳，faces 给出要开口的面附近点。",
+      "next": "默认公差 0.01；失败先换 thickness 或检查开口面",
+      "route": { "kind": "nx", "cmd": "nx_shell" },
+      "flags": { "gate": true, "verify": true, "expstep": true },
+      "schema": {
+        "type": "object",
+        "required": ["target", "thickness", "faces"],
+        "properties": {
+          "target": { "type": "string" },
+          "thickness": { "type": "number" },
+          "faces": { "type": "array", "items": { "type": "array", "items": { "type": "number" } } },
+          "tolerance": { "type": "number" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
+    },
+    {
+      "name": "nx_delete_body",
+      "s": "删除体",
+      "k": ["删除体", "删体", "delete body"],
+      "desc": "删除目标体（清理工具体/废体）。",
+      "next": "删完用 nx_inspect 确认剩余体",
+      "route": { "kind": "nx", "cmd": "nx_delete_body" },
+      "flags": { "gate": true, "expstep": true },
+      "schema": {
+        "type": "object",
+        "required": ["target"],
+        "properties": {
+          "target": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "expected", "nx2512": "expected" }
     }
   ]
 }

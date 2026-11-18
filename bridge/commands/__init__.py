@@ -19,6 +19,8 @@ COMMANDS = {
     "nx_chamfer": model.create_chamfer,
     "nx_boolean": model.create_boolean,
     "nx_move_face": model.create_move_face,
+    "nx_shell": model.create_shell,
+    "nx_delete_body": model.create_delete_body,
     "nx_run_python": exec_cmd.run_python,
     "nx_screenshot": view.screenshot,
     "nx_inspect": query.inspect_part,

@@ -24,6 +24,9 @@ def inspect_part(st, args):
     wp = _work_part(st)
     bodies = []
     for body in wp.Bodies:
+        faces = body.GetFaces()
+        if len(faces) == 0:
+            continue  # deleted bodies linger as zero-face objects until an update
         bodies.append({"id": body.JournalIdentifier, "facts": st.facts(body)})
     return {
         "data": {"part": getattr(wp, "Leaf", None), "bodies": bodies},

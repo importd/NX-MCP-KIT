@@ -286,6 +286,46 @@ def create_move_face(st, args):
     return _result(feature, st)
 
 
+def create_shell(st, args):
+    wp = _work_part(st)
+    body = _find_body(wp, args.get("target"))
+    if not args.get("faces"):
+        raise RuntimeError("抽壳需要 faces：给要开口的面附近的点坐标列表")
+    st.undo_mark("nx_shell")
+    collector = _faces_near(st, body, args["faces"])
+    builder = wp.Features.CreateShellBuilder(NXOpen.Features.Shell.Null)
+    try:
+        builder.Body = body
+        builder.SetDefaultThickness(str(args.get("thickness", 2.0)))
+        # NX10 rejects the default tolerance on some solids ("公差错误").
+        builder.Tolerance = float(args.get("tolerance", 0.01))
+        builder.RemovedFacesCollector = collector
+        feature = builder.CommitFeature()
+    finally:
+        builder.Destroy()
+    return _result(feature, st)
+
+
+def create_delete_body(st, args):
+    wp = _work_part(st)
+    body = _find_body(wp, args.get("target"))
+    st.undo_mark("nx_delete_body")
+    builder = wp.Features.CreateDeleteBodyBuilder(NXOpen.Features.DeleteBody.Null)
+    try:
+        collector = wp.ScCollectors.CreateCollector()
+        collector.ReplaceRules([wp.ScRuleFactory.CreateRuleBodyDumb([body])], False)
+        builder.BodyToDelete = collector
+        feature = builder.CommitFeature()
+    finally:
+        builder.Destroy()
+    data = {"feature": feature.JournalIdentifier if feature is not None else None}
+    # NX keeps a deleted body in wp.Bodies as a zero-face shell until the next
+    # update; count only live bodies.
+    remaining = [item for item in wp.Bodies if len(item.GetFaces()) > 0]
+    data["bodies_left"] = len(remaining)
+    return {"data": data, "facts": st.facts(remaining[-1] if remaining else None)}
+
+
 def _point3(x, y, z):
     return NXOpen.Point3d(float(x), float(y), float(z))
 

@@ -1,4 +1,4 @@
-﻿{
+{
   "nx": "NX 10.0",
   "root": "D:\\Program Files\\Siemens\\NX 10.0",
   "ugraf": "D:\\Program Files\\Siemens\\NX 10.0\\UGII\\ugraf.exe",
@@ -20,6 +20,8 @@
     "nx_screenshot": "verified",
     "nx_extrude": "verified",
     "nx_revolve": "verified",
-    "nx_save": "verified"
+    "nx_save": "verified",
+    "nx_shell": "verified",
+    "nx_delete_body": "verified"
   }
 }
