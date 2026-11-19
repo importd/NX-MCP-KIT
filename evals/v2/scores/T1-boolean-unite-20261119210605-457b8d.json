@@ -1,0 +1,9 @@
+{
+  "run_id": "T1-boolean-unite-20261119210605-457b8d",
+  "task_id": "T1-boolean-unite",
+  "outcome": "error",
+  "asserts": [],
+  "measurement": {},
+  "independent": true,
+  "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+}

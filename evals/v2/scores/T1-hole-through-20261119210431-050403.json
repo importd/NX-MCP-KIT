@@ -1,0 +1,9 @@
+{
+  "run_id": "T1-hole-through-20261119210431-050403",
+  "task_id": "T1-hole-through",
+  "outcome": "error",
+  "asserts": [],
+  "measurement": {},
+  "independent": true,
+  "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+}

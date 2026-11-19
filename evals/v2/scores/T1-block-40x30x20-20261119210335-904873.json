@@ -1,0 +1,9 @@
+{
+  "run_id": "T1-block-40x30x20-20261119210335-904873",
+  "task_id": "T1-block-40x30x20",
+  "outcome": "error",
+  "asserts": [],
+  "measurement": {},
+  "independent": true,
+  "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+}

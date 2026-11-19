@@ -1,0 +1,66 @@
+{
+  "run_id": "T1-boolean-unite-20261119210344-fdc3e8",
+  "task_id": "T1-boolean-unite",
+  "config": {
+    "model": "oracle",
+    "skill_version": "n/a",
+    "library_state": "n/a",
+    "nx_version": "nx10",
+    "tool_surface": "5a8812d"
+  },
+  "started_at": "2026-11-19T21:03:44",
+  "seconds": 1.808,
+  "tokens": null,
+  "prompt_tokens": null,
+  "events": [
+    {
+      "seq": 1,
+      "tool": "nx_part",
+      "ok": true,
+      "error_code": null,
+      "duration_ms": 344.0,
+      "args_digest": "sha256:8667437e7dda151c",
+      "has_verify": false
+    },
+    {
+      "seq": 2,
+      "tool": "nx_block",
+      "ok": true,
+      "error_code": null,
+      "duration_ms": 187.0,
+      "args_digest": "sha256:0a30b4ed585aed8f",
+      "has_verify": true
+    },
+    {
+      "seq": 3,
+      "tool": "nx_block",
+      "ok": true,
+      "error_code": null,
+      "duration_ms": 516.0,
+      "args_digest": "sha256:a3f5b535927e7046",
+      "has_verify": true
+    },
+    {
+      "seq": 4,
+      "tool": "nx_boolean",
+      "ok": true,
+      "error_code": null,
+      "duration_ms": 406.0,
+      "args_digest": "sha256:1918ca6e2d7bd9a7",
+      "has_verify": true
+    },
+    {
+      "seq": 5,
+      "tool": "nx_save",
+      "ok": false,
+      "error_code": "BRIDGE_EXCEPTION",
+      "duration_ms": 344.0,
+      "args_digest": "sha256:d69898468c618260",
+      "has_verify": false
+    }
+  ],
+  "outcome": "fail",
+  "artifacts": {
+    "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-boolean-unite-a1.prt"
+  }
+}

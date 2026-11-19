@@ -1,0 +1,645 @@
+{
+  "metrics_version": "1.0.0",
+  "rows": [
+    {
+      "run": {
+        "run_id": "T1-block-40x30x20-20261119210335-904873",
+        "task_id": "T1-block-40x30x20",
+        "config": {
+          "model": "oracle",
+          "skill_version": "n/a",
+          "library_state": "n/a",
+          "nx_version": "nx10",
+          "tool_surface": "5a8812d"
+        },
+        "started_at": "2026-11-19T21:03:35",
+        "seconds": 0.978,
+        "tokens": null,
+        "prompt_tokens": null,
+        "events": [
+          {
+            "seq": 1,
+            "tool": "nx_part",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 391.0,
+            "args_digest": "sha256:e8bbf5e5d86127ac",
+            "has_verify": false
+          },
+          {
+            "seq": 2,
+            "tool": "nx_block",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 234.0,
+            "args_digest": "sha256:874d3c6d0ed1e0c2",
+            "has_verify": true
+          },
+          {
+            "seq": 3,
+            "tool": "nx_save",
+            "ok": false,
+            "error_code": "BRIDGE_EXCEPTION",
+            "duration_ms": 359.0,
+            "args_digest": "sha256:caf318d554709f37",
+            "has_verify": false
+          }
+        ],
+        "outcome": "fail",
+        "artifacts": {
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-block-40x30x20-a1.prt"
+        }
+      },
+      "score": {
+        "run_id": "T1-block-40x30x20-20261119210335-904873",
+        "task_id": "T1-block-40x30x20",
+        "outcome": "error",
+        "asserts": [],
+        "measurement": {},
+        "independent": true,
+        "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+      }
+    },
+    {
+      "run": {
+        "run_id": "T1-boolean-unite-20261119210344-fdc3e8",
+        "task_id": "T1-boolean-unite",
+        "config": {
+          "model": "oracle",
+          "skill_version": "n/a",
+          "library_state": "n/a",
+          "nx_version": "nx10",
+          "tool_surface": "5a8812d"
+        },
+        "started_at": "2026-11-19T21:03:44",
+        "seconds": 1.808,
+        "tokens": null,
+        "prompt_tokens": null,
+        "events": [
+          {
+            "seq": 1,
+            "tool": "nx_part",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 344.0,
+            "args_digest": "sha256:8667437e7dda151c",
+            "has_verify": false
+          },
+          {
+            "seq": 2,
+            "tool": "nx_block",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 187.0,
+            "args_digest": "sha256:0a30b4ed585aed8f",
+            "has_verify": true
+          },
+          {
+            "seq": 3,
+            "tool": "nx_block",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 516.0,
+            "args_digest": "sha256:a3f5b535927e7046",
+            "has_verify": true
+          },
+          {
+            "seq": 4,
+            "tool": "nx_boolean",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 406.0,
+            "args_digest": "sha256:1918ca6e2d7bd9a7",
+            "has_verify": true
+          },
+          {
+            "seq": 5,
+            "tool": "nx_save",
+            "ok": false,
+            "error_code": "BRIDGE_EXCEPTION",
+            "duration_ms": 344.0,
+            "args_digest": "sha256:d69898468c618260",
+            "has_verify": false
+          }
+        ],
+        "outcome": "fail",
+        "artifacts": {
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-boolean-unite-a1.prt"
+        }
+      },
+      "score": {
+        "run_id": "T1-boolean-unite-20261119210344-fdc3e8",
+        "task_id": "T1-boolean-unite",
+        "outcome": "error",
+        "asserts": [],
+        "measurement": {},
+        "independent": true,
+        "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+      }
+    },
+    {
+      "run": {
+        "run_id": "T1-chamfer-all-20261119210354-399cc1",
+        "task_id": "T1-chamfer-all",
+        "config": {
+          "model": "oracle",
+          "skill_version": "n/a",
+          "library_state": "n/a",
+          "nx_version": "nx10",
+          "tool_surface": "5a8812d"
+        },
+        "started_at": "2026-11-19T21:03:54",
+        "seconds": 1.533,
+        "tokens": null,
+        "prompt_tokens": null,
+        "events": [
+          {
+            "seq": 1,
+            "tool": "nx_part",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 312.0,
+            "args_digest": "sha256:186e16304c9d1174",
+            "has_verify": false
+          },
+          {
+            "seq": 2,
+            "tool": "nx_block",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 469.0,
+            "args_digest": "sha256:7907c4229116ce13",
+            "has_verify": true
+          },
+          {
+            "seq": 3,
+            "tool": "nx_chamfer",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 359.0,
+            "args_digest": "sha256:9214809656ba344e",
+            "has_verify": true
+          },
+          {
+            "seq": 4,
+            "tool": "nx_save",
+            "ok": false,
+            "error_code": "BRIDGE_EXCEPTION",
+            "duration_ms": 391.0,
+            "args_digest": "sha256:31a1c730b1732fa2",
+            "has_verify": false
+          }
+        ],
+        "outcome": "fail",
+        "artifacts": {
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-chamfer-all-a1.prt"
+        }
+      },
+      "score": {
+        "run_id": "T1-chamfer-all-20261119210354-399cc1",
+        "task_id": "T1-chamfer-all",
+        "outcome": "error",
+        "asserts": [],
+        "measurement": {},
+        "independent": true,
+        "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+      }
+    },
+    {
+      "run": {
+        "run_id": "T1-extrude-20261119210403-c2c918",
+        "task_id": "T1-extrude",
+        "config": {
+          "model": "oracle",
+          "skill_version": "n/a",
+          "library_state": "n/a",
+          "nx_version": "nx10",
+          "tool_surface": "5a8812d"
+        },
+        "started_at": "2026-11-19T21:04:03",
+        "seconds": 1.033,
+        "tokens": null,
+        "prompt_tokens": null,
+        "events": [
+          {
+            "seq": 1,
+            "tool": "nx_part",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 312.0,
+            "args_digest": "sha256:c033382c3800feac",
+            "has_verify": false
+          },
+          {
+            "seq": 2,
+            "tool": "nx_extrude",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 532.0,
+            "args_digest": "sha256:df42fb0c4908ff8a",
+            "has_verify": true
+          },
+          {
+            "seq": 3,
+            "tool": "nx_save",
+            "ok": false,
+            "error_code": "BRIDGE_EXCEPTION",
+            "duration_ms": 187.0,
+            "args_digest": "sha256:30fa9450edb82e0e",
+            "has_verify": false
+          }
+        ],
+        "outcome": "fail",
+        "artifacts": {
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-extrude-a1.prt"
+        }
+      },
+      "score": {
+        "run_id": "T1-extrude-20261119210403-c2c918",
+        "task_id": "T1-extrude",
+        "outcome": "error",
+        "asserts": [],
+        "measurement": {},
+        "independent": true,
+        "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+      }
+    },
+    {
+      "run": {
+        "run_id": "T1-fillet-all-20261119210412-ce28ff",
+        "task_id": "T1-fillet-all",
+        "config": {
+          "model": "oracle",
+          "skill_version": "n/a",
+          "library_state": "n/a",
+          "nx_version": "nx10",
+          "tool_surface": "5a8812d"
+        },
+        "started_at": "2026-11-19T21:04:12",
+        "seconds": 1.651,
+        "tokens": null,
+        "prompt_tokens": null,
+        "events": [
+          {
+            "seq": 1,
+            "tool": "nx_part",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 469.0,
+            "args_digest": "sha256:e24927484049cb39",
+            "has_verify": false
+          },
+          {
+            "seq": 2,
+            "tool": "nx_block",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 437.0,
+            "args_digest": "sha256:7907c4229116ce13",
+            "has_verify": true
+          },
+          {
+            "seq": 3,
+            "tool": "nx_fillet",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 360.0,
+            "args_digest": "sha256:06572f651d54445d",
+            "has_verify": true
+          },
+          {
+            "seq": 4,
+            "tool": "nx_save",
+            "ok": false,
+            "error_code": "BRIDGE_EXCEPTION",
+            "duration_ms": 390.0,
+            "args_digest": "sha256:f62ca27386bce293",
+            "has_verify": false
+          }
+        ],
+        "outcome": "fail",
+        "artifacts": {
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-fillet-all-a1.prt"
+        }
+      },
+      "score": {
+        "run_id": "T1-fillet-all-20261119210412-ce28ff",
+        "task_id": "T1-fillet-all",
+        "outcome": "error",
+        "asserts": [],
+        "measurement": {},
+        "independent": true,
+        "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+      }
+    },
+    {
+      "run": {
+        "run_id": "T1-hole-depth-20261119210421-3b5e16",
+        "task_id": "T1-hole-depth",
+        "config": {
+          "model": "oracle",
+          "skill_version": "n/a",
+          "library_state": "n/a",
+          "nx_version": "nx10",
+          "tool_surface": "5a8812d"
+        },
+        "started_at": "2026-11-19T21:04:21",
+        "seconds": 1.252,
+        "tokens": null,
+        "prompt_tokens": null,
+        "events": [
+          {
+            "seq": 1,
+            "tool": "nx_part",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 218.0,
+            "args_digest": "sha256:831c84f1ab0528a8",
+            "has_verify": false
+          },
+          {
+            "seq": 2,
+            "tool": "nx_block",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 516.0,
+            "args_digest": "sha256:7907c4229116ce13",
+            "has_verify": true
+          },
+          {
+            "seq": 3,
+            "tool": "nx_hole",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 328.0,
+            "args_digest": "sha256:61cf3f4511b81573",
+            "has_verify": true
+          },
+          {
+            "seq": 4,
+            "tool": "nx_save",
+            "ok": false,
+            "error_code": "BRIDGE_EXCEPTION",
+            "duration_ms": 188.0,
+            "args_digest": "sha256:48d24173e7d4e0d1",
+            "has_verify": false
+          }
+        ],
+        "outcome": "fail",
+        "artifacts": {
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-hole-depth-a1.prt"
+        }
+      },
+      "score": {
+        "run_id": "T1-hole-depth-20261119210421-3b5e16",
+        "task_id": "T1-hole-depth",
+        "outcome": "error",
+        "asserts": [],
+        "measurement": {},
+        "independent": true,
+        "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+      }
+    },
+    {
+      "run": {
+        "run_id": "T1-hole-through-20261119210431-050403",
+        "task_id": "T1-hole-through",
+        "config": {
+          "model": "oracle",
+          "skill_version": "n/a",
+          "library_state": "n/a",
+          "nx_version": "nx10",
+          "tool_surface": "5a8812d"
+        },
+        "started_at": "2026-11-19T21:04:31",
+        "seconds": 1.401,
+        "tokens": null,
+        "prompt_tokens": null,
+        "events": [
+          {
+            "seq": 1,
+            "tool": "nx_part",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 266.0,
+            "args_digest": "sha256:956131fde486d5e5",
+            "has_verify": false
+          },
+          {
+            "seq": 2,
+            "tool": "nx_block",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 453.0,
+            "args_digest": "sha256:7907c4229116ce13",
+            "has_verify": true
+          },
+          {
+            "seq": 3,
+            "tool": "nx_hole",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 359.0,
+            "args_digest": "sha256:04b757cb8001338e",
+            "has_verify": true
+          },
+          {
+            "seq": 4,
+            "tool": "nx_save",
+            "ok": false,
+            "error_code": "BRIDGE_EXCEPTION",
+            "duration_ms": 313.0,
+            "args_digest": "sha256:e34e6faceb172106",
+            "has_verify": false
+          }
+        ],
+        "outcome": "fail",
+        "artifacts": {
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-hole-through-a1.prt"
+        }
+      },
+      "score": {
+        "run_id": "T1-hole-through-20261119210431-050403",
+        "task_id": "T1-hole-through",
+        "outcome": "error",
+        "asserts": [],
+        "measurement": {},
+        "independent": true,
+        "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+      }
+    },
+    {
+      "run": {
+        "run_id": "T1-shell-20261119210440-fbfa4d",
+        "task_id": "T1-shell",
+        "config": {
+          "model": "oracle",
+          "skill_version": "n/a",
+          "library_state": "n/a",
+          "nx_version": "nx10",
+          "tool_surface": "5a8812d"
+        },
+        "started_at": "2026-11-19T21:04:40",
+        "seconds": 1.199,
+        "tokens": null,
+        "prompt_tokens": null,
+        "events": [
+          {
+            "seq": 1,
+            "tool": "nx_part",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 187.0,
+            "args_digest": "sha256:fe61c18dd13f9bb3",
+            "has_verify": false
+          },
+          {
+            "seq": 2,
+            "tool": "nx_block",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 438.0,
+            "args_digest": "sha256:7907c4229116ce13",
+            "has_verify": true
+          },
+          {
+            "seq": 3,
+            "tool": "nx_shell",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 312.0,
+            "args_digest": "sha256:e25ba249bc66ca1a",
+            "has_verify": true
+          },
+          {
+            "seq": 4,
+            "tool": "nx_save",
+            "ok": false,
+            "error_code": "BRIDGE_EXCEPTION",
+            "duration_ms": 266.0,
+            "args_digest": "sha256:afd7b5b199648c68",
+            "has_verify": false
+          }
+        ],
+        "outcome": "fail",
+        "artifacts": {
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-shell-a1.prt"
+        }
+      },
+      "score": {
+        "run_id": "T1-shell-20261119210440-fbfa4d",
+        "task_id": "T1-shell",
+        "outcome": "error",
+        "asserts": [],
+        "measurement": {},
+        "independent": true,
+        "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+      }
+    }
+  ],
+  "tasks": {
+    "T1-block-40x30x20": [
+      "error"
+    ],
+    "T1-boolean-unite": [
+      "error"
+    ],
+    "T1-chamfer-all": [
+      "error"
+    ],
+    "T1-extrude": [
+      "error"
+    ],
+    "T1-fillet-all": [
+      "error"
+    ],
+    "T1-hole-depth": [
+      "error"
+    ],
+    "T1-hole-through": [
+      "error"
+    ],
+    "T1-shell": [
+      "error"
+    ]
+  },
+  "metrics": [
+    {
+      "id": "M-TASK-01",
+      "value": 0.0,
+      "name": "任务成功率 TSR"
+    },
+    {
+      "id": "M-TASK-02",
+      "value": 0.0,
+      "name": "pass@k"
+    },
+    {
+      "id": "M-GEO-01",
+      "value": null,
+      "name": "最大相对几何误差"
+    },
+    {
+      "id": "M-EFF-01",
+      "value": null,
+      "name": "成功任务平均工具调用数"
+    },
+    {
+      "id": "M-EFF-02",
+      "value": null,
+      "name": "成功任务平均耗时"
+    },
+    {
+      "id": "M-EFF-03",
+      "value": null,
+      "name": "单任务 token"
+    },
+    {
+      "id": "M-CMP-01",
+      "value": 0.0,
+      "name": "经验闸门合规率"
+    },
+    {
+      "id": "M-CMP-02",
+      "value": null,
+      "name": "预检合规率"
+    },
+    {
+      "id": "M-VER-01",
+      "value": null,
+      "name": "判据覆盖率"
+    },
+    {
+      "id": "M-VER-02",
+      "value": null,
+      "name": "虚假完成率"
+    },
+    {
+      "id": "M-EXP-01",
+      "value": 0.0,
+      "name": "经验复用率"
+    },
+    {
+      "id": "M-EXP-02",
+      "value": null,
+      "name": "冷热库提效差"
+    },
+    {
+      "id": "M-VER-03",
+      "value": null,
+      "name": "双版本几何等价率"
+    },
+    {
+      "id": "M-QUA-01",
+      "value": 1.0,
+      "name": "运行完整性"
+    }
+  ],
+  "config": {
+    "model": "oracle",
+    "skill_version": "n/a",
+    "library_state": "n/a",
+    "nx_version": "nx10",
+    "tool_surface": "5a8812d"
+  }
+}

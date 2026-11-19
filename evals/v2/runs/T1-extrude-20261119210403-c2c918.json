@@ -1,0 +1,48 @@
+{
+  "run_id": "T1-extrude-20261119210403-c2c918",
+  "task_id": "T1-extrude",
+  "config": {
+    "model": "oracle",
+    "skill_version": "n/a",
+    "library_state": "n/a",
+    "nx_version": "nx10",
+    "tool_surface": "5a8812d"
+  },
+  "started_at": "2026-11-19T21:04:03",
+  "seconds": 1.033,
+  "tokens": null,
+  "prompt_tokens": null,
+  "events": [
+    {
+      "seq": 1,
+      "tool": "nx_part",
+      "ok": true,
+      "error_code": null,
+      "duration_ms": 312.0,
+      "args_digest": "sha256:c033382c3800feac",
+      "has_verify": false
+    },
+    {
+      "seq": 2,
+      "tool": "nx_extrude",
+      "ok": true,
+      "error_code": null,
+      "duration_ms": 532.0,
+      "args_digest": "sha256:df42fb0c4908ff8a",
+      "has_verify": true
+    },
+    {
+      "seq": 3,
+      "tool": "nx_save",
+      "ok": false,
+      "error_code": "BRIDGE_EXCEPTION",
+      "duration_ms": 187.0,
+      "args_digest": "sha256:30fa9450edb82e0e",
+      "has_verify": false
+    }
+  ],
+  "outcome": "fail",
+  "artifacts": {
+    "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-extrude-a1.prt"
+  }
+}

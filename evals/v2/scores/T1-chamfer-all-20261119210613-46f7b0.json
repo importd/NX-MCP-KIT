@@ -1,0 +1,9 @@
+{
+  "run_id": "T1-chamfer-all-20261119210613-46f7b0",
+  "task_id": "T1-chamfer-all",
+  "outcome": "error",
+  "asserts": [],
+  "measurement": {},
+  "independent": true,
+  "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+}

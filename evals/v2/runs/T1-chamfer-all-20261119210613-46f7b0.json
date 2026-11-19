@@ -1,0 +1,30 @@
+{
+  "run_id": "T1-chamfer-all-20261119210613-46f7b0",
+  "task_id": "T1-chamfer-all",
+  "config": {
+    "model": "oracle",
+    "skill_version": "n/a",
+    "library_state": "n/a",
+    "nx_version": "nx10",
+    "tool_surface": "5a8812d"
+  },
+  "started_at": "2026-11-19T21:06:13",
+  "seconds": 0.433,
+  "tokens": null,
+  "prompt_tokens": null,
+  "events": [
+    {
+      "seq": 1,
+      "tool": "nx_part",
+      "ok": false,
+      "error_code": "BRIDGE_EXCEPTION",
+      "duration_ms": 422.0,
+      "args_digest": "sha256:186e16304c9d1174",
+      "has_verify": false
+    }
+  ],
+  "outcome": "error",
+  "artifacts": {
+    "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-chamfer-all-a1.prt"
+  }
+}

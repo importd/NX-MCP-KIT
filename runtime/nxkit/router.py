@@ -1,5 +1,6 @@
 """Tool routing: local handlers, NX bridge commands, future batch route."""
 
+import os
 import time
 import uuid
 
@@ -27,6 +28,7 @@ class Router:
         kb=None,
         templates=None,
         security=None,
+        oplog=None,
     ):
         self.registry = registry
         self.bridge = bridge
@@ -40,6 +42,7 @@ class Router:
         self.kb = kb
         self.templates = templates
         self.security = security
+        self.oplog = oplog
         self.current_part_path = None
         self.part = "current"
         self.handlers = dict(META_HANDLERS)
@@ -53,13 +56,18 @@ class Router:
         try:
             tool = self.registry.get(name)
         except ContractError:
-            return make_error(
-                request_id,
-                "TOOL_NOT_FOUND",
-                "bridge",
-                "未知工具：%s" % name,
-                next="用 nx_find 搜索工具名",
-                hint_tool="nx_find",
+            return self._finish(
+                name,
+                args,
+                make_error(
+                    request_id,
+                    "TOOL_NOT_FOUND",
+                    "bridge",
+                    "未知工具：%s" % name,
+                    next="用 nx_find 搜索工具名",
+                    hint_tool="nx_find",
+                ),
+                started,
             )
 
         skip_search = bool(args.pop("skip_search", False))
@@ -67,46 +75,66 @@ class Router:
         if tool.flags.get("gate") and not skip_search:
             blocked = self.gate.check(tool, self.part, self.library)
             if blocked is not None:
-                return make_error(
-                    request_id,
-                    "SEARCH_REQUIRED",
-                    "precheck",
-                    blocked["msg"],
-                    next=blocked["next"],
-                    hint_tool="exp_search",
+                return self._finish(
+                    name,
+                    args,
+                    make_error(
+                        request_id,
+                        "SEARCH_REQUIRED",
+                        "precheck",
+                        blocked["msg"],
+                        next=blocked["next"],
+                        hint_tool="exp_search",
+                    ),
+                    started,
                 )
         if self.security is not None:
             try:
                 self.security.check_args(args)
             except SecurityError as exc:
-                return make_error(
-                    request_id,
-                    "PATH_NOT_ALLOWED",
-                    "precheck",
-                    str(exc),
-                    next="把文件放到工作区，或用 NXKIT_WORKSPACE 增加允许目录",
+                return self._finish(
+                    name,
+                    args,
+                    make_error(
+                        request_id,
+                        "PATH_NOT_ALLOWED",
+                        "precheck",
+                        str(exc),
+                        next="把文件放到工作区，或用 NXKIT_WORKSPACE 增加允许目录",
+                    ),
+                    started,
                 )
             if name == "nx_run_python" and not self.security.allow_execute:
-                return make_error(
-                    request_id,
-                    "EXECUTE_DISABLED",
-                    "precheck",
-                    "nx_run_python 已在配置中禁用（NXKIT_ALLOW_EXECUTE=0）",
-                    next="需要执行代码时显式开启 NXKIT_ALLOW_EXECUTE=1",
+                return self._finish(
+                    name,
+                    args,
+                    make_error(
+                        request_id,
+                        "EXECUTE_DISABLED",
+                        "precheck",
+                        "nx_run_python 已在配置中禁用（NXKIT_ALLOW_EXECUTE=0）",
+                        next="需要执行代码时显式开启 NXKIT_ALLOW_EXECUTE=1",
+                    ),
+                    started,
                 )
         if dry_run:
-            return make_ok(request_id, data=walk_would_do(tool, args))
+            return self._finish(name, args, make_ok(request_id, data=walk_would_do(tool, args)), started)
 
         kind = tool.route.get("kind")
         try:
             if kind in ("local", "batch"):
                 handler = self.handlers.get(tool.route.get("handler"))
                 if handler is None:
-                    return make_error(
-                        request_id,
-                        "TOOL_NOT_IMPLEMENTED",
-                        "bridge",
-                        "工具 %s 的 handler %r 未实现" % (name, tool.route.get("handler")),
+                    return self._finish(
+                        name,
+                        args,
+                        make_error(
+                            request_id,
+                            "TOOL_NOT_IMPLEMENTED",
+                            "bridge",
+                            "工具 %s 的 handler %r 未实现" % (name, tool.route.get("handler")),
+                        ),
+                        started,
                     )
                 result = handler(self, args, request_id)
             elif kind == "nx":
@@ -127,7 +155,40 @@ class Router:
                 next="把 code/参数贴给开发者；先用 nx_status 确认连接",
             )
         result["elapsed_ms"] = round((time.monotonic() - started) * 1000.0, 1)
+        if args.get("path") and name in ("nx_part", "nx_save", "nx_snapshot"):
+            self.current_part_path = args.get("path")
+        self._log_operation(name, args, result)
         return result
+
+    def _finish(self, name, args, result, started):
+        result["elapsed_ms"] = round((time.monotonic() - started) * 1000.0, 1)
+        self._log_operation(name, args, result)
+        return result
+
+    def _log_operation(self, name, args, result):
+        """Append every call to the operation log (never breaks the tool call)."""
+        if self.oplog is None:
+            return
+        try:
+            from .oplog import sanitize_args
+
+            error = result.get("error") or {}
+            self.oplog.append(
+                {
+                    "tool": name,
+                    "args": sanitize_args(args),
+                    "ok": bool(result.get("ok")),
+                    "error_code": error.get("code"),
+                    "error_stage": error.get("stage"),
+                    "verify": result.get("verify"),
+                    "part": os.path.basename(str(self.current_part_path or self.part or "")),
+                    "session_id": os.environ.get("NXKIT_SESSION_ID", ""),
+                    "run_id": os.environ.get("NXKIT_RUN_ID", ""),
+                    "source": os.environ.get("NXKIT_SOURCE", "mcp"),
+                }
+            )
+        except Exception:
+            pass
 
     @staticmethod
     def _pick_session(sessions):

@@ -18,6 +18,7 @@ from .headless import HeadlessRunner
 from .jobs import Jobs
 from .kb.search import Kb
 from .library.store import Library
+from .oplog import OperationLog
 from .precheck import Precheck
 from .registry import ContractError, Registry
 from .router import Router
@@ -141,6 +142,7 @@ def main(argv: list[str] | None = None) -> int:
         templates=TemplateStore(default_contract_dir()),
         kb=kb,
         security=SecurityPolicy.from_env(repo),
+        oplog=OperationLog(io_dir / "oplog.jsonl"),
     )
     server = Server(registry, expose, router)
 

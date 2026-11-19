@@ -1,6 +1,14 @@
 """Part-level commands. Python 3.3 syntax only."""
 
+import os
+
 import NXOpen
+
+
+def _same_path(first, second):
+    if not first or not second:
+        return False
+    return os.path.normcase(os.path.abspath(first)) == os.path.normcase(os.path.abspath(second))
 
 
 def create_part(st, args):
@@ -24,8 +32,14 @@ def save_part(st, args):
     if wp is None:
         raise RuntimeError("没有工作零件")
     path = args.get("path")
-    if path:
+    current = getattr(wp, "FullPath", "") or ""
+    if path and not _same_path(path, current):
         wp.SaveAs(path)
         return {"data": {"saved": path}, "facts": {}}
-    wp.Save()
-    return {"data": {"saved": "current"}, "facts": {}}
+    # Same path (or no path): NX10 SaveAs refuses an existing file, so use Save.
+    # Save(saveComponentParts, close) needs the enum members; "False" is a
+    # Python keyword, hence getattr.
+    save_components = getattr(NXOpen.BasePartSaveComponents, "FalseValue")
+    close_after = getattr(NXOpen.BasePartCloseAfterSave, "FalseValue")
+    wp.Save(save_components, close_after)
+    return {"data": {"saved": current or "current"}, "facts": {}}

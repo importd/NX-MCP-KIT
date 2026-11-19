@@ -1,0 +1,30 @@
+{
+  "run_id": "T1-boolean-unite-20261119210605-457b8d",
+  "task_id": "T1-boolean-unite",
+  "config": {
+    "model": "oracle",
+    "skill_version": "n/a",
+    "library_state": "n/a",
+    "nx_version": "nx10",
+    "tool_surface": "5a8812d"
+  },
+  "started_at": "2026-11-19T21:06:05",
+  "seconds": 0.354,
+  "tokens": null,
+  "prompt_tokens": null,
+  "events": [
+    {
+      "seq": 1,
+      "tool": "nx_part",
+      "ok": false,
+      "error_code": "BRIDGE_EXCEPTION",
+      "duration_ms": 359.0,
+      "args_digest": "sha256:8667437e7dda151c",
+      "has_verify": false
+    }
+  ],
+  "outcome": "error",
+  "artifacts": {
+    "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-boolean-unite-a1.prt"
+  }
+}

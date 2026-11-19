@@ -1,0 +1,9 @@
+{
+  "run_id": "T1-fillet-all-20261119210412-ce28ff",
+  "task_id": "T1-fillet-all",
+  "outcome": "error",
+  "asserts": [],
+  "measurement": {},
+  "independent": true,
+  "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+}

@@ -1,0 +1,30 @@
+{
+  "run_id": "T1-fillet-all-20261119210629-0b20c1",
+  "task_id": "T1-fillet-all",
+  "config": {
+    "model": "oracle",
+    "skill_version": "n/a",
+    "library_state": "n/a",
+    "nx_version": "nx10",
+    "tool_surface": "5a8812d"
+  },
+  "started_at": "2026-11-19T21:06:29",
+  "seconds": 0.392,
+  "tokens": null,
+  "prompt_tokens": null,
+  "events": [
+    {
+      "seq": 1,
+      "tool": "nx_part",
+      "ok": false,
+      "error_code": "BRIDGE_EXCEPTION",
+      "duration_ms": 391.0,
+      "args_digest": "sha256:e24927484049cb39",
+      "has_verify": false
+    }
+  ],
+  "outcome": "error",
+  "artifacts": {
+    "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-fillet-all-a1.prt"
+  }
+}
