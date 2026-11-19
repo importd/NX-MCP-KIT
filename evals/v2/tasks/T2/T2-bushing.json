@@ -1,0 +1,48 @@
+{
+  "id": "T2-bushing",
+  "tier": "T2",
+  "goal": "圆环截面（R20/R10，高 30）绕 Y 轴回转 360°",
+  "solution_steps": [
+    {
+      "tool": "nx_revolve",
+      "args": {
+        "points": [
+          [
+            10,
+            -15,
+            0
+          ],
+          [
+            20,
+            -15,
+            0
+          ],
+          [
+            20,
+            15,
+            0
+          ],
+          [
+            10,
+            15,
+            0
+          ]
+        ],
+        "angle": 360,
+        "axis_dir": [
+          0,
+          1,
+          0
+        ]
+      }
+    }
+  ],
+  "budget": {
+    "max_calls": 12,
+    "max_seconds": 240,
+    "max_tokens": null
+  },
+  "tags": [
+    "revolve"
+  ]
+}

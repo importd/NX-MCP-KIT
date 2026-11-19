@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "one eval run (metadata + tool-call events)",
+  "type": "object",
+  "required": ["run_id", "task_id", "config", "started_at", "events", "outcome"],
+  "additionalProperties": false,
+  "properties": {
+    "run_id": { "type": "string" },
+    "task_id": { "type": "string" },
+    "config": {
+      "type": "object",
+      "required": ["model", "skill_version", "library_state", "nx_version", "tool_surface"],
+      "properties": {
+        "model": { "type": "string" },
+        "skill_version": { "type": "string" },
+        "library_state": { "type": "string", "enum": ["cold", "warm", "n/a"] },
+        "nx_version": { "type": "string" },
+        "tool_surface": { "type": "string" }
+      }
+    },
+    "started_at": { "type": "string" },
+    "seconds": { "type": "number" },
+    "tokens": { "type": ["integer", "null"] },
+    "prompt_tokens": { "type": ["integer", "null"] },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["seq", "tool", "ok"],
+        "properties": {
+          "seq": { "type": "integer" },
+          "tool": { "type": "string" },
+          "ok": { "type": "boolean" },
+          "error_code": { "type": ["string", "null"] },
+          "duration_ms": { "type": ["number", "null"] },
+          "args_digest": { "type": "string" },
+          "has_verify": { "type": "boolean" }
+        }
+      }
+    },
+    "outcome": { "type": "string", "enum": ["pass", "fail", "error", "not_scored"] },
+    "artifacts": {
+      "type": "object",
+      "properties": { "part_path": { "type": "string" } }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "T1-shell",
+  "tier": "T1",
+  "goal": "50×40×30 方块抽壳壁厚 2（顶面开口）",
+  "solution_steps": [
+    {
+      "tool": "nx_block",
+      "args": {
+        "length": 50,
+        "width": 40,
+        "height": 30
+      }
+    },
+    {
+      "tool": "nx_shell",
+      "args": {
+        "target": "last",
+        "thickness": 2,
+        "faces": [
+          [
+            25,
+            20,
+            30
+          ]
+        ]
+      }
+    }
+  ],
+  "budget": {
+    "max_calls": 8,
+    "max_seconds": 180,
+    "max_tokens": null
+  },
+  "tags": [
+    "shell"
+  ]
+}

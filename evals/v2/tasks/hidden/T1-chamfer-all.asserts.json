@@ -1,0 +1,22 @@
+{
+  "asserts": [
+    {
+      "id": "volume",
+      "kind": "range",
+      "measure": "volume",
+      "expect": {
+        "min": 56000.0,
+        "max": 59999.0
+      }
+    },
+    {
+      "id": "faces",
+      "kind": "range",
+      "measure": "faces",
+      "expect": {
+        "min": 20.0,
+        "max": 70.0
+      }
+    }
+  ]
+}

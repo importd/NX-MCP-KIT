@@ -1,0 +1,36 @@
+{
+  "id": "T1-hole-depth",
+  "tier": "T1",
+  "goal": "50×40×30 方块打 φ10×15 盲孔",
+  "solution_steps": [
+    {
+      "tool": "nx_block",
+      "args": {
+        "length": 50,
+        "width": 40,
+        "height": 30
+      }
+    },
+    {
+      "tool": "nx_hole",
+      "args": {
+        "target": "last",
+        "position": [
+          25,
+          20,
+          30
+        ],
+        "diameter": 10,
+        "depth": 15
+      }
+    }
+  ],
+  "budget": {
+    "max_calls": 8,
+    "max_seconds": 180,
+    "max_tokens": null
+  },
+  "tags": [
+    "hole"
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "id": "T2-bracket",
+  "tier": "T2",
+  "goal": "80×50×15 支架板，打 2×φ10 通孔",
+  "solution_steps": [
+    {
+      "tool": "nx_block",
+      "args": {
+        "length": 80,
+        "width": 50,
+        "height": 15
+      }
+    },
+    {
+      "tool": "nx_hole",
+      "args": {
+        "target": "last",
+        "position": [
+          20,
+          25,
+          15
+        ],
+        "diameter": 10
+      }
+    },
+    {
+      "tool": "nx_hole",
+      "args": {
+        "target": "last",
+        "position": [
+          60,
+          25,
+          15
+        ],
+        "diameter": 10
+      }
+    }
+  ],
+  "budget": {
+    "max_calls": 12,
+    "max_seconds": 240,
+    "max_tokens": null
+  },
+  "tags": [
+    "bracket"
+  ]
+}

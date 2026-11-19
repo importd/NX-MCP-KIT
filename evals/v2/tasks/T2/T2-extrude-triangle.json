@@ -1,0 +1,38 @@
+{
+  "id": "T2-extrude-triangle",
+  "tier": "T2",
+  "goal": "直角三角形（底 40 高 30）拉伸 10",
+  "solution_steps": [
+    {
+      "tool": "nx_extrude",
+      "args": {
+        "points": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            40,
+            0,
+            0
+          ],
+          [
+            20,
+            30,
+            0
+          ]
+        ],
+        "distance": 10
+      }
+    }
+  ],
+  "budget": {
+    "max_calls": 12,
+    "max_seconds": 240,
+    "max_tokens": null
+  },
+  "tags": [
+    "extrude"
+  ]
+}

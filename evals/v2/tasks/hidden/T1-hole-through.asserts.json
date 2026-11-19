@@ -1,0 +1,18 @@
+{
+  "asserts": [
+    {
+      "id": "volume",
+      "kind": "rel",
+      "measure": "volume",
+      "expect": 58492.0355,
+      "tol": 0.003
+    },
+    {
+      "id": "faces",
+      "kind": "abs",
+      "measure": "faces",
+      "expect": 7,
+      "tol": 0
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "asserts": [
+    {
+      "id": "volume",
+      "kind": "rel",
+      "measure": "volume",
+      "expect": 6000.0,
+      "tol": 0.005
+    }
+  ]
+}

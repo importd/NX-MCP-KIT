@@ -1,0 +1,150 @@
+{
+  "metrics_version": "1.0.0",
+  "layers": {
+    "L1": "tool-level correctness (no model in the loop)",
+    "L2": "agent-level end-to-end tasks",
+    "L3": "experience library effect"
+  },
+  "metrics": [
+    {
+      "id": "M-TASK-01",
+      "name": "任务成功率 TSR",
+      "layer": "L2",
+      "formula": "passed_runs / attempted_runs",
+      "unit": "ratio",
+      "direction": "higher_better",
+      "source": "score.json.outcome",
+      "threshold": { "v1": 0.7, "warn_drop": 0.05 }
+    },
+    {
+      "id": "M-TASK-02",
+      "name": "pass@k",
+      "layer": "L2",
+      "formula": "tasks_with_at_least_one_pass_in_k_runs / tasks",
+      "unit": "ratio",
+      "direction": "higher_better",
+      "source": "scores grouped by task",
+      "threshold": { "v1": 0.85 }
+    },
+    {
+      "id": "M-GEO-01",
+      "name": "最大相对几何误差",
+      "layer": "L1",
+      "formula": "max over asserts of |got-expect|/|expect|",
+      "unit": "ratio",
+      "direction": "lower_better",
+      "source": "score.json.asserts",
+      "threshold": { "v1": 0.005 }
+    },
+    {
+      "id": "M-EFF-01",
+      "name": "成功任务平均工具调用数",
+      "layer": "L2",
+      "formula": "mean(tool_calls where outcome==pass)",
+      "unit": "calls",
+      "direction": "lower_better",
+      "source": "run.jsonl",
+      "threshold": { "v1": 10, "p95": 16 }
+    },
+    {
+      "id": "M-EFF-02",
+      "name": "成功任务平均耗时",
+      "layer": "L2",
+      "formula": "mean(seconds where outcome==pass)",
+      "unit": "s",
+      "direction": "lower_better",
+      "source": "run.jsonl",
+      "threshold": { "v1": 300 }
+    },
+    {
+      "id": "M-EFF-03",
+      "name": "单任务 token",
+      "layer": "L2",
+      "formula": "mean(tokens where outcome==pass)",
+      "unit": "tokens",
+      "direction": "lower_better",
+      "source": "run.jsonl client usage",
+      "threshold": { "v1": 15000 }
+    },
+    {
+      "id": "M-CMP-01",
+      "name": "经验闸门合规率",
+      "layer": "L2",
+      "formula": "runs_with_exp_search_before_geometry / runs_with_geometry",
+      "unit": "ratio",
+      "direction": "higher_better",
+      "source": "run.jsonl event order",
+      "threshold": { "v1": 0.9 }
+    },
+    {
+      "id": "M-CMP-02",
+      "name": "预检合规率",
+      "layer": "L2",
+      "formula": "run_python_calls_preceded_by_check / run_python_calls",
+      "unit": "ratio",
+      "direction": "higher_better",
+      "source": "run.jsonl event order",
+      "threshold": { "v1": 0.9 }
+    },
+    {
+      "id": "M-VER-01",
+      "name": "判据覆盖率",
+      "layer": "L1",
+      "formula": "asserts_executed / asserts_declared",
+      "unit": "ratio",
+      "direction": "higher_better",
+      "source": "score.json",
+      "threshold": { "v1": 1.0 }
+    },
+    {
+      "id": "M-VER-02",
+      "name": "虚假完成率",
+      "layer": "L2",
+      "formula": "runs_declared_done_but_score_failed / runs_declared_done",
+      "unit": "ratio",
+      "direction": "lower_better",
+      "source": "run.jsonl + score.json",
+      "threshold": { "v1": 0.0 }
+    },
+    {
+      "id": "M-EXP-01",
+      "name": "经验复用率",
+      "layer": "L3",
+      "formula": "runs_using_exp_replay_or_get / runs",
+      "unit": "ratio",
+      "direction": "higher_better",
+      "source": "run.jsonl",
+      "threshold": {}
+    },
+    {
+      "id": "M-EXP-02",
+      "name": "冷热库提效差",
+      "layer": "L3",
+      "formula": "mean(calls_cold) - mean(calls_warm)",
+      "unit": "calls",
+      "direction": "higher_better",
+      "source": "runs grouped by library_state",
+      "threshold": {}
+    },
+    {
+      "id": "M-VER-03",
+      "name": "双版本几何等价率",
+      "layer": "L1",
+      "formula": "nx10_asserts_passing_in_2512 / nx10_asserts",
+      "unit": "ratio",
+      "direction": "higher_better",
+      "source": "scores grouped by nx_version",
+      "threshold": { "v1": 1.0 }
+    },
+    {
+      "id": "M-QUA-01",
+      "name": "运行完整性",
+      "layer": "L1",
+      "formula": "runs_with_complete_trace / runs",
+      "unit": "ratio",
+      "direction": "higher_better",
+      "source": "run.jsonl trace_integrity",
+      "threshold": { "v1": 1.0 }
+    }
+  ]
+}

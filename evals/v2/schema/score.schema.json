@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "independent score for one run",
+  "type": "object",
+  "required": ["run_id", "task_id", "outcome", "asserts", "measurement"],
+  "additionalProperties": false,
+  "properties": {
+    "run_id": { "type": "string" },
+    "task_id": { "type": "string" },
+    "outcome": { "type": "string", "enum": ["pass", "fail", "error", "not_scored"] },
+    "independent": { "type": "boolean" },
+    "measurement": { "type": "object" },
+    "asserts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "pass"],
+        "properties": {
+          "id": { "type": "string" },
+          "kind": { "type": "string" },
+          "measure": { "type": "string" },
+          "expect": {},
+          "got": {},
+          "rel_err": { "type": ["number", "null"] },
+          "pass": { "type": "boolean" }
+        }
+      }
+    },
+    "error": { "type": ["string", "null"] }
+  }
+}

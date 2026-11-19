@@ -1,0 +1,18 @@
+{
+  "asserts": [
+    {
+      "id": "volume",
+      "kind": "rel",
+      "measure": "volume",
+      "expect": 28274.3339,
+      "tol": 0.005
+    },
+    {
+      "id": "bbox_dy",
+      "kind": "rel",
+      "measure": "bbox_dy",
+      "expect": 30.0,
+      "tol": 0.002
+    }
+  ]
+}

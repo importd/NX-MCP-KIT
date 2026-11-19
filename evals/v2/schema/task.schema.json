@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "eval task (agent never sees hidden asserts)",
+  "type": "object",
+  "required": ["id", "tier", "goal", "setup", "solution_steps", "budget"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^T[1-5]-[a-z0-9-]+$" },
+    "tier": { "type": "string", "enum": ["T1", "T2", "T3", "T4", "T5"] },
+    "goal": { "type": "string" },
+    "setup": {
+      "type": "object",
+      "required": ["new_part"],
+      "properties": { "new_part": { "type": "boolean" } }
+    },
+    "solution_steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["tool", "args"],
+        "properties": { "tool": { "type": "string" }, "args": { "type": "object" } }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "required": ["max_calls", "max_seconds"],
+      "properties": {
+        "max_calls": { "type": "integer" },
+        "max_seconds": { "type": "number" },
+        "max_tokens": { "type": ["integer", "null"] }
+      }
+    },
+    "tags": { "type": "array", "items": { "type": "string" } }
+  }
+}

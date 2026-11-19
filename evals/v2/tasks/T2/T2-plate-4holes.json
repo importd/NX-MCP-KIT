@@ -1,0 +1,71 @@
+{
+  "id": "T2-plate-4holes",
+  "tier": "T2",
+  "goal": "100×60×10 板，四角 4×φ8 通孔",
+  "solution_steps": [
+    {
+      "tool": "nx_block",
+      "args": {
+        "length": 100,
+        "width": 60,
+        "height": 10
+      }
+    },
+    {
+      "tool": "nx_hole",
+      "args": {
+        "target": "last",
+        "position": [
+          20,
+          15,
+          10
+        ],
+        "diameter": 8
+      }
+    },
+    {
+      "tool": "nx_hole",
+      "args": {
+        "target": "last",
+        "position": [
+          80,
+          15,
+          10
+        ],
+        "diameter": 8
+      }
+    },
+    {
+      "tool": "nx_hole",
+      "args": {
+        "target": "last",
+        "position": [
+          20,
+          45,
+          10
+        ],
+        "diameter": 8
+      }
+    },
+    {
+      "tool": "nx_hole",
+      "args": {
+        "target": "last",
+        "position": [
+          80,
+          45,
+          10
+        ],
+        "diameter": 8
+      }
+    }
+  ],
+  "budget": {
+    "max_calls": 12,
+    "max_seconds": 240,
+    "max_tokens": null
+  },
+  "tags": [
+    "plate"
+  ]
+}

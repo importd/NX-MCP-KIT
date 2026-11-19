@@ -1,0 +1,23 @@
+{
+  "id": "T1-block-40x30x20",
+  "tier": "T1",
+  "goal": "建 40×30×20 的长方体",
+  "solution_steps": [
+    {
+      "tool": "nx_block",
+      "args": {
+        "length": 40,
+        "width": 30,
+        "height": 20
+      }
+    }
+  ],
+  "budget": {
+    "max_calls": 8,
+    "max_seconds": 180,
+    "max_tokens": null
+  },
+  "tags": [
+    "block"
+  ]
+}

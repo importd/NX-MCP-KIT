@@ -1,0 +1,48 @@
+{
+  "id": "T2-cylinder",
+  "tier": "T2",
+  "goal": "矩形截面（x0..10，y-5..5）绕 Y 轴回转成圆柱",
+  "solution_steps": [
+    {
+      "tool": "nx_revolve",
+      "args": {
+        "points": [
+          [
+            0,
+            -5,
+            0
+          ],
+          [
+            10,
+            -5,
+            0
+          ],
+          [
+            10,
+            5,
+            0
+          ],
+          [
+            0,
+            5,
+            0
+          ]
+        ],
+        "angle": 360,
+        "axis_dir": [
+          0,
+          1,
+          0
+        ]
+      }
+    }
+  ],
+  "budget": {
+    "max_calls": 12,
+    "max_seconds": 240,
+    "max_tokens": null
+  },
+  "tags": [
+    "revolve"
+  ]
+}
