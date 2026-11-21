@@ -7,6 +7,7 @@ after the run.
 """
 
 import os
+import re
 import subprocess
 import sys
 import time
@@ -16,9 +17,56 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]
 DEFAULT_PLAN_DIR = REPO / "io" / "headless"
 
+_SEARCH_PARENTS = (
+    "C:/Program Files/Siemens",
+    "D:/Program Files/Siemens",
+    "C:/Siemens",
+    "D:/Siemens",
+)
+
+
+def _looks_like_nx(path):
+    path = Path(path)
+    return (path / "NXBIN" / "run_journal.exe").is_file() or (
+        path / "UGII" / "run_journal.exe"
+    ).is_file()
+
+
+def find_nx_root():
+    """Locate an NX installation: env hint first, then common Siemens dirs.
+
+    Returns a str path or None. The kit targets every NX version, so the newest
+    run_journal installation wins when several are present.
+    """
+    for key in ("NXKIT_NX_ROOT", "UGII_BASE_DIR"):
+        value = os.environ.get(key)
+        if value and _looks_like_nx(value):
+            return str(Path(value))
+    found = []
+    for parent in _SEARCH_PARENTS:
+        base = Path(parent)
+        if not base.is_dir():
+            continue
+        try:
+            children = sorted(base.iterdir())
+        except OSError:
+            continue
+        for child in children:
+            if _looks_like_nx(child):
+                found.append(child)
+    if found:
+        def version_key(path):
+            numbers = re.findall(r"\d+", path.name)
+            return tuple(int(value) for value in numbers) if numbers else (0,)
+
+        return str(sorted(found, key=version_key)[-1])
+    return None
+
 
 class HeadlessRunner:
     def __init__(self, nx_root=None, runner_cmd=None, plan_dir=None):
+        if nx_root is None and not runner_cmd:
+            nx_root = find_nx_root()
         self.nx_root = Path(nx_root) if nx_root else None
         self.runner_cmd = list(runner_cmd) if runner_cmd else None
         self.plan_dir = Path(plan_dir) if plan_dir else DEFAULT_PLAN_DIR

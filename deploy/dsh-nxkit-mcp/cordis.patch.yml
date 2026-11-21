@@ -1,4 +1,4 @@
-- insert:
+﻿- insert:
     - id: nxkit-mcp
       name: '@deepseek-ai/dsh-mcp-client'
       config:
@@ -13,4 +13,6 @@
           PYTHONPATH: 'D:\NX_Agent\nx-agent-kit\runtime'
           NXKIT_IO_DIR: 'E:\Code\CAD-Agent-Hub\MCP\UG\io'
           NXKIT_EXPOSE: 'all'
+          NXKIT_NX_ROOT: 'D:\\Program Files\\Siemens\\NX 10.0'
         failOnStartupError: true
+
