@@ -8,7 +8,7 @@
       "s": "连接/版本/当前零件状态",
       "k": ["状态", "status", "连接", "connected"],
       "desc": "返回 NX 连接状态、版本、当前零件、会话 pid 与 job 队列概况。多开 NX 时用 pid 钉住一个会话。",
-      "next": "未连接先跑 deploy/install.ps1 或 one_click；多开先用 sessions 里的 pid",
+      "next": "未连接先跑 deploy/install.ps1 或 deploy/smoke.ps1；多开先用 sessions 里的 pid",
       "route": { "kind": "local", "handler": "status" },
       "flags": { "always": true },
       "schema": {

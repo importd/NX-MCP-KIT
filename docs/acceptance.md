@@ -47,6 +47,15 @@ $env:NXKIT_NX_ROOT = "D:\Program Files\Siemens\NX 10.0"
 pytest tests\headless.py -v
 ```
 
+## 一键自检（有头）
+
+```powershell
+.\deploy\smoke.ps1 -RuntimeHome "D:\NX_Agent\nx-agent-kit"
+```
+
+成功最后一行 `RESULT: OK`；失败看 `RESULT: FAIL:<code>` 与 `NEXT:`。退出码 0/1/2
+（2 = 契约/io/会话预检失败）。加 `-Clean` 先删旧的 `io\smoke\smoke-*.prt`。
+
 ## 待验证（需要桥加载到 NX 会话）
 
 | 项 | 前置 |

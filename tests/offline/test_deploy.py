@@ -1,6 +1,7 @@
 import json
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -72,6 +73,22 @@ def test_install_appends_custom_dirs_without_overwrite(workdir):
     text = custom_dirs.read_text(encoding="utf-8")
     assert text.startswith("D:\\other_product\\")
     assert text.count("D:\\other_product") == 1
+
+
+def test_smoke_script_reports_no_session(workdir):
+    io = workdir / "io"
+    (io / "999").mkdir(parents=True)
+    (io / "999" / "status.json").write_text(
+        '{"pid": 999, "alive": true, "updated": 0}', encoding="utf-8"
+    )
+    result = _run(
+        REPO / "deploy" / "smoke.ps1",
+        "-RuntimeHome", REPO,
+        "-IoDir", io,
+        "-PythonExe", sys.executable,
+    )
+    assert result.returncode == 2, result.stdout + result.stderr
+    assert "RESULT: FAIL:NO_SESSION" in result.stdout
 
 
 def test_sync_check_detects_drift(workdir):
