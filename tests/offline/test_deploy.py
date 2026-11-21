@@ -91,6 +91,19 @@ def test_smoke_script_reports_no_session(workdir):
     assert "RESULT: FAIL:NO_SESSION" in result.stdout
 
 
+def test_smoke_script_reports_missing_python(workdir):
+    io = workdir / "io"
+    io.mkdir()
+    result = _run(
+        REPO / "deploy" / "smoke.ps1",
+        "-RuntimeHome", REPO,
+        "-IoDir", io,
+        "-PythonExe", workdir / "no-such-python.exe",
+    )
+    assert result.returncode == 2, result.stdout + result.stderr
+    assert "RESULT: FAIL:PYTHON" in result.stdout
+
+
 def test_sync_check_detects_drift(workdir):
     source = workdir / "src"
     target = workdir / "dst"

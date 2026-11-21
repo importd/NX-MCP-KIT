@@ -221,4 +221,5 @@ def test_main_prints_next_on_failure(workdir, monkeypatch, capsys):
     out = capsys.readouterr().out
     assert rc == 1
     assert "RESULT: FAIL:BLOCK" in out
+    assert "MSG: boom" in out
     assert "NEXT: check target" in out

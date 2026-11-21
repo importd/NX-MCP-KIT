@@ -196,9 +196,11 @@ def _print_step(step):
         line += " " + step["detail"]
     print(line)
     if not step["ok"]:
-        next_hint = (step.get("error") or {}).get("next")
-        if next_hint:
-            print("NEXT: " + str(next_hint))
+        error = step.get("error") or {}
+        if error.get("msg"):
+            print("MSG: " + str(error["msg"]))
+        if error.get("next"):
+            print("NEXT: " + str(error["next"]))
 
 
 def _clean_old_parts(io_path):

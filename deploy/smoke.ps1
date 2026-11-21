@@ -17,7 +17,19 @@ $pyArgs = @(
     "--timeout-s", "$TimeoutSec"
 )
 if ($Clean) { $pyArgs += "--clean" }
-& $PythonExe @pyArgs
+if (-not (Get-Command $PythonExe -ErrorAction SilentlyContinue)) {
+    Write-Output "RESULT: FAIL:PYTHON"
+    Write-Output ("NEXT: python not found: " + $PythonExe)
+    exit 2
+}
+try {
+    & $PythonExe @pyArgs
+}
+catch {
+    Write-Output "RESULT: FAIL:INTERNAL"
+    Write-Output ("NEXT: " + $_.Exception.Message)
+    exit 2
+}
 $code = $LASTEXITCODE
 if ($null -eq $code) { $code = 2 }
 exit $code

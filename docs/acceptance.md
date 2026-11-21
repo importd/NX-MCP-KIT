@@ -53,8 +53,9 @@ pytest tests\headless.py -v
 .\deploy\smoke.ps1 -RuntimeHome "D:\NX_Agent\nx-agent-kit"
 ```
 
-成功最后一行 `RESULT: OK`；失败看 `RESULT: FAIL:<code>` 与 `NEXT:`。退出码 0/1/2
-（2 = 契约/io/会话预检失败）。加 `-Clean` 先删旧的 `io\smoke\smoke-*.prt`。
+成功最后一行 `RESULT: OK`；失败看 `RESULT: FAIL:<code>`、`MSG:` 与 `NEXT:`。退出码 0/1/2
+（2 = 契约/io/会话预检失败；启动器找不到 Python 时为 `RESULT: FAIL:PYTHON` + 2）。
+加 `-Clean` 先删旧的 `io\smoke\smoke-*.prt`。
 
 ## 待验证（需要桥加载到 NX 会话）
 
