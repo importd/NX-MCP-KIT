@@ -199,6 +199,58 @@ def replay_with_router(router, entry, parts_dir, name=None):
     return {"ok": True, "facts": facts}
 
 
+def pit_candidates(events, min_failures=2, max_success_ratio=0.34):
+    stats = {}
+    for event in events:
+        if event.get("tool") not in GEOMETRY_TOOLS:
+            continue
+        sig = signature(event)
+        item = stats.setdefault(
+            sig,
+            {"signature": sig, "tool": event.get("tool"), "args": event.get("args") or {},
+             "success": 0, "failure": 0, "error_codes": {}},
+        )
+        if event.get("ok"):
+            item["success"] += 1
+        else:
+            item["failure"] += 1
+            code = ((event.get("error") or {}).get("code")) or "UNKNOWN"
+            item["error_codes"][code] = item["error_codes"].get(code, 0) + 1
+    result = []
+    for item in stats.values():
+        total = item["success"] + item["failure"]
+        if total == 0:
+            continue
+        ratio = item["success"] / total
+        if item["failure"] >= min_failures and ratio <= max_success_ratio:
+            item["success_ratio"] = round(ratio, 3)
+            result.append(item)
+    return result
+
+
+def write_pit_drafts(library, items):
+    written = []
+    for item in items:
+        codes = sorted(item["error_codes"].items(), key=lambda pair: -pair[1])
+        code = codes[0][0]
+        entry = {
+            "id": "PITAUTO-" + item["signature"].split(":")[-1][:8].upper(),
+            "c": "坑",
+            "t": "自动坑：%s %s" % (item["tool"], code)[:70],
+            "k": [item["tool"].replace("nx_", ""), code],
+            "m": [code],
+            "error": ", ".join("%s x%d" % (key, count) for key, count in codes),
+            "cause": "操作流水聚合：%d 次失败 / %d 次成功（成功率 %.0f%%）"
+            % (item["failure"], item["success"], item["success_ratio"] * 100),
+            "fix": "",
+            "source": "auto",
+            "auto": {"signature": item["signature"], "error_codes": item["error_codes"]},
+        }
+        result = library.save(entry, force_draft=True)
+        written.append({"id": entry["id"], "result": result})
+    return written
+
+
 def ingest(oplog_path, library, min_success=2, replay=None):
     from .library.store import Library
 
@@ -212,8 +264,15 @@ def ingest(oplog_path, library, min_success=2, replay=None):
                 continue
     items = candidates(events, min_success=min_success)
     drafts = write_drafts(library, items)
+    pits = write_pit_drafts(library, pit_candidates(events))
     promoted = verify_drafts(library, replay) if replay is not None else []
-    return {"events": len(events), "candidates": len(items), "drafts": drafts, "verify": promoted}
+    return {
+        "events": len(events),
+        "candidates": len(items),
+        "drafts": drafts,
+        "pits": pits,
+        "verify": promoted,
+    }
 
 
 def main(argv=None):

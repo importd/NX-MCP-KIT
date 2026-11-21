@@ -1,4 +1,4 @@
-# 操作流水与自动经验沉淀
+﻿# 操作流水与自动经验沉淀
 
 ## 为什么不能靠模型自觉
 
@@ -47,3 +47,34 @@ python -m nxkit.ingest --oplog io/oplog.jsonl --library library
 
 - `io/oplog.jsonl`：**生产侧**事实来源，永远在写，用于沉淀。
 - `evals/v2/runs/*.json`：**评测侧**运行记录，用于指标计算，两者互不替代。
+
+## 自动坑草稿
+
+同一签名反复失败（≥2 次、成功率 ≤34%）时，`ingest` 会生成 `c=坑` 草稿：
+`k=[tool, error_code]`、`error` 里带错误码计数、`fix` 留空等人工/AI 补。坑草稿同样进 `_drafts`，不会被检索污染。
+
+## usage 更新
+
+`nx_exp action=get/replay` 命中条目时自动 `bump_usage(id, None)`（只计次数，不猜成功）；
+`exp_save` 之后的成功/失败计数仍由显式路径维护。这样"常用经验"可排序。
+
+## 定时运行（Windows 任务计划）
+
+```powershell
+# 预览要执行的命令（不落地）
+powershell -File deploy\install_ingest_task.ps1 -RuntimeHome D:\NX_Agent\nxkit-runtime -PrintOnly
+
+# 注册每 10 分钟跑一次的 AutoIngest 任务（需要相应权限）
+powershell -File deploy\install_ingest_task.ps1 -RuntimeHome D:\NX_Agent\nxkit-runtime -IntervalMinutes 10
+
+# 删除
+powershell -File deploy\install_ingest_task.ps1 -RuntimeHome D:\NX_Agent\nxkit-runtime -Remove
+```
+
+任务命令等价于：
+
+```
+python -m nxkit.auto_ingest --io <runtime>\io --library <runtime>\library --contract <runtime>\contract --parts <runtime>\io\auto_parts
+```
+
+没有活的 NX 会话时进程以退出码 3 结束，不产生任何副作用。

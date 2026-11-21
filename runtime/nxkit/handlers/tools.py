@@ -149,6 +149,7 @@ def handle_exp(router, args, request_id):
         entry = library.get(args.get("id"))
         if entry is None:
             return make_error(request_id, "ENTRY_NOT_FOUND", "bridge", "经验条目不存在：%s" % args.get("id"))
+        library.bump_usage(entry["id"], None)
         return make_ok(request_id, data=entry)
     if action == "save":
         try:
@@ -160,6 +161,7 @@ def handle_exp(router, args, request_id):
         entry = library.get(args.get("id"))
         if entry is None:
             return make_error(request_id, "ENTRY_NOT_FOUND", "bridge", "经验条目不存在：%s" % args.get("id"))
+        library.bump_usage(entry["id"], None)
         return make_ok(request_id, data={"id": entry["id"], "impl": entry.get("impl"), "evidence": entry.get("evidence")})
     if action == "export":
         try:
