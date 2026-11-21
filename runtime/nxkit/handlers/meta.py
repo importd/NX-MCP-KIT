@@ -6,16 +6,16 @@ from ..result import make_error, make_ok
 
 def handle_status(router, args, request_id):
     try:
-        sessions = router.bridge.sessions()
-        connected = bool(sessions)
+        all_sessions = router.bridge.sessions()
     except Exception:
-        sessions = []
-        connected = False
+        all_sessions = []
+    alive = [session for session in all_sessions if session.get("alive")]
     return make_ok(
         request_id,
         data={
-            "connected": connected,
-            "sessions": sessions,
+            "connected": bool(alive),
+            "sessions": alive,
+            "ignored_dead": len(all_sessions) - len(alive),
             "part": router.part,
             "expose": router.expose,
         },

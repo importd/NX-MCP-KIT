@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "NX Agent Kit",
+    "description": "驱动你已打开的 NX 会话：建模命令、查询、断言、快照与经验库，全部走本地文件桥。",
+    "detail": "docs/DETAIL.md"
+  }
+}

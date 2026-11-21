@@ -1,0 +1,16 @@
+- insert:
+    - id: nxkit-mcp
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        serverName: nxkit
+        transport: stdio
+        command: 'C:\Users\feather\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\python.exe'
+        args:
+          - '-m'
+          - 'nxkit.server'
+        cwd: 'D:\NX_Agent\nx-agent-kit'
+        env:
+          PYTHONPATH: 'D:\NX_Agent\nx-agent-kit\runtime'
+          NXKIT_IO_DIR: 'E:\Code\CAD-Agent-Hub\MCP\UG\io'
+          NXKIT_EXPOSE: 'all'
+        failOnStartupError: true

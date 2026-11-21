@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "NX Agent Kit",
+    "description": "Drive the NX session you already opened: modeling commands, queries, assertions, snapshots and an experience library over a local file bridge.",
+    "detail": "docs/DETAIL.md"
+  }
+}
