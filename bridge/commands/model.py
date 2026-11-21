@@ -96,21 +96,36 @@ def _edge_collector(st, body, points):
     return collector
 
 
+def _face_centroid(face):
+    points = []
+    for edge in face.GetEdges():
+        for vertex in edge.GetVertices():
+            points.append((vertex.X, vertex.Y, vertex.Z))
+    if not points:
+        return None
+    count = float(len(points))
+    return (
+        sum(point[0] for point in points) / count,
+        sum(point[1] for point in points) / count,
+        sum(point[2] for point in points) / count,
+    )
+
+
 def _faces_near(st, body, points):
     faces = list(body.GetFaces())
     picked = []
     for point in points:
+        target = tuple(float(v) for v in point)
         best = None
         best_distance = None
         for face in faces:
-            for edge in face.GetEdges():
-                mid = _edge_midpoint(edge)
-                if mid is None:
-                    continue
-                distance = _point_distance(tuple(float(v) for v in point), mid)
-                if best_distance is None or distance < best_distance:
-                    best = face
-                    best_distance = distance
+            centroid = _face_centroid(face)
+            if centroid is None:
+                continue
+            distance = _point_distance(target, centroid)
+            if best_distance is None or distance < best_distance:
+                best = face
+                best_distance = distance
         if best is not None and best not in picked:
             picked.append(best)
     if not picked:

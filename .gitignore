@@ -9,3 +9,6 @@ library/
 kb/*.db
 .superpowers/
 *.log
+evals/v2/runs/
+evals/v2/scores/
+io/eval_parts_headless/

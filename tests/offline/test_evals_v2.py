@@ -154,6 +154,27 @@ def test_aggregate_metrics():
     assert version
 
 
+def test_headless_driver_records_events(tmp_path):
+    from evals.v2.driver import HeadlessDriver
+
+    task = json.loads((P["tasks"] / "T1" / "T1-block-40x30x20.json").read_text(encoding="utf-8-sig"))
+
+    class FakeRunner:
+        def run(self, plan, timeout_s=300):
+            result_file = tmp_path / "result.json"
+            steps = [{"cmd": step["cmd"], "data": {}, "facts": {}} for step in plan["steps"]]
+            result_file.write_text(json.dumps({"ok": True, "steps": steps}), encoding="utf-8")
+            return {"ok": True, "artifacts": [str(result_file)], "markers": ["NXKIT_OK"]}
+
+    recorder = RunRecorder(task["id"], _config(), tmp_path / "runs")
+    driver = HeadlessDriver(FakeRunner(), recorder, tmp_path / "parts")
+    run = driver.run_task(task)
+    assert run["outcome"] == "pass"
+    tools = [event["tool"] for event in run["events"]]
+    assert tools == ["nx_part", "nx_block", "nx_save"]
+    assert run["artifacts"]["part_path"].endswith(".prt")
+
+
 def test_report_markdown_and_baseline(tmp_path):
     result = {"metrics": [{"id": "M-TASK-01", "name": "TSR", "value": 0.5}], "tasks": {"T1-a": ["pass", "fail"]}}
     markdown = report.to_markdown(result)

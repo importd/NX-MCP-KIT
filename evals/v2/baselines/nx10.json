@@ -3,17 +3,17 @@
   "rows": [
     {
       "run": {
-        "run_id": "T1-block-40x30x20-20261119210335-904873",
+        "run_id": "T1-block-40x30x20-20261121145830-05b86e",
         "task_id": "T1-block-40x30x20",
         "config": {
           "model": "oracle",
           "skill_version": "n/a",
           "library_state": "n/a",
           "nx_version": "nx10",
-          "tool_surface": "5a8812d"
+          "tool_surface": "9af2494"
         },
-        "started_at": "2026-11-19T21:03:35",
-        "seconds": 0.978,
+        "started_at": "2026-11-21T14:58:30",
+        "seconds": 10.435,
         "tokens": null,
         "prompt_tokens": null,
         "events": [
@@ -22,8 +22,8 @@
             "tool": "nx_part",
             "ok": true,
             "error_code": null,
-            "duration_ms": 391.0,
-            "args_digest": "sha256:e8bbf5e5d86127ac",
+            "duration_ms": 0.0,
+            "args_digest": "sha256:afaa61a7249bbc04",
             "has_verify": false
           },
           {
@@ -31,48 +31,82 @@
             "tool": "nx_block",
             "ok": true,
             "error_code": null,
-            "duration_ms": 234.0,
-            "args_digest": "sha256:874d3c6d0ed1e0c2",
-            "has_verify": true
+            "duration_ms": 0.0,
+            "args_digest": "sha256:c7fde2cfd4267d05",
+            "has_verify": false
           },
           {
             "seq": 3,
             "tool": "nx_save",
-            "ok": false,
-            "error_code": "BRIDGE_EXCEPTION",
-            "duration_ms": 359.0,
-            "args_digest": "sha256:caf318d554709f37",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:d94cd9621e866964",
             "has_verify": false
           }
         ],
-        "outcome": "fail",
+        "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-block-40x30x20-a1.prt"
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T1-block-40x30x20-05b86e-a1.prt"
         }
       },
       "score": {
-        "run_id": "T1-block-40x30x20-20261119210335-904873",
+        "run_id": "T1-block-40x30x20-20261121145830-05b86e",
         "task_id": "T1-block-40x30x20",
-        "outcome": "error",
-        "asserts": [],
-        "measurement": {},
+        "outcome": "pass",
         "independent": true,
-        "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+        "measurement": {
+          "volume": 24000.0,
+          "area": null,
+          "faces": 6,
+          "edges": 12,
+          "bbox_dx": 40.0,
+          "bbox_dy": 30.0,
+          "bbox_dz": 20.0,
+          "bodies": 1
+        },
+        "asserts": [
+          {
+            "id": "volume",
+            "kind": "rel",
+            "measure": "volume",
+            "expect": 24000.0,
+            "got": 24000.0,
+            "rel_err": 0.0,
+            "pass": true
+          },
+          {
+            "id": "bbox_dx",
+            "kind": "rel",
+            "measure": "bbox_dx",
+            "expect": 40.0,
+            "got": 40.0,
+            "rel_err": 0.0,
+            "pass": true
+          }
+        ],
+        "budgets": {
+          "calls": 3,
+          "seconds": 10.435,
+          "tokens": null,
+          "ok": true
+        },
+        "error": null
       }
     },
     {
       "run": {
-        "run_id": "T1-boolean-unite-20261119210344-fdc3e8",
+        "run_id": "T1-boolean-unite-20261121145851-fdc571",
         "task_id": "T1-boolean-unite",
         "config": {
           "model": "oracle",
           "skill_version": "n/a",
           "library_state": "n/a",
           "nx_version": "nx10",
-          "tool_surface": "5a8812d"
+          "tool_surface": "9af2494"
         },
-        "started_at": "2026-11-19T21:03:44",
-        "seconds": 1.808,
+        "started_at": "2026-11-21T14:58:51",
+        "seconds": 11.091,
         "tokens": null,
         "prompt_tokens": null,
         "events": [
@@ -81,8 +115,8 @@
             "tool": "nx_part",
             "ok": true,
             "error_code": null,
-            "duration_ms": 344.0,
-            "args_digest": "sha256:8667437e7dda151c",
+            "duration_ms": 0.0,
+            "args_digest": "sha256:69736ce365519789",
             "has_verify": false
           },
           {
@@ -90,66 +124,100 @@
             "tool": "nx_block",
             "ok": true,
             "error_code": null,
-            "duration_ms": 187.0,
-            "args_digest": "sha256:0a30b4ed585aed8f",
-            "has_verify": true
+            "duration_ms": 0.0,
+            "args_digest": "sha256:15c805cf2e46f638",
+            "has_verify": false
           },
           {
             "seq": 3,
             "tool": "nx_block",
             "ok": true,
             "error_code": null,
-            "duration_ms": 516.0,
-            "args_digest": "sha256:a3f5b535927e7046",
-            "has_verify": true
+            "duration_ms": 0.0,
+            "args_digest": "sha256:a3daffb5c11ab4d7",
+            "has_verify": false
           },
           {
             "seq": 4,
             "tool": "nx_boolean",
             "ok": true,
             "error_code": null,
-            "duration_ms": 406.0,
-            "args_digest": "sha256:1918ca6e2d7bd9a7",
-            "has_verify": true
+            "duration_ms": 0.0,
+            "args_digest": "sha256:7d3f086d863a3546",
+            "has_verify": false
           },
           {
             "seq": 5,
             "tool": "nx_save",
-            "ok": false,
-            "error_code": "BRIDGE_EXCEPTION",
-            "duration_ms": 344.0,
-            "args_digest": "sha256:d69898468c618260",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:cf9b006684f6b883",
             "has_verify": false
           }
         ],
-        "outcome": "fail",
+        "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-boolean-unite-a1.prt"
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T1-boolean-unite-fdc571-a1.prt"
         }
       },
       "score": {
-        "run_id": "T1-boolean-unite-20261119210344-fdc3e8",
+        "run_id": "T1-boolean-unite-20261121145851-fdc571",
         "task_id": "T1-boolean-unite",
-        "outcome": "error",
-        "asserts": [],
-        "measurement": {},
+        "outcome": "pass",
         "independent": true,
-        "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+        "measurement": {
+          "volume": 40000.0,
+          "area": null,
+          "faces": 6,
+          "edges": 12,
+          "bbox_dx": 50.0,
+          "bbox_dy": 40.0,
+          "bbox_dz": 20.0,
+          "bodies": 1
+        },
+        "asserts": [
+          {
+            "id": "volume",
+            "kind": "rel",
+            "measure": "volume",
+            "expect": 40000.0,
+            "got": 40000.0,
+            "rel_err": 0.0,
+            "pass": true
+          },
+          {
+            "id": "bodies",
+            "kind": "abs",
+            "measure": "bodies",
+            "expect": 1,
+            "got": 1,
+            "rel_err": 0.0,
+            "pass": true
+          }
+        ],
+        "budgets": {
+          "calls": 5,
+          "seconds": 11.091,
+          "tokens": null,
+          "ok": true
+        },
+        "error": null
       }
     },
     {
       "run": {
-        "run_id": "T1-chamfer-all-20261119210354-399cc1",
+        "run_id": "T1-chamfer-all-20261121145913-968f27",
         "task_id": "T1-chamfer-all",
         "config": {
           "model": "oracle",
           "skill_version": "n/a",
           "library_state": "n/a",
           "nx_version": "nx10",
-          "tool_surface": "5a8812d"
+          "tool_surface": "9af2494"
         },
-        "started_at": "2026-11-19T21:03:54",
-        "seconds": 1.533,
+        "started_at": "2026-11-21T14:59:13",
+        "seconds": 9.728,
         "tokens": null,
         "prompt_tokens": null,
         "events": [
@@ -158,8 +226,8 @@
             "tool": "nx_part",
             "ok": true,
             "error_code": null,
-            "duration_ms": 312.0,
-            "args_digest": "sha256:186e16304c9d1174",
+            "duration_ms": 0.0,
+            "args_digest": "sha256:68558ed4ac643bd2",
             "has_verify": false
           },
           {
@@ -167,57 +235,97 @@
             "tool": "nx_block",
             "ok": true,
             "error_code": null,
-            "duration_ms": 469.0,
-            "args_digest": "sha256:7907c4229116ce13",
-            "has_verify": true
+            "duration_ms": 0.0,
+            "args_digest": "sha256:a6d6524fce7e6030",
+            "has_verify": false
           },
           {
             "seq": 3,
             "tool": "nx_chamfer",
             "ok": true,
             "error_code": null,
-            "duration_ms": 359.0,
-            "args_digest": "sha256:9214809656ba344e",
-            "has_verify": true
+            "duration_ms": 0.0,
+            "args_digest": "sha256:ce0432fa40dafc11",
+            "has_verify": false
           },
           {
             "seq": 4,
             "tool": "nx_save",
-            "ok": false,
-            "error_code": "BRIDGE_EXCEPTION",
-            "duration_ms": 391.0,
-            "args_digest": "sha256:31a1c730b1732fa2",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:de7d6e65c10575c4",
             "has_verify": false
           }
         ],
-        "outcome": "fail",
+        "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-chamfer-all-a1.prt"
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T1-chamfer-all-968f27-a1.prt"
         }
       },
       "score": {
-        "run_id": "T1-chamfer-all-20261119210354-399cc1",
+        "run_id": "T1-chamfer-all-20261121145913-968f27",
         "task_id": "T1-chamfer-all",
-        "outcome": "error",
-        "asserts": [],
-        "measurement": {},
+        "outcome": "pass",
         "independent": true,
-        "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+        "measurement": {
+          "volume": 59082.6667,
+          "area": null,
+          "faces": 26,
+          "edges": 48,
+          "bbox_dx": 50.0,
+          "bbox_dy": 40.0,
+          "bbox_dz": 30.0,
+          "bodies": 1
+        },
+        "asserts": [
+          {
+            "id": "volume",
+            "kind": "range",
+            "measure": "volume",
+            "expect": {
+              "min": 56000.0,
+              "max": 59999.0
+            },
+            "got": 59082.6667,
+            "rel_err": null,
+            "pass": true
+          },
+          {
+            "id": "faces",
+            "kind": "range",
+            "measure": "faces",
+            "expect": {
+              "min": 20.0,
+              "max": 70.0
+            },
+            "got": 26,
+            "rel_err": null,
+            "pass": true
+          }
+        ],
+        "budgets": {
+          "calls": 4,
+          "seconds": 9.728,
+          "tokens": null,
+          "ok": true
+        },
+        "error": null
       }
     },
     {
       "run": {
-        "run_id": "T1-extrude-20261119210403-c2c918",
+        "run_id": "T1-extrude-20261121145931-4d2074",
         "task_id": "T1-extrude",
         "config": {
           "model": "oracle",
           "skill_version": "n/a",
           "library_state": "n/a",
           "nx_version": "nx10",
-          "tool_surface": "5a8812d"
+          "tool_surface": "9af2494"
         },
-        "started_at": "2026-11-19T21:04:03",
-        "seconds": 1.033,
+        "started_at": "2026-11-21T14:59:31",
+        "seconds": 9.696,
         "tokens": null,
         "prompt_tokens": null,
         "events": [
@@ -226,8 +334,8 @@
             "tool": "nx_part",
             "ok": true,
             "error_code": null,
-            "duration_ms": 312.0,
-            "args_digest": "sha256:c033382c3800feac",
+            "duration_ms": 0.0,
+            "args_digest": "sha256:92ac97232162063d",
             "has_verify": false
           },
           {
@@ -235,48 +343,82 @@
             "tool": "nx_extrude",
             "ok": true,
             "error_code": null,
-            "duration_ms": 532.0,
-            "args_digest": "sha256:df42fb0c4908ff8a",
-            "has_verify": true
+            "duration_ms": 0.0,
+            "args_digest": "sha256:034aac4564a6c60c",
+            "has_verify": false
           },
           {
             "seq": 3,
             "tool": "nx_save",
-            "ok": false,
-            "error_code": "BRIDGE_EXCEPTION",
-            "duration_ms": 187.0,
-            "args_digest": "sha256:30fa9450edb82e0e",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:93631ac495552f40",
             "has_verify": false
           }
         ],
-        "outcome": "fail",
+        "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-extrude-a1.prt"
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T1-extrude-4d2074-a1.prt"
         }
       },
       "score": {
-        "run_id": "T1-extrude-20261119210403-c2c918",
+        "run_id": "T1-extrude-20261121145931-4d2074",
         "task_id": "T1-extrude",
-        "outcome": "error",
-        "asserts": [],
-        "measurement": {},
+        "outcome": "pass",
         "independent": true,
-        "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+        "measurement": {
+          "volume": 1000.0,
+          "area": null,
+          "faces": 6,
+          "edges": 12,
+          "bbox_dx": 20.0,
+          "bbox_dy": 10.0,
+          "bbox_dz": 5.0,
+          "bodies": 1
+        },
+        "asserts": [
+          {
+            "id": "volume",
+            "kind": "rel",
+            "measure": "volume",
+            "expect": 1000.0,
+            "got": 1000.0,
+            "rel_err": 0.0,
+            "pass": true
+          },
+          {
+            "id": "bbox_dz",
+            "kind": "rel",
+            "measure": "bbox_dz",
+            "expect": 5.0,
+            "got": 5.0,
+            "rel_err": 0.0,
+            "pass": true
+          }
+        ],
+        "budgets": {
+          "calls": 3,
+          "seconds": 9.696,
+          "tokens": null,
+          "ok": true
+        },
+        "error": null
       }
     },
     {
       "run": {
-        "run_id": "T1-fillet-all-20261119210412-ce28ff",
+        "run_id": "T1-fillet-all-20261121145951-cb151a",
         "task_id": "T1-fillet-all",
         "config": {
           "model": "oracle",
           "skill_version": "n/a",
           "library_state": "n/a",
           "nx_version": "nx10",
-          "tool_surface": "5a8812d"
+          "tool_surface": "9af2494"
         },
-        "started_at": "2026-11-19T21:04:12",
-        "seconds": 1.651,
+        "started_at": "2026-11-21T14:59:51",
+        "seconds": 11.044,
         "tokens": null,
         "prompt_tokens": null,
         "events": [
@@ -285,8 +427,8 @@
             "tool": "nx_part",
             "ok": true,
             "error_code": null,
-            "duration_ms": 469.0,
-            "args_digest": "sha256:e24927484049cb39",
+            "duration_ms": 0.0,
+            "args_digest": "sha256:28668271cfe7b80d",
             "has_verify": false
           },
           {
@@ -294,57 +436,97 @@
             "tool": "nx_block",
             "ok": true,
             "error_code": null,
-            "duration_ms": 437.0,
-            "args_digest": "sha256:7907c4229116ce13",
-            "has_verify": true
+            "duration_ms": 0.0,
+            "args_digest": "sha256:a6d6524fce7e6030",
+            "has_verify": false
           },
           {
             "seq": 3,
             "tool": "nx_fillet",
             "ok": true,
             "error_code": null,
-            "duration_ms": 360.0,
-            "args_digest": "sha256:06572f651d54445d",
-            "has_verify": true
+            "duration_ms": 0.0,
+            "args_digest": "sha256:594c7570dd16c431",
+            "has_verify": false
           },
           {
             "seq": 4,
             "tool": "nx_save",
-            "ok": false,
-            "error_code": "BRIDGE_EXCEPTION",
-            "duration_ms": 390.0,
-            "args_digest": "sha256:f62ca27386bce293",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:468f9d73eeffe028",
             "has_verify": false
           }
         ],
-        "outcome": "fail",
+        "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-fillet-all-a1.prt"
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T1-fillet-all-cb151a-a1.prt"
         }
       },
       "score": {
-        "run_id": "T1-fillet-all-20261119210412-ce28ff",
+        "run_id": "T1-fillet-all-20261121145951-cb151a",
         "task_id": "T1-fillet-all",
-        "outcome": "error",
-        "asserts": [],
-        "measurement": {},
+        "outcome": "pass",
         "independent": true,
-        "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+        "measurement": {
+          "volume": 59109.0794,
+          "area": null,
+          "faces": 26,
+          "edges": 48,
+          "bbox_dx": 50.0,
+          "bbox_dy": 40.0,
+          "bbox_dz": 30.0,
+          "bodies": 1
+        },
+        "asserts": [
+          {
+            "id": "volume",
+            "kind": "range",
+            "measure": "volume",
+            "expect": {
+              "min": 56000.0,
+              "max": 59999.0
+            },
+            "got": 59109.0794,
+            "rel_err": null,
+            "pass": true
+          },
+          {
+            "id": "faces",
+            "kind": "range",
+            "measure": "faces",
+            "expect": {
+              "min": 20.0,
+              "max": 70.0
+            },
+            "got": 26,
+            "rel_err": null,
+            "pass": true
+          }
+        ],
+        "budgets": {
+          "calls": 4,
+          "seconds": 11.044,
+          "tokens": null,
+          "ok": true
+        },
+        "error": null
       }
     },
     {
       "run": {
-        "run_id": "T1-hole-depth-20261119210421-3b5e16",
+        "run_id": "T1-hole-depth-20261121150012-3b715e",
         "task_id": "T1-hole-depth",
         "config": {
           "model": "oracle",
           "skill_version": "n/a",
           "library_state": "n/a",
           "nx_version": "nx10",
-          "tool_surface": "5a8812d"
+          "tool_surface": "9af2494"
         },
-        "started_at": "2026-11-19T21:04:21",
-        "seconds": 1.252,
+        "started_at": "2026-11-21T15:00:12",
+        "seconds": 11.202,
         "tokens": null,
         "prompt_tokens": null,
         "events": [
@@ -353,8 +535,8 @@
             "tool": "nx_part",
             "ok": true,
             "error_code": null,
-            "duration_ms": 218.0,
-            "args_digest": "sha256:831c84f1ab0528a8",
+            "duration_ms": 0.0,
+            "args_digest": "sha256:1e48a271a9965c4d",
             "has_verify": false
           },
           {
@@ -362,57 +544,82 @@
             "tool": "nx_block",
             "ok": true,
             "error_code": null,
-            "duration_ms": 516.0,
-            "args_digest": "sha256:7907c4229116ce13",
-            "has_verify": true
+            "duration_ms": 0.0,
+            "args_digest": "sha256:a6d6524fce7e6030",
+            "has_verify": false
           },
           {
             "seq": 3,
             "tool": "nx_hole",
             "ok": true,
             "error_code": null,
-            "duration_ms": 328.0,
-            "args_digest": "sha256:61cf3f4511b81573",
-            "has_verify": true
+            "duration_ms": 0.0,
+            "args_digest": "sha256:af4d35e632509551",
+            "has_verify": false
           },
           {
             "seq": 4,
             "tool": "nx_save",
-            "ok": false,
-            "error_code": "BRIDGE_EXCEPTION",
-            "duration_ms": 188.0,
-            "args_digest": "sha256:48d24173e7d4e0d1",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:23372870fb9f23d5",
             "has_verify": false
           }
         ],
-        "outcome": "fail",
+        "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-hole-depth-a1.prt"
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T1-hole-depth-3b715e-a1.prt"
         }
       },
       "score": {
-        "run_id": "T1-hole-depth-20261119210421-3b5e16",
+        "run_id": "T1-hole-depth-20261121150012-3b715e",
         "task_id": "T1-hole-depth",
-        "outcome": "error",
-        "asserts": [],
-        "measurement": {},
+        "outcome": "pass",
         "independent": true,
-        "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+        "measurement": {
+          "volume": 58821.9028,
+          "area": null,
+          "faces": 8,
+          "edges": 14,
+          "bbox_dx": 50.0,
+          "bbox_dy": 40.0,
+          "bbox_dz": 30.0,
+          "bodies": 1
+        },
+        "asserts": [
+          {
+            "id": "volume",
+            "kind": "rel",
+            "measure": "volume",
+            "expect": 58821.9028,
+            "got": 58821.9028,
+            "rel_err": 0.0,
+            "pass": true
+          }
+        ],
+        "budgets": {
+          "calls": 4,
+          "seconds": 11.202,
+          "tokens": null,
+          "ok": true
+        },
+        "error": null
       }
     },
     {
       "run": {
-        "run_id": "T1-hole-through-20261119210431-050403",
+        "run_id": "T1-hole-through-20261121150033-c0fc0f",
         "task_id": "T1-hole-through",
         "config": {
           "model": "oracle",
           "skill_version": "n/a",
           "library_state": "n/a",
           "nx_version": "nx10",
-          "tool_surface": "5a8812d"
+          "tool_surface": "9af2494"
         },
-        "started_at": "2026-11-19T21:04:31",
-        "seconds": 1.401,
+        "started_at": "2026-11-21T15:00:33",
+        "seconds": 10.153,
         "tokens": null,
         "prompt_tokens": null,
         "events": [
@@ -421,8 +628,8 @@
             "tool": "nx_part",
             "ok": true,
             "error_code": null,
-            "duration_ms": 266.0,
-            "args_digest": "sha256:956131fde486d5e5",
+            "duration_ms": 0.0,
+            "args_digest": "sha256:42574d04ee2a375d",
             "has_verify": false
           },
           {
@@ -430,57 +637,91 @@
             "tool": "nx_block",
             "ok": true,
             "error_code": null,
-            "duration_ms": 453.0,
-            "args_digest": "sha256:7907c4229116ce13",
-            "has_verify": true
+            "duration_ms": 0.0,
+            "args_digest": "sha256:a6d6524fce7e6030",
+            "has_verify": false
           },
           {
             "seq": 3,
             "tool": "nx_hole",
             "ok": true,
             "error_code": null,
-            "duration_ms": 359.0,
-            "args_digest": "sha256:04b757cb8001338e",
-            "has_verify": true
+            "duration_ms": 0.0,
+            "args_digest": "sha256:c8917c5c9359ef3c",
+            "has_verify": false
           },
           {
             "seq": 4,
             "tool": "nx_save",
-            "ok": false,
-            "error_code": "BRIDGE_EXCEPTION",
-            "duration_ms": 313.0,
-            "args_digest": "sha256:e34e6faceb172106",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:174e35cc340b06d6",
             "has_verify": false
           }
         ],
-        "outcome": "fail",
+        "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-hole-through-a1.prt"
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T1-hole-through-c0fc0f-a1.prt"
         }
       },
       "score": {
-        "run_id": "T1-hole-through-20261119210431-050403",
+        "run_id": "T1-hole-through-20261121150033-c0fc0f",
         "task_id": "T1-hole-through",
-        "outcome": "error",
-        "asserts": [],
-        "measurement": {},
+        "outcome": "pass",
         "independent": true,
-        "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+        "measurement": {
+          "volume": 58492.0355,
+          "area": null,
+          "faces": 7,
+          "edges": 14,
+          "bbox_dx": 50.0,
+          "bbox_dy": 40.0,
+          "bbox_dz": 30.0,
+          "bodies": 1
+        },
+        "asserts": [
+          {
+            "id": "volume",
+            "kind": "rel",
+            "measure": "volume",
+            "expect": 58492.0355,
+            "got": 58492.0355,
+            "rel_err": 0.0,
+            "pass": true
+          },
+          {
+            "id": "faces",
+            "kind": "abs",
+            "measure": "faces",
+            "expect": 7,
+            "got": 7,
+            "rel_err": 0.0,
+            "pass": true
+          }
+        ],
+        "budgets": {
+          "calls": 4,
+          "seconds": 10.153,
+          "tokens": null,
+          "ok": true
+        },
+        "error": null
       }
     },
     {
       "run": {
-        "run_id": "T1-shell-20261119210440-fbfa4d",
+        "run_id": "T1-shell-20261121150052-989294",
         "task_id": "T1-shell",
         "config": {
           "model": "oracle",
           "skill_version": "n/a",
           "library_state": "n/a",
           "nx_version": "nx10",
-          "tool_surface": "5a8812d"
+          "tool_surface": "9af2494"
         },
-        "started_at": "2026-11-19T21:04:40",
-        "seconds": 1.199,
+        "started_at": "2026-11-21T15:00:52",
+        "seconds": 9.192,
         "tokens": null,
         "prompt_tokens": null,
         "events": [
@@ -489,8 +730,8 @@
             "tool": "nx_part",
             "ok": true,
             "error_code": null,
-            "duration_ms": 187.0,
-            "args_digest": "sha256:fe61c18dd13f9bb3",
+            "duration_ms": 0.0,
+            "args_digest": "sha256:7844e86c5c428d96",
             "has_verify": false
           },
           {
@@ -498,95 +739,978 @@
             "tool": "nx_block",
             "ok": true,
             "error_code": null,
-            "duration_ms": 438.0,
-            "args_digest": "sha256:7907c4229116ce13",
-            "has_verify": true
+            "duration_ms": 0.0,
+            "args_digest": "sha256:a6d6524fce7e6030",
+            "has_verify": false
           },
           {
             "seq": 3,
             "tool": "nx_shell",
             "ok": true,
             "error_code": null,
-            "duration_ms": 312.0,
-            "args_digest": "sha256:e25ba249bc66ca1a",
-            "has_verify": true
+            "duration_ms": 0.0,
+            "args_digest": "sha256:f960a5c36ab733a3",
+            "has_verify": false
           },
           {
             "seq": 4,
             "tool": "nx_save",
-            "ok": false,
-            "error_code": "BRIDGE_EXCEPTION",
-            "duration_ms": 266.0,
-            "args_digest": "sha256:afd7b5b199648c68",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:dbb80723e8bf7a0c",
             "has_verify": false
           }
         ],
-        "outcome": "fail",
+        "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts\\T1-shell-a1.prt"
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T1-shell-989294-a1.prt"
         }
       },
       "score": {
-        "run_id": "T1-shell-20261119210440-fbfa4d",
+        "run_id": "T1-shell-20261121150052-989294",
         "task_id": "T1-shell",
-        "outcome": "error",
-        "asserts": [],
-        "measurement": {},
+        "outcome": "pass",
         "independent": true,
-        "error": "RuntimeError(\"independent measure failed: ['NXKIT_BEGIN', 'NXKIT_FAIL:BRIDGE_EXCEPTION']\")"
+        "measurement": {
+          "volume": 13632.0,
+          "area": null,
+          "faces": 11,
+          "edges": 24,
+          "bbox_dx": 50.0,
+          "bbox_dy": 40.0,
+          "bbox_dz": 30.0,
+          "bodies": 1
+        },
+        "asserts": [
+          {
+            "id": "volume",
+            "kind": "rel",
+            "measure": "volume",
+            "expect": 13632.0,
+            "got": 13632.0,
+            "rel_err": 0.0,
+            "pass": true
+          },
+          {
+            "id": "faces",
+            "kind": "abs",
+            "measure": "faces",
+            "expect": 11,
+            "got": 11,
+            "rel_err": 0.0,
+            "pass": true
+          }
+        ],
+        "budgets": {
+          "calls": 4,
+          "seconds": 9.192,
+          "tokens": null,
+          "ok": true
+        },
+        "error": null
+      }
+    },
+    {
+      "run": {
+        "run_id": "T2-bracket-20261121150111-a184d8",
+        "task_id": "T2-bracket",
+        "config": {
+          "model": "oracle",
+          "skill_version": "n/a",
+          "library_state": "n/a",
+          "nx_version": "nx10",
+          "tool_surface": "9af2494"
+        },
+        "started_at": "2026-11-21T15:01:11",
+        "seconds": 10.896,
+        "tokens": null,
+        "prompt_tokens": null,
+        "events": [
+          {
+            "seq": 1,
+            "tool": "nx_part",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:1715b8280625e942",
+            "has_verify": false
+          },
+          {
+            "seq": 2,
+            "tool": "nx_block",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:468dff0540725891",
+            "has_verify": false
+          },
+          {
+            "seq": 3,
+            "tool": "nx_hole",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:7ffb7d912f999017",
+            "has_verify": false
+          },
+          {
+            "seq": 4,
+            "tool": "nx_hole",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:8c02ee087b2f8411",
+            "has_verify": false
+          },
+          {
+            "seq": 5,
+            "tool": "nx_save",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:2259fd4da79fe408",
+            "has_verify": false
+          }
+        ],
+        "outcome": "pass",
+        "artifacts": {
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T2-bracket-a184d8-a1.prt"
+        }
+      },
+      "score": {
+        "run_id": "T2-bracket-20261121150111-a184d8",
+        "task_id": "T2-bracket",
+        "outcome": "pass",
+        "independent": true,
+        "measurement": {
+          "volume": 57643.8055,
+          "area": null,
+          "faces": 8,
+          "edges": 16,
+          "bbox_dx": 80.0,
+          "bbox_dy": 50.0,
+          "bbox_dz": 15.0,
+          "bodies": 1
+        },
+        "asserts": [
+          {
+            "id": "volume",
+            "kind": "rel",
+            "measure": "volume",
+            "expect": 57642.8,
+            "got": 57643.8055,
+            "rel_err": 1.7443635631844765e-05,
+            "pass": true
+          }
+        ],
+        "budgets": {
+          "calls": 5,
+          "seconds": 10.896,
+          "tokens": null,
+          "ok": true
+        },
+        "error": null
+      }
+    },
+    {
+      "run": {
+        "run_id": "T2-bushing-20261121150132-b1a6ce",
+        "task_id": "T2-bushing",
+        "config": {
+          "model": "oracle",
+          "skill_version": "n/a",
+          "library_state": "n/a",
+          "nx_version": "nx10",
+          "tool_surface": "9af2494"
+        },
+        "started_at": "2026-11-21T15:01:32",
+        "seconds": 10.422,
+        "tokens": null,
+        "prompt_tokens": null,
+        "events": [
+          {
+            "seq": 1,
+            "tool": "nx_part",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:fa81fa3a740a02da",
+            "has_verify": false
+          },
+          {
+            "seq": 2,
+            "tool": "nx_revolve",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:dcdd7ffeb7b3dea5",
+            "has_verify": false
+          },
+          {
+            "seq": 3,
+            "tool": "nx_save",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:e9b204bf99ef988a",
+            "has_verify": false
+          }
+        ],
+        "outcome": "pass",
+        "artifacts": {
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T2-bushing-b1a6ce-a1.prt"
+        }
+      },
+      "score": {
+        "run_id": "T2-bushing-20261121150132-b1a6ce",
+        "task_id": "T2-bushing",
+        "outcome": "pass",
+        "independent": true,
+        "measurement": {
+          "volume": 28274.3339,
+          "area": null,
+          "faces": 4,
+          "edges": 4,
+          "bbox_dx": 40.0,
+          "bbox_dy": 30.0,
+          "bbox_dz": 40.0,
+          "bodies": 1
+        },
+        "asserts": [
+          {
+            "id": "volume",
+            "kind": "rel",
+            "measure": "volume",
+            "expect": 28274.3339,
+            "got": 28274.3339,
+            "rel_err": 0.0,
+            "pass": true
+          },
+          {
+            "id": "bbox_dy",
+            "kind": "rel",
+            "measure": "bbox_dy",
+            "expect": 30.0,
+            "got": 30.0,
+            "rel_err": 0.0,
+            "pass": true
+          }
+        ],
+        "budgets": {
+          "calls": 3,
+          "seconds": 10.422,
+          "tokens": null,
+          "ok": true
+        },
+        "error": null
+      }
+    },
+    {
+      "run": {
+        "run_id": "T2-cylinder-20261121150153-8f0c28",
+        "task_id": "T2-cylinder",
+        "config": {
+          "model": "oracle",
+          "skill_version": "n/a",
+          "library_state": "n/a",
+          "nx_version": "nx10",
+          "tool_surface": "9af2494"
+        },
+        "started_at": "2026-11-21T15:01:53",
+        "seconds": 10.832,
+        "tokens": null,
+        "prompt_tokens": null,
+        "events": [
+          {
+            "seq": 1,
+            "tool": "nx_part",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:12bb67ce2200cd28",
+            "has_verify": false
+          },
+          {
+            "seq": 2,
+            "tool": "nx_revolve",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:e6d76dd9ca7726e0",
+            "has_verify": false
+          },
+          {
+            "seq": 3,
+            "tool": "nx_save",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:81d22aaffcc8e2c3",
+            "has_verify": false
+          }
+        ],
+        "outcome": "pass",
+        "artifacts": {
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T2-cylinder-8f0c28-a1.prt"
+        }
+      },
+      "score": {
+        "run_id": "T2-cylinder-20261121150153-8f0c28",
+        "task_id": "T2-cylinder",
+        "outcome": "pass",
+        "independent": true,
+        "measurement": {
+          "volume": 3141.5927,
+          "area": null,
+          "faces": 3,
+          "edges": 2,
+          "bbox_dx": 20.0,
+          "bbox_dy": 10.0,
+          "bbox_dz": 20.0,
+          "bodies": 1
+        },
+        "asserts": [
+          {
+            "id": "volume",
+            "kind": "rel",
+            "measure": "volume",
+            "expect": 3141.5927,
+            "got": 3141.5927,
+            "rel_err": 0.0,
+            "pass": true
+          }
+        ],
+        "budgets": {
+          "calls": 3,
+          "seconds": 10.832,
+          "tokens": null,
+          "ok": true
+        },
+        "error": null
+      }
+    },
+    {
+      "run": {
+        "run_id": "T2-delete-body-20261121150214-180d58",
+        "task_id": "T2-delete-body",
+        "config": {
+          "model": "oracle",
+          "skill_version": "n/a",
+          "library_state": "n/a",
+          "nx_version": "nx10",
+          "tool_surface": "9af2494"
+        },
+        "started_at": "2026-11-21T15:02:14",
+        "seconds": 9.606,
+        "tokens": null,
+        "prompt_tokens": null,
+        "events": [
+          {
+            "seq": 1,
+            "tool": "nx_part",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:329aa0d14edb72b4",
+            "has_verify": false
+          },
+          {
+            "seq": 2,
+            "tool": "nx_block",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:e843a9e5bf69cc7f",
+            "has_verify": false
+          },
+          {
+            "seq": 3,
+            "tool": "nx_block",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:4ced59c0590068b3",
+            "has_verify": false
+          },
+          {
+            "seq": 4,
+            "tool": "nx_delete_body",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:0f48a36611c99370",
+            "has_verify": false
+          },
+          {
+            "seq": 5,
+            "tool": "nx_save",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:fc6fb1a292bebbe9",
+            "has_verify": false
+          }
+        ],
+        "outcome": "pass",
+        "artifacts": {
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T2-delete-body-180d58-a1.prt"
+        }
+      },
+      "score": {
+        "run_id": "T2-delete-body-20261121150214-180d58",
+        "task_id": "T2-delete-body",
+        "outcome": "pass",
+        "independent": true,
+        "measurement": {
+          "volume": 1000.0,
+          "area": null,
+          "faces": 6,
+          "edges": 12,
+          "bbox_dx": 10.0,
+          "bbox_dy": 10.0,
+          "bbox_dz": 10.0,
+          "bodies": 1
+        },
+        "asserts": [
+          {
+            "id": "bodies",
+            "kind": "abs",
+            "measure": "bodies",
+            "expect": 1,
+            "got": 1,
+            "rel_err": 0.0,
+            "pass": true
+          },
+          {
+            "id": "volume",
+            "kind": "rel",
+            "measure": "volume",
+            "expect": 1000.0,
+            "got": 1000.0,
+            "rel_err": 0.0,
+            "pass": true
+          }
+        ],
+        "budgets": {
+          "calls": 5,
+          "seconds": 9.606,
+          "tokens": null,
+          "ok": true
+        },
+        "error": null
+      }
+    },
+    {
+      "run": {
+        "run_id": "T2-extrude-triangle-20261121150233-2c3c61",
+        "task_id": "T2-extrude-triangle",
+        "config": {
+          "model": "oracle",
+          "skill_version": "n/a",
+          "library_state": "n/a",
+          "nx_version": "nx10",
+          "tool_surface": "9af2494"
+        },
+        "started_at": "2026-11-21T15:02:33",
+        "seconds": 8.959,
+        "tokens": null,
+        "prompt_tokens": null,
+        "events": [
+          {
+            "seq": 1,
+            "tool": "nx_part",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:67b695f1e92cedff",
+            "has_verify": false
+          },
+          {
+            "seq": 2,
+            "tool": "nx_extrude",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:0393be8320bc1116",
+            "has_verify": false
+          },
+          {
+            "seq": 3,
+            "tool": "nx_save",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:e85e22d1e9e7a086",
+            "has_verify": false
+          }
+        ],
+        "outcome": "pass",
+        "artifacts": {
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T2-extrude-triangle-2c3c61-a1.prt"
+        }
+      },
+      "score": {
+        "run_id": "T2-extrude-triangle-20261121150233-2c3c61",
+        "task_id": "T2-extrude-triangle",
+        "outcome": "pass",
+        "independent": true,
+        "measurement": {
+          "volume": 6000.0,
+          "area": null,
+          "faces": 5,
+          "edges": 9,
+          "bbox_dx": 40.0,
+          "bbox_dy": 30.0,
+          "bbox_dz": 10.0,
+          "bodies": 1
+        },
+        "asserts": [
+          {
+            "id": "volume",
+            "kind": "rel",
+            "measure": "volume",
+            "expect": 6000.0,
+            "got": 6000.0,
+            "rel_err": 0.0,
+            "pass": true
+          }
+        ],
+        "budgets": {
+          "calls": 3,
+          "seconds": 8.959,
+          "tokens": null,
+          "ok": true
+        },
+        "error": null
+      }
+    },
+    {
+      "run": {
+        "run_id": "T2-plate-4holes-20261121150250-e869c7",
+        "task_id": "T2-plate-4holes",
+        "config": {
+          "model": "oracle",
+          "skill_version": "n/a",
+          "library_state": "n/a",
+          "nx_version": "nx10",
+          "tool_surface": "9af2494"
+        },
+        "started_at": "2026-11-21T15:02:50",
+        "seconds": 9.246,
+        "tokens": null,
+        "prompt_tokens": null,
+        "events": [
+          {
+            "seq": 1,
+            "tool": "nx_part",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:a4b95f84e3eb8ae7",
+            "has_verify": false
+          },
+          {
+            "seq": 2,
+            "tool": "nx_block",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:03f58b0d5ce49eaa",
+            "has_verify": false
+          },
+          {
+            "seq": 3,
+            "tool": "nx_hole",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:7540006bcec2487c",
+            "has_verify": false
+          },
+          {
+            "seq": 4,
+            "tool": "nx_hole",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:83e65928755512d4",
+            "has_verify": false
+          },
+          {
+            "seq": 5,
+            "tool": "nx_hole",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:07261558de910eab",
+            "has_verify": false
+          },
+          {
+            "seq": 6,
+            "tool": "nx_hole",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:acd20280f67d0f7a",
+            "has_verify": false
+          },
+          {
+            "seq": 7,
+            "tool": "nx_save",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:1b51ed7f2c28153e",
+            "has_verify": false
+          }
+        ],
+        "outcome": "pass",
+        "artifacts": {
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T2-plate-4holes-e869c7-a1.prt"
+        }
+      },
+      "score": {
+        "run_id": "T2-plate-4holes-20261121150250-e869c7",
+        "task_id": "T2-plate-4holes",
+        "outcome": "pass",
+        "independent": true,
+        "measurement": {
+          "volume": 57989.3807,
+          "area": null,
+          "faces": 10,
+          "edges": 20,
+          "bbox_dx": 100.0,
+          "bbox_dy": 60.0,
+          "bbox_dz": 10.0,
+          "bodies": 1
+        },
+        "asserts": [
+          {
+            "id": "volume",
+            "kind": "rel",
+            "measure": "volume",
+            "expect": 57989.3805,
+            "got": 57989.3807,
+            "rel_err": 3.4489073775073807e-09,
+            "pass": true
+          },
+          {
+            "id": "faces",
+            "kind": "abs",
+            "measure": "faces",
+            "expect": 10,
+            "got": 10,
+            "rel_err": 0.0,
+            "pass": true
+          }
+        ],
+        "budgets": {
+          "calls": 7,
+          "seconds": 9.246,
+          "tokens": null,
+          "ok": true
+        },
+        "error": null
+      }
+    },
+    {
+      "run": {
+        "run_id": "T2-shell-box-20261121150308-9c148c",
+        "task_id": "T2-shell-box",
+        "config": {
+          "model": "oracle",
+          "skill_version": "n/a",
+          "library_state": "n/a",
+          "nx_version": "nx10",
+          "tool_surface": "9af2494"
+        },
+        "started_at": "2026-11-21T15:03:08",
+        "seconds": 8.587,
+        "tokens": null,
+        "prompt_tokens": null,
+        "events": [
+          {
+            "seq": 1,
+            "tool": "nx_part",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:295c0be4188e96f6",
+            "has_verify": false
+          },
+          {
+            "seq": 2,
+            "tool": "nx_block",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:edd201db39d1b116",
+            "has_verify": false
+          },
+          {
+            "seq": 3,
+            "tool": "nx_shell",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:ebb0221778f427c3",
+            "has_verify": false
+          },
+          {
+            "seq": 4,
+            "tool": "nx_save",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:12466211d9c5e8df",
+            "has_verify": false
+          }
+        ],
+        "outcome": "pass",
+        "artifacts": {
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T2-shell-box-9c148c-a1.prt"
+        }
+      },
+      "score": {
+        "run_id": "T2-shell-box-20261121150308-9c148c",
+        "task_id": "T2-shell-box",
+        "outcome": "pass",
+        "independent": true,
+        "measurement": {
+          "volume": 62628.0,
+          "area": null,
+          "faces": 11,
+          "edges": 24,
+          "bbox_dx": 100.0,
+          "bbox_dy": 80.0,
+          "bbox_dz": 40.0,
+          "bodies": 1
+        },
+        "asserts": [
+          {
+            "id": "volume",
+            "kind": "rel",
+            "measure": "volume",
+            "expect": 62628.0,
+            "got": 62628.0,
+            "rel_err": 0.0,
+            "pass": true
+          }
+        ],
+        "budgets": {
+          "calls": 4,
+          "seconds": 8.587,
+          "tokens": null,
+          "ok": true
+        },
+        "error": null
+      }
+    },
+    {
+      "run": {
+        "run_id": "T2-three-blocks-20261121150325-1952bf",
+        "task_id": "T2-three-blocks",
+        "config": {
+          "model": "oracle",
+          "skill_version": "n/a",
+          "library_state": "n/a",
+          "nx_version": "nx10",
+          "tool_surface": "9af2494"
+        },
+        "started_at": "2026-11-21T15:03:25",
+        "seconds": 8.738,
+        "tokens": null,
+        "prompt_tokens": null,
+        "events": [
+          {
+            "seq": 1,
+            "tool": "nx_part",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:823e96e5ca4acaaa",
+            "has_verify": false
+          },
+          {
+            "seq": 2,
+            "tool": "nx_block",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:3c159afdb60c4c6d",
+            "has_verify": false
+          },
+          {
+            "seq": 3,
+            "tool": "nx_block",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:d598ce27e6a57dc0",
+            "has_verify": false
+          },
+          {
+            "seq": 4,
+            "tool": "nx_boolean",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:7d3f086d863a3546",
+            "has_verify": false
+          },
+          {
+            "seq": 5,
+            "tool": "nx_block",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:ea748db8e1618196",
+            "has_verify": false
+          },
+          {
+            "seq": 6,
+            "tool": "nx_boolean",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:0af6d864262763ed",
+            "has_verify": false
+          },
+          {
+            "seq": 7,
+            "tool": "nx_save",
+            "ok": true,
+            "error_code": null,
+            "duration_ms": 0.0,
+            "args_digest": "sha256:da93c01036de9bb9",
+            "has_verify": false
+          }
+        ],
+        "outcome": "pass",
+        "artifacts": {
+          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T2-three-blocks-1952bf-a1.prt"
+        }
+      },
+      "score": {
+        "run_id": "T2-three-blocks-20261121150325-1952bf",
+        "task_id": "T2-three-blocks",
+        "outcome": "pass",
+        "independent": true,
+        "measurement": {
+          "volume": 24000.0,
+          "area": null,
+          "faces": 6,
+          "edges": 12,
+          "bbox_dx": 60.0,
+          "bbox_dy": 20.0,
+          "bbox_dz": 20.0,
+          "bodies": 1
+        },
+        "asserts": [
+          {
+            "id": "volume",
+            "kind": "rel",
+            "measure": "volume",
+            "expect": 24000.0,
+            "got": 24000.0,
+            "rel_err": 0.0,
+            "pass": true
+          },
+          {
+            "id": "bodies",
+            "kind": "abs",
+            "measure": "bodies",
+            "expect": 1,
+            "got": 1,
+            "rel_err": 0.0,
+            "pass": true
+          }
+        ],
+        "budgets": {
+          "calls": 7,
+          "seconds": 8.738,
+          "tokens": null,
+          "ok": true
+        },
+        "error": null
       }
     }
   ],
   "tasks": {
     "T1-block-40x30x20": [
-      "error"
+      "pass"
     ],
     "T1-boolean-unite": [
-      "error"
+      "pass"
     ],
     "T1-chamfer-all": [
-      "error"
+      "pass"
     ],
     "T1-extrude": [
-      "error"
+      "pass"
     ],
     "T1-fillet-all": [
-      "error"
+      "pass"
     ],
     "T1-hole-depth": [
-      "error"
+      "pass"
     ],
     "T1-hole-through": [
-      "error"
+      "pass"
     ],
     "T1-shell": [
-      "error"
+      "pass"
+    ],
+    "T2-bracket": [
+      "pass"
+    ],
+    "T2-bushing": [
+      "pass"
+    ],
+    "T2-cylinder": [
+      "pass"
+    ],
+    "T2-delete-body": [
+      "pass"
+    ],
+    "T2-extrude-triangle": [
+      "pass"
+    ],
+    "T2-plate-4holes": [
+      "pass"
+    ],
+    "T2-shell-box": [
+      "pass"
+    ],
+    "T2-three-blocks": [
+      "pass"
     ]
   },
   "metrics": [
     {
       "id": "M-TASK-01",
-      "value": 0.0,
+      "value": 1.0,
       "name": "任务成功率 TSR"
     },
     {
       "id": "M-TASK-02",
-      "value": 0.0,
+      "value": 1.0,
       "name": "pass@k"
     },
     {
       "id": "M-GEO-01",
-      "value": null,
+      "value": 1.7e-05,
       "name": "最大相对几何误差"
     },
     {
       "id": "M-EFF-01",
-      "value": null,
+      "value": 4.25,
       "name": "成功任务平均工具调用数"
     },
     {
       "id": "M-EFF-02",
-      "value": null,
+      "value": 9.989,
       "name": "成功任务平均耗时"
     },
     {
@@ -606,7 +1730,7 @@
     },
     {
       "id": "M-VER-01",
-      "value": null,
+      "value": 1.0,
       "name": "判据覆盖率"
     },
     {
@@ -640,6 +1764,6 @@
     "skill_version": "n/a",
     "library_state": "n/a",
     "nx_version": "nx10",
-    "tool_surface": "5a8812d"
+    "tool_surface": "9af2494"
   }
 }

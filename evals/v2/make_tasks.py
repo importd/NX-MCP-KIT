@@ -164,10 +164,10 @@ TASKS_DEF = [
         "goal": "三个 20 立方体串成一排并求和",
         "solution_steps": [
             {"tool": "nx_block", "args": {"length": 20, "width": 20, "height": 20}},
-            {"tool": "nx_block", "args": {"x": 25, "length": 20, "width": 20, "height": 20}},
+            {"tool": "nx_block", "args": {"x": 20, "length": 20, "width": 20, "height": 20}},
             {"tool": "nx_boolean", "args": {"target": "BLOCK(0)", "tool": "BLOCK(1)", "operation": "unite"}},
-            {"tool": "nx_block", "args": {"x": 50, "length": 20, "width": 20, "height": 20}},
-            {"tool": "nx_boolean", "args": {"target": "BLOCK(0)", "tool": "BLOCK(2)", "operation": "unite"}},
+            {"tool": "nx_block", "args": {"x": 40, "length": 20, "width": 20, "height": 20}},
+            {"tool": "nx_boolean", "args": {"target": "BLOCK(0)", "tool": "last", "operation": "unite"}},
         ],
         "budget": DEFAULT_BUDGET_T2,
         "tags": ["boolean"],

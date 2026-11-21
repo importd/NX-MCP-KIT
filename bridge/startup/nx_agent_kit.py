@@ -1,9 +1,16 @@
+# nx: threaded
+# -*- coding: utf-8 -*-
 """In-NX bridge entry point, loaded from a startup directory.
 
 Runs a 250 ms timer on the NX UI thread: drain io/<pid>/inbox, execute one
 command under the UG access lock, write io/<pid>/outbox/<request_id>.json.
 
 Python 3.3 syntax only: NX10 embeds CPython 3.3.2.
+
+NX loads this file from a startup folder and calls startup(*args) (and/or
+imports the module). The `# nx: threaded` header makes NX load it on its
+startup thread; every entry point catches BaseException and only writes a log
+so a failure here can never leave an error dialog in front of the user.
 """
 
 import json
@@ -15,14 +22,68 @@ import traceback
 import NXOpen
 import NXOpen.UF
 
-_HOME = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# NX imports startup modules with a CWD-relative __file__, so deriving the
+# bridge home from __file__ alone is unreliable. Order: env NXKIT_HOME ->
+# nxkit_home.txt next to this file -> parent of the startup folder.
+def _resolve_home():
+    home = os.environ.get("NXKIT_HOME")
+    if home:
+        return home
+    try:
+        folder = os.path.dirname(os.path.abspath(__file__))
+        pointer = os.path.join(folder, "nxkit_home.txt")
+        if os.path.isfile(pointer):
+            handle = open(pointer, "r")
+            try:
+                text = handle.read().strip()
+            finally:
+                handle.close()
+            if text:
+                return text
+        return os.path.dirname(folder)
+    except Exception:
+        return os.path.dirname(os.environ.get("LOCALAPPDATA") or os.path.expanduser("~"))
+
+
+_HOME = _resolve_home()
 if _HOME not in sys.path:
     sys.path.append(_HOME)
 
-from commands import handle  # noqa: E402
-from commands.paths import default_io  # noqa: E402
+try:
+    from commands import handle  # noqa: E402
+    from commands.paths import default_io  # noqa: E402
+except Exception:
+    _BASE = os.environ.get("NXKIT_IO_BASE") or os.path.dirname(_HOME)
+    try:
+        if not os.path.isdir(_BASE):
+            os.makedirs(_BASE)
+        _ERR = open(os.path.join(_BASE, "bootstrap_error.log"), "a")
+        try:
+            _ERR.write(traceback.format_exc() + "\n")
+        finally:
+            _ERR.close()
+    except Exception:
+        pass
+    raise
 
 _LOG_NAME = "nxkit_bridge.log"
+_ERROR_LOG = os.path.join(
+    os.environ.get("NXKIT_IO_BASE") or os.path.dirname(_HOME), "nx_startup_error.log"
+)
+
+
+def _boot_error(text):
+    try:
+        folder = os.path.dirname(_ERROR_LOG)
+        if folder and not os.path.isdir(folder):
+            os.makedirs(folder)
+        handle = open(_ERROR_LOG, "a")
+        try:
+            handle.write(text + "\n")
+        finally:
+            handle.close()
+    except Exception:
+        pass
 
 
 def _now():
@@ -33,7 +94,13 @@ class Bridge(object):
     def __init__(self, session):
         self.session = session
         self.uf = NXOpen.UF.UFSession.GetUFSession()
-        self.io = os.environ.get("NXKIT_IO") or default_io(_HOME, os.getpid())
+        self.io = os.environ.get("NXKIT_IO")
+        if not self.io:
+            io_base = os.environ.get("NXKIT_IO_BASE")
+            if io_base:
+                self.io = os.path.join(io_base, str(os.getpid()))
+            else:
+                self.io = default_io(_HOME, os.getpid())
         self.inbox = os.path.join(self.io, "inbox")
         self.outbox = os.path.join(self.io, "outbox")
         self.stop_file = os.path.join(os.path.dirname(self.io), "STOP")
@@ -201,7 +268,7 @@ def _start_timer(bridge):
     return timer_id
 
 
-def main():
+def _run_bridge():
     if not _claim_process():
         return
     session = NXOpen.Session.GetSession()
@@ -210,4 +277,21 @@ def main():
     _start_timer(bridge)
 
 
-main()
+def _boot(source):
+    try:
+        _run_bridge()
+    except BaseException:
+        _boot_error(source + "\n" + traceback.format_exc())
+
+
+def startup(*args):
+    """NX startup loader entry point (it passes two positional arguments)."""
+    _boot("startup()")
+    return 0
+
+
+def main(*args):
+    _boot("main()")
+
+
+_boot("module")

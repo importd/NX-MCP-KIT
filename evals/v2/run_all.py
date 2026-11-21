@@ -86,20 +86,29 @@ def main(argv=None):
     parser.add_argument("--io-dir", default=r"E:\Code\CAD-Agent-Hub\MCP\UG\io")
     parser.add_argument("--nx-root", default=os.environ.get("NXKIT_NX_ROOT", ""))
     parser.add_argument("--baseline", default="")
+    parser.add_argument("--mode", default="auto", choices=["auto", "headless", "bridge"])
     parser.add_argument("--skip-score", action="store_true")
     args = parser.parse_args(argv)
 
     from evals.v2 import aggregate, report, scorer
-    from evals.v2.driver import OracleDriver
+    from evals.v2.driver import HeadlessDriver, OracleDriver
     from evals.v2.paths import paths
     from evals.v2.recorder import RunRecorder
 
     p = paths(REPO)
-    router = build_router(args.io_dir)
-    version = nx_version_of(args.io_dir)
-    if version == "none":
-        print("no live NX session in %s" % args.io_dir, file=sys.stderr)
+    live_version = nx_version_of(args.io_dir) if Path(args.io_dir).is_dir() else "none"
+    headless = args.mode == "headless" or (
+        args.mode == "auto" and live_version == "none"
+    )
+    if headless and not args.nx_root:
+        print("headless mode needs --nx-root", file=sys.stderr)
         return 2
+    if not headless and live_version == "none":
+        print("bridge mode needs a live NX session in %s" % args.io_dir, file=sys.stderr)
+        return 2
+    version = live_version if not headless else (
+        "nx10" if "NX 10" in args.nx_root else "nx2512"
+    )
     config = {
         "model": "oracle",
         "skill_version": "n/a",
@@ -110,13 +119,20 @@ def main(argv=None):
     measurer = None
     if not args.skip_score and args.nx_root:
         measurer = scorer.HeadlessMeasurer(args.nx_root, REPO / "io" / "headless")
+    router = None if headless else build_router(args.io_dir)
 
     runs, scores = [], []
     for task in load_tasks_v2(args.tier):
         hidden = load_hidden(task["id"])
         for attempt in range(1, args.attempts + 1):
             recorder = RunRecorder(task["id"], config, p["runs"])
-            driver = OracleDriver(router, recorder, REPO / "io" / "eval_parts")
+            if headless:
+                from nxkit.headless import HeadlessRunner
+
+                runner = HeadlessRunner(Path(args.nx_root), plan_dir=REPO / "io" / "headless")
+                driver = HeadlessDriver(runner, recorder, REPO / "io" / "eval_parts_headless")
+            else:
+                driver = OracleDriver(router, recorder, REPO / "io" / "eval_parts")
             run = driver.run_task(task, attempt)
             path, run = recorder.write()
             runs.append(run)
