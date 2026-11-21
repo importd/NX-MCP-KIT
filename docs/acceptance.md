@@ -54,8 +54,9 @@ pytest tests\headless.py -v
 ```
 
 成功最后一行 `RESULT: OK`；失败看 `RESULT: FAIL:<code>`、`MSG:` 与 `NEXT:`。退出码 0/1/2
-（2 = 契约/io/会话预检失败；启动器找不到 Python 时为 `RESULT: FAIL:PYTHON` + 2）。
-加 `-Clean` 先删旧的 `io\smoke\smoke-*.prt`。
+（2 = 契约/io/会话预检失败）。启动器默认优先用 `<RuntimeHome>\.venv\Scripts\python.exe`，
+找不到再退回 PATH 的 `python.exe`；找不到为 `RESULT: FAIL:PYTHON`，版本 < 3.12 为
+`RESULT: FAIL:PYTHON_VERSION`，都是退出码 2。加 `-Clean` 先删旧的 `io\smoke\smoke-*.prt`。
 
 ## 待验证（需要桥加载到 NX 会话）
 

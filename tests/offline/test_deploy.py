@@ -1,4 +1,5 @@
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -10,7 +11,7 @@ REPO = Path(__file__).resolve().parents[2]
 PWSH = shutil.which("pwsh") or shutil.which("powershell")
 
 
-def _run(*args):
+def _run(*args, env=None):
     assert PWSH, "no PowerShell found"
     return subprocess.run(
         [PWSH, "-NoProfile", "-ExecutionPolicy", "Bypass", "-File"]
@@ -19,6 +20,7 @@ def _run(*args):
         text=True,
         encoding="utf-8",
         errors="replace",
+        env=env,
     )
 
 
@@ -89,6 +91,42 @@ def test_smoke_script_reports_no_session(workdir):
     )
     assert result.returncode == 2, result.stdout + result.stderr
     assert "RESULT: FAIL:NO_SESSION" in result.stdout
+
+
+def test_smoke_script_defaults_to_runtime_venv(workdir):
+    io = workdir / "io"
+    (io / "999").mkdir(parents=True)
+    (io / "999" / "status.json").write_text(
+        '{"pid": 999, "alive": true, "updated": 0}', encoding="utf-8"
+    )
+    # Empty PATH: only the runtime's own .venv can satisfy the launcher.
+    empty_bin = workdir / "bin"
+    empty_bin.mkdir()
+    env = os.environ.copy()
+    env["PATH"] = str(empty_bin)
+    result = _run(
+        REPO / "deploy" / "smoke.ps1",
+        "-RuntimeHome", REPO,
+        "-IoDir", io,
+        env=env,
+    )
+    assert result.returncode == 2, result.stdout + result.stderr
+    assert "RESULT: FAIL:NO_SESSION" in result.stdout
+
+
+def test_smoke_script_rejects_old_python(workdir):
+    io = workdir / "io"
+    io.mkdir()
+    fake = workdir / "old-python.cmd"
+    fake.write_text("@echo off\r\necho 3.9\r\n", encoding="utf-8")
+    result = _run(
+        REPO / "deploy" / "smoke.ps1",
+        "-RuntimeHome", REPO,
+        "-IoDir", io,
+        "-PythonExe", fake,
+    )
+    assert result.returncode == 2, result.stdout + result.stderr
+    assert "RESULT: FAIL:PYTHON_VERSION" in result.stdout
 
 
 def test_smoke_script_reports_missing_python(workdir):
