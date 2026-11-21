@@ -11,7 +11,7 @@
         cwd: 'D:\NX_Agent\nx-agent-kit'
         env:
           PYTHONPATH: 'D:\NX_Agent\nx-agent-kit\runtime'
-          NXKIT_IO_DIR: 'E:\Code\CAD-Agent-Hub\MCP\UG\io'
+          NXKIT_IO_DIR: 'D:\NX_Agent\nx-agent-kit\io'
           NXKIT_EXPOSE: 'all'
           NXKIT_NX_ROOT: 'D:\\Program Files\\Siemens\\NX 10.0'
         failOnStartupError: true
