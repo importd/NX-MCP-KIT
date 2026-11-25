@@ -20,13 +20,13 @@ foreach ($folder in @("bridge", "runtime", "contract", "skills")) {
     }
 }
 
-$serverPath = Join-Path $RuntimeHome "runtime\nxkit\server.py"
 $config = @{
     mcpServers = @{
         nx = @{
             command = $PythonExe
-            args    = @($serverPath)
+            args    = @("-m", "nxkit.server")
             env     = @{
+                PYTHONPATH     = (Join-Path $RuntimeHome "runtime")
                 NXKIT_IO_DIR   = (Join-Path $RuntimeHome "io")
                 NXKIT_LIBRARY  = (Join-Path $RuntimeHome "library")
                 NXKIT_CONTRACT_DIR = (Join-Path $RuntimeHome "contract")

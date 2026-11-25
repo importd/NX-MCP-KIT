@@ -190,16 +190,20 @@ class Router:
         except Exception:
             pass
 
+    _SESSION_CARD_FIELDS = ("pid", "nx", "part", "python")
+
+    @classmethod
+    def _session_card(cls, session: dict) -> dict:
+        return {
+            field: session[field]
+            for field in cls._SESSION_CARD_FIELDS
+            if field in session
+        }
+
     @staticmethod
-    def _pick_session(sessions):
-        alive = [session for session in sessions if session.get("alive")]
-        fresh = [
-            session
-            for session in alive
-            if session.get("heartbeat_age_s") is None or session.get("heartbeat_age_s") < 300
-        ]
-        pool = fresh or alive or sessions
-        return pool[0].get("pid")
+    def _tag_session(envelope: dict, pid: int) -> dict:
+        envelope["session_pid"] = pid
+        return envelope
 
     def _call_nx(self, tool, args, request_id: str) -> dict:
         if tool.flags.get("precheck") and args.get("code"):
@@ -231,30 +235,82 @@ class Router:
                 next="先打开 NX 并确认桥已加载（nx_status）",
                 hint_tool="nx_status",
             )
-        pid = args.pop("pid", None) or self._pick_session(sessions)
+        alive = [session for session in sessions if session.get("alive")]
+        requested_pid = args.pop("pid", None)
+        if requested_pid is not None:
+            try:
+                pid = int(requested_pid)
+            except (TypeError, ValueError):
+                return make_error(
+                    request_id,
+                    "BAD_ARGUMENT",
+                    "precheck",
+                    "pid 必须是整数，收到 %r" % (requested_pid,),
+                    next="用 nx_status 查看在线 sessions 的 pid",
+                    hint_tool="nx_status",
+                )
+            if pid not in {session.get("pid") for session in alive}:
+                return make_error(
+                    request_id,
+                    "SESSION_NOT_FOUND",
+                    "bridge",
+                    "没有 pid=%s 的在线 NX 会话" % pid,
+                    next="用 nx_status 查看在线 sessions 的 pid",
+                    hint_tool="nx_status",
+                )
+        elif len(alive) == 1:
+            pid = alive[0].get("pid")
+        elif len(alive) > 1:
+            envelope = make_error(
+                request_id,
+                "AMBIGUOUS_SESSION",
+                "bridge",
+                "发现 %d 个在线 NX 会话，请用 pid 指定目标" % len(alive),
+                next="先 nx_status 查看 sessions，再传 pid=<pid>",
+                hint_tool="nx_status",
+            )
+            envelope["error"]["sessions"] = [self._session_card(s) for s in alive]
+            return envelope
+        else:
+            return make_error(
+                request_id,
+                "BRIDGE_UNAVAILABLE",
+                "bridge",
+                "没有在线的 NX 会话（%d 个状态文件均已过期）" % len(sessions),
+                next="确认 NX 已打开且桥已加载（nx_status）",
+                hint_tool="nx_status",
+            )
         timeout_s = float(args.pop("timeout_s", 120.0))
         try:
             payload = self.bridge.submit(pid, tool.route["cmd"], args, timeout_s=timeout_s)
         except BridgeUnavailable as exc:
-            return make_error(request_id, "BRIDGE_UNAVAILABLE", "bridge", str(exc))
+            return self._tag_session(
+                make_error(request_id, "BRIDGE_UNAVAILABLE", "bridge", str(exc)), pid
+            )
         except BridgeTimeout as exc:
-            return make_error(
-                request_id,
-                "BRIDGE_TIMEOUT",
-                "bridge",
-                str(exc),
-                next="用 nx_job 查看任务；超时请求已从队列撤回",
-                hint_tool="nx_job",
+            return self._tag_session(
+                make_error(
+                    request_id,
+                    "BRIDGE_TIMEOUT",
+                    "bridge",
+                    str(exc),
+                    next="用 nx_job 查看任务；超时请求已从队列撤回",
+                    hint_tool="nx_job",
+                ),
+                pid,
             )
         if isinstance(payload, dict) and payload.get("error"):
             error = payload["error"]
-            return make_error(
-                request_id,
-                error.get("code", "NX_ERROR"),
-                "nx",
-                error.get("msg", "NX 执行失败"),
-                next=error.get("next"),
-                hint_tool=error.get("hint_tool"),
+            return self._tag_session(
+                make_error(
+                    request_id,
+                    error.get("code", "NX_ERROR"),
+                    "nx",
+                    error.get("msg", "NX 执行失败"),
+                    next=error.get("next"),
+                    hint_tool=error.get("hint_tool"),
+                ),
+                pid,
             )
         payload = payload or {}
         facts = payload.get("facts") or {}
@@ -265,9 +321,12 @@ class Router:
                 "source": "bridge",
                 "evidence": "measured inside NX: %s" % ", ".join("%s=%s" % (k, v) for k, v in facts.items()),
             }
-        return make_ok(
-            request_id,
-            data=payload.get("data"),
-            verify=verify,
-            job=payload.get("job"),
+        return self._tag_session(
+            make_ok(
+                request_id,
+                data=payload.get("data"),
+                verify=verify,
+                job=payload.get("job"),
+            ),
+            pid,
         )

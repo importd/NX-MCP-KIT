@@ -26,8 +26,8 @@
       "name": "nx_run_python",
       "s": "在 NX 里执行 Python",
       "k": ["执行代码", "run python", "脚本"],
-      "desc": "在已打开的 NX 会话里执行 Python（命名空间跨调用保留）；执行前自动跑 nx_check。",
-      "next": "先 nx_check；失败读 error.next；长任务看 nx_job",
+      "desc": "在已打开的 NX 会话里执行 Python（命名空间跨调用保留）；执行前自动跑 nx_check。多开时用 pid 指定会话。",
+      "next": "先 nx_check；多开先 nx_status 拿 pid；失败读 error.next；长任务看 nx_job",
       "route": { "kind": "nx", "cmd": "nx_run_python" },
       "flags": { "gate": true, "precheck": true },
       "schema": {

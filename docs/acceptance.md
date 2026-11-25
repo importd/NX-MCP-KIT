@@ -1,12 +1,12 @@
 # NX Agent Kit v1 验收清单
 
 > 实测环境：NX 10.0.0.24（内嵌 Python 3.3.2，`UGII\run_journal.exe`），
-> 宿主 Python 3.12.14（DSH 运行时）。测试日期：2026-11-18。
+> 宿主 Python 3.12.14。测试日期：2026-11-18。
 
 ## 已验证（NX10 交互式真机，2026-11-18 22:19）
 
 启动方式：桥的 `startup\nx_agent_kit.py` 部署到 NX10 的 `UGII_USER_DIR\startup`（同时把
-`D:\NX_Agent\nx-agent-kit\bridge` 追加进 `custom_dirs.dat`），NX10 启动时自动加载；
+`<RuntimeHome>\bridge` 追加进 `custom_dirs.dat`），NX10 启动时自动加载；
 Win32 `SetTimer(250ms)` 在 UI 线程 tick，单实例互斥锁防重复加载。
 
 | 项 | 结果 |
@@ -20,7 +20,10 @@ Win32 `SetTimer(250ms)` 在 UI 线程 tick，单实例互斥锁防重复加载�
 | `nx_fillet radius=2`（全边） | ✅ `BLEND(1)`，面 26/边 48，体积 59598.68（算例：50×40×30 圆角） |
 | `nx_chamfer width=1.5`（全边） | ✅ `CHAMFER(1)`，面 26/边 48，体积 59478.0 |
 | `nx_boolean unite`（两体） | ✅ `UNITE(2)`，体积 40000（50×40×20 ∪ 20³，扣重叠 8000） |
-| `nx_move_face delta=[0,0,2]`（顶面） | ✅ z 从 30 → 32，体积 64000；NX10 的 MoveFace 是 direct-edit，`feature=null` |`n| `nx_save`（另存为） | ✅ `saved_live.prt` 已落盘 |`n| `nx_extrude`（4 点矩形→拉伸 5） | ✅ `EXTRUDE(0)`，体积 1000（20×10×5） |`n| `nx_revolve`（矩形绕 Y 轴 360°） | ✅ `REVOLVED(0)`，体积 9424.778 = π(20²−10²)×10 |
+| `nx_move_face delta=[0,0,2]`（顶面） | ✅ z 从 30 → 32，体积 64000；NX10 的 MoveFace 是 direct-edit，`feature=null` |
+| `nx_save`（另存为） | ✅ `saved_live.prt` 已落盘 |
+| `nx_extrude`（4 点矩形→拉伸 5） | ✅ `EXTRUDE(0)`，体积 1000（20×10×5） |
+| `nx_revolve`（矩形绕 Y 轴 360°） | ✅ `REVOLVED(0)`，体积 9424.778 = π(20²−10²)×10 |
 | `nx_screenshot` | ✅ NX10 降级成功：NX 进程内 Win32 PrintWindow（PW_RENDERFULLCONTENT）抓主窗口，含 OpenGL 模型视口；zlib 自写 PNG（1634×1174）。窗口最小化时返回明确错误 |
 
 > 桥支持热重载（NX 不必重启）：`nx_run_python` 里执行
@@ -50,7 +53,7 @@ pytest tests\headless.py -v
 ## 一键自检（有头）
 
 ```powershell
-.\deploy\smoke.ps1 -RuntimeHome "D:\NX_Agent\nx-agent-kit"
+.\deploy\smoke.ps1 -RuntimeHome "<repo>"
 ```
 
 成功最后一行 `RESULT: OK`；失败看 `RESULT: FAIL:<code>`、`MSG:` 与 `NEXT:`。退出码 0/1/2

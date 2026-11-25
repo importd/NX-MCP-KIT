@@ -47,7 +47,7 @@
         ],
         "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T1-block-40x30x20-05b86e-a1.prt"
+          "part_path": "io/eval_parts_headless/T1-block-40x30x20-05b86e-a1.prt"
         }
       },
       "score": {
@@ -158,7 +158,7 @@
         ],
         "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T1-boolean-unite-fdc571-a1.prt"
+          "part_path": "io/eval_parts_headless/T1-boolean-unite-fdc571-a1.prt"
         }
       },
       "score": {
@@ -260,7 +260,7 @@
         ],
         "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T1-chamfer-all-968f27-a1.prt"
+          "part_path": "io/eval_parts_headless/T1-chamfer-all-968f27-a1.prt"
         }
       },
       "score": {
@@ -359,7 +359,7 @@
         ],
         "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T1-extrude-4d2074-a1.prt"
+          "part_path": "io/eval_parts_headless/T1-extrude-4d2074-a1.prt"
         }
       },
       "score": {
@@ -461,7 +461,7 @@
         ],
         "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T1-fillet-all-cb151a-a1.prt"
+          "part_path": "io/eval_parts_headless/T1-fillet-all-cb151a-a1.prt"
         }
       },
       "score": {
@@ -569,7 +569,7 @@
         ],
         "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T1-hole-depth-3b715e-a1.prt"
+          "part_path": "io/eval_parts_headless/T1-hole-depth-3b715e-a1.prt"
         }
       },
       "score": {
@@ -662,7 +662,7 @@
         ],
         "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T1-hole-through-c0fc0f-a1.prt"
+          "part_path": "io/eval_parts_headless/T1-hole-through-c0fc0f-a1.prt"
         }
       },
       "score": {
@@ -764,7 +764,7 @@
         ],
         "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T1-shell-989294-a1.prt"
+          "part_path": "io/eval_parts_headless/T1-shell-989294-a1.prt"
         }
       },
       "score": {
@@ -875,7 +875,7 @@
         ],
         "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T2-bracket-a184d8-a1.prt"
+          "part_path": "io/eval_parts_headless/T2-bracket-a184d8-a1.prt"
         }
       },
       "score": {
@@ -959,7 +959,7 @@
         ],
         "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T2-bushing-b1a6ce-a1.prt"
+          "part_path": "io/eval_parts_headless/T2-bushing-b1a6ce-a1.prt"
         }
       },
       "score": {
@@ -1052,7 +1052,7 @@
         ],
         "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T2-cylinder-8f0c28-a1.prt"
+          "part_path": "io/eval_parts_headless/T2-cylinder-8f0c28-a1.prt"
         }
       },
       "score": {
@@ -1154,7 +1154,7 @@
         ],
         "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T2-delete-body-180d58-a1.prt"
+          "part_path": "io/eval_parts_headless/T2-delete-body-180d58-a1.prt"
         }
       },
       "score": {
@@ -1247,7 +1247,7 @@
         ],
         "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T2-extrude-triangle-2c3c61-a1.prt"
+          "part_path": "io/eval_parts_headless/T2-extrude-triangle-2c3c61-a1.prt"
         }
       },
       "score": {
@@ -1367,7 +1367,7 @@
         ],
         "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T2-plate-4holes-e869c7-a1.prt"
+          "part_path": "io/eval_parts_headless/T2-plate-4holes-e869c7-a1.prt"
         }
       },
       "score": {
@@ -1469,7 +1469,7 @@
         ],
         "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T2-shell-box-9c148c-a1.prt"
+          "part_path": "io/eval_parts_headless/T2-shell-box-9c148c-a1.prt"
         }
       },
       "score": {
@@ -1589,7 +1589,7 @@
         ],
         "outcome": "pass",
         "artifacts": {
-          "part_path": "C:\\Users\\feather\\Documents\\deepseek-harness\\default-workspace\\nx-agent-kit\\io\\eval_parts_headless\\T2-three-blocks-1952bf-a1.prt"
+          "part_path": "io/eval_parts_headless/T2-three-blocks-1952bf-a1.prt"
         }
       },
       "score": {

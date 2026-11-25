@@ -17,10 +17,19 @@
         "stage": { "enum": ["precheck", "bridge", "nx", "verify", "rollback"] },
         "msg": { "type": "string" },
         "next": { "type": ["string", "null"] },
-        "hint_tool": { "type": ["string", "null"] }
+        "hint_tool": { "type": ["string", "null"] },
+        "sessions": {
+          "type": "array",
+          "description": "AMBIGUOUS_SESSION 时的在线会话候选",
+          "items": { "type": "object" }
+        }
       }
     },
     "job": { "type": ["string", "null"] },
+    "session_pid": {
+      "type": ["integer", "null"],
+      "description": "本次调用实际路由到的 NX 会话 pid"
+    },
     "elapsed_ms": { "type": ["number", "null"] }
   }
 }

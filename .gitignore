@@ -1,14 +1,33 @@
+# Local tooling / environments
 .deps/
 .venv/
+.superpowers/
 .pytest-tmp/
+.pytest_cache/
 __pycache__/
 *.pyc
-.pytest_cache/
-io/
-library/
-kb/*.db
-.superpowers/
-*.log
+*.egg-info/
+build/
+dist/
+
+# Runtime data (created by the bridge and host; root-level only)
+/io/
+/library/
+/kb/*.db
 evals/v2/runs/
 evals/v2/scores/
 io/eval_parts_headless/
+bridge/startup/nxkit_home.txt
+run_auto_ingest.cmd
+*.log
+
+# Editor / OS noise
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Secrets (never commit local credentials)
+.env
+.env.*
+!.env.example

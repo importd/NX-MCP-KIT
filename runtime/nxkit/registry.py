@@ -1,8 +1,8 @@
 """Contract loader: the single source of truth for tool definitions.
 
 Replaces the `jsonschema` dependency with a deliberately small subset
-validator (see Ruling in .superpowers ledger): required keys, types,
-enums and a couple of structural checks that matter for MCP clients.
+validator: required keys, types, enums and a couple of structural checks
+that matter for MCP clients.
 """
 
 import json
@@ -19,6 +19,24 @@ _REQUIRED_KEYS = ("name", "s", "desc", "route", "schema")
 _TOOL_NAME_CHARS = set("abcdefghijklmnopqrstuvwxyz0123456789_")
 _ROUTE_KINDS = {"nx", "local", "batch"}
 _GROUPS = {"meta", "part", "model", "mold", "query", "exec", "api", "exp"}
+
+# Every bridge-routed tool accepts these, because Router needs them to pick a
+# session and bound the wait. Injecting them here keeps the contract files free
+# of repetition while still exposing the arguments to MCP clients.
+_SESSION_ARGS = {
+    "pid": {
+        "type": "integer",
+        "description": "目标 NX 会话 pid；多开时必填（先跑 nx_status 看 sessions）",
+    },
+    "timeout_s": {"type": "number", "description": "桥等待秒数，默认 120"},
+}
+
+
+def _with_session_args(schema: dict) -> dict:
+    properties = dict(schema.get("properties") or {})
+    for key, spec in _SESSION_ARGS.items():
+        properties.setdefault(key, dict(spec))
+    return dict(schema, properties=properties)
 
 
 @dataclass(frozen=True)
@@ -137,15 +155,19 @@ class Registry:
             _validate_tool(raw, group_hint, path)
             if raw["name"] in self.tools:
                 _fail(path, "duplicate tool name: %s" % raw["name"])
+            route = dict(raw["route"])
+            schema = dict(raw["schema"])
+            if route["kind"] == "nx":
+                schema = _with_session_args(schema)
             self.tools[raw["name"]] = ToolDef(
                 name=raw["name"],
                 group=raw.get("group", group_hint),
                 s=raw["s"],
                 k=tuple(raw.get("k", [])),
                 desc=raw["desc"],
-                route=dict(raw["route"]),
+                route=route,
                 flags=dict(raw.get("flags", {})),
-                schema=dict(raw["schema"]),
+                schema=schema,
                 next=raw.get("next", ""),
                 matrix=dict(raw.get("matrix", {})),
             )

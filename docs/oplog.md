@@ -62,13 +62,13 @@ python -m nxkit.ingest --oplog io/oplog.jsonl --library library
 
 ```powershell
 # 预览要执行的命令（不落地）
-powershell -File deploy\install_ingest_task.ps1 -RuntimeHome D:\NX_Agent\nxkit-runtime -PrintOnly
+powershell -File deploy\install_ingest_task.ps1 -RuntimeHome D:\nxkit-runtime -PrintOnly
 
 # 注册每 10 分钟跑一次的 AutoIngest 任务（需要相应权限）
-powershell -File deploy\install_ingest_task.ps1 -RuntimeHome D:\NX_Agent\nxkit-runtime -IntervalMinutes 10
+powershell -File deploy\install_ingest_task.ps1 -RuntimeHome D:\nxkit-runtime -IntervalMinutes 10
 
 # 删除
-powershell -File deploy\install_ingest_task.ps1 -RuntimeHome D:\NX_Agent\nxkit-runtime -Remove
+powershell -File deploy\install_ingest_task.ps1 -RuntimeHome D:\nxkit-runtime -Remove
 ```
 
 任务命令等价于：

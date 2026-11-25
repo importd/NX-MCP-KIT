@@ -2,11 +2,23 @@
 name = "nx-agent-kit"
 version = "0.1.0"
 description = "Contract-first MCP runtime for Siemens NX automation"
+readme = "README.md"
+license = { text = "MIT" }
 requires-python = ">=3.12"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+]
 # Dependencies are intentionally empty for offline/intranet installs.
 # MCP transport is implemented in-tree (stdio JSON-RPC 2024-11-05);
 # contract validation is a subset validator in nxkit/registry.py.
 dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/importd/NX-MCP-KIT"
+Repository = "https://github.com/importd/NX-MCP-KIT.git"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

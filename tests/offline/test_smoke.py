@@ -68,6 +68,20 @@ def test_run_ok_path(workdir):
     assert router.calls[-1][0] == "nx_save"
 
 
+def test_run_pins_every_call_to_picked_session(workdir):
+    sessions = [
+        {"pid": 111, "alive": True, "heartbeat_age_s": 1.0},
+        {"pid": 222, "alive": True, "heartbeat_age_s": 1.0},
+    ]
+    router = FakeRouter(_good, sessions=sessions)
+
+    result = run(router, workdir, _part(workdir))
+
+    assert result["ok"] is True
+    assert router.calls
+    assert all(args.get("pid") == 111 for _, args in router.calls)
+
+
 def test_run_no_session_is_preflight(workdir):
     router = FakeRouter(_good, sessions=[])
     result = run(router, workdir, _part(workdir))

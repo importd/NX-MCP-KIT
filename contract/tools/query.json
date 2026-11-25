@@ -44,15 +44,18 @@
       "name": "nx_screenshot",
       "s": "截图（可命名视图）",
       "k": ["截图", "screenshot", "看图", "视图"],
-      "desc": "用 NX 自带 ImageExport 导出 PNG；可先切命名视图。",
-      "next": "图看不全先 nx_screenshot view=fit",
+      "desc": "导出 PNG 截图（2512 走 ImageExport，NX10 走 PrintWindow）。默认裁到图形区（crop=true）、缩到宽 900px（width=900）、截图前先 Fit（fit=true），所以未传参也是省 token 版本。非必要不要调用：几何验证优先 nx_measure / nx_inspect / nx_assert 的数字勾稽；仅在交付展示、或数字无法判断外形/装配关系时截图；同一视图不要重复截。",
+      "next": "先 nx_measure/nx_inspect 对体积与 bbox；只在交付时截图；图看不全用 view=fit",
       "route": { "kind": "nx", "cmd": "nx_screenshot" },
       "flags": {},
       "schema": {
         "type": "object",
         "properties": {
           "path": { "type": "string" },
-          "view": { "type": "string", "description": "可选：fit / trimetric / 命名视图" }
+          "view": { "type": "string", "description": "可选：fit / trimetric / 命名视图" },
+          "crop": { "type": "boolean", "description": "默认 true：NX10 路径裁到图形区（去掉菜单栏、工具栏、部件导航器）" },
+          "width": { "type": "number", "description": "默认 900：输出宽度像素；0 表示不缩放" },
+          "fit": { "type": "boolean", "description": "默认 true：截图前先 Fit，保持当前视图方向" }
         },
         "additionalProperties": false
       },

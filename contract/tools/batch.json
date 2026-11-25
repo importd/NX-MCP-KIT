@@ -1,0 +1,70 @@
+{
+  "group": "model",
+  "label": "批量操作",
+  "order": 25,
+  "tools": [
+    {
+      "name": "nx_batch_edit",
+      "s": "批量改属性/名字/图层/显示/移动旋转",
+      "k": ["批量", "属性", "改名", "图层", "显示", "移动", "旋转", "batch", "transform", "备料"],
+      "desc": "对一个部件里的多个实体一次性：写用户属性（update=FALSE，最后统一更新）、按模板改名、设图层、设可见性、移动+旋转（uf5947 批量一次调用）。实测 500 实体 NX10：属性 0.03s、改名 0.29s、变换 3.3s，比逐个调用快 5~189 倍。transform 用 UF_TRNS_transform_objects；不要改用 UF_MODL_transform_entities（会弹交互「变换」对话框把 NX 卡死）。",
+      "next": "先 nx_inspect 拿实体数；targets 省略=全部；transform 只传 rotate_axis/rotate_angle/translate 之一或组合；返回里的 elapsed_ms 可定位瓶颈",
+      "route": { "kind": "nx", "cmd": "nx_batch_edit" },
+      "flags": { "gate": true },
+      "schema": {
+        "type": "object",
+        "properties": {
+          "targets": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "JournalIdentifier 或体名列表；省略=当前部件全部实体"
+          },
+          "name_pattern": {
+            "type": "string",
+            "description": "名字模板，支持 {i} {i:03d} {n} {id}，例如 WP_{i:03d}"
+          },
+          "attributes": {
+            "type": "array",
+            "description": "用户属性列表",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": { "type": "string" },
+                "type": { "type": "string", "enum": ["string", "int", "real", "bool"] },
+                "value": {}
+              },
+              "required": ["title", "value"]
+            }
+          },
+          "layer": { "type": "integer", "description": "目标图层 1-256" },
+          "hidden": { "type": "boolean", "description": "true=隐藏 false=显示" },
+          "visibility_mode": {
+            "type": "string",
+            "enum": ["object", "layer"],
+            "description": "object=逐个对体 blank/unblank（默认，语义精确）；layer=设图层后整层隐/显（对象多时省事，但会连带该层其他对象）"
+          },
+          "suppress_display": {
+            "type": "boolean",
+            "description": "默认 true：操作期间关闭图形显示，结束后 refit 一次"
+          },
+          "transform": {
+            "type": "object",
+            "description": "批量移动/旋转（一次 uf5947 调用）",
+            "properties": {
+              "rotate_axis": { "type": "string", "enum": ["X", "Y", "Z"] },
+              "rotate_angle": { "type": "number", "description": "度" },
+              "translate": {
+                "type": "array",
+                "items": { "type": "number" },
+                "description": "[dx, dy, dz] mm"
+              },
+              "move": { "type": "number", "description": "1=移动 2=复制，默认 1" }
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "matrix": { "nx10": "verified", "nx2512": "expected" }
+    }
+  ]
+}

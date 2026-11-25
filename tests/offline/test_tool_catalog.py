@@ -12,7 +12,7 @@ REPO = Path(__file__).resolve().parents[2]
 GROUP_COUNTS = {
     "meta": 6,
     "part": 3,
-    "model": 10,
+    "model": 11,
     "mold": 1,
     "query": 3,
     "exec": 5,
@@ -23,7 +23,7 @@ GROUP_COUNTS = {
 
 def test_tool_count_and_groups(contract_dir):
     registry = Registry(contract_dir)
-    assert len(registry.tools) == 30
+    assert len(registry.tools) == 31
     counts = {}
     for tool in registry.tools.values():
         counts[tool.group] = counts.get(tool.group, 0) + 1

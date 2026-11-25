@@ -54,9 +54,9 @@ def test_install_copies_bridge_and_writes_config(workdir):
     assert (runtime_home / "bridge" / "startup" / "nx_agent_kit.py").is_file()
     assert (runtime_home / "runtime" / "nxkit" / "server.py").is_file()
     config = json.loads((runtime_home / "mcp_config.json").read_text(encoding="utf-8"))
-    args = config["mcpServers"]["nx"]["args"]
-    assert args[-1].endswith("server.py")
-    assert "nxkit" in args[-1]
+    server = config["mcpServers"]["nx"]
+    assert server["args"] == ["-m", "nxkit.server"]
+    assert server["env"]["PYTHONPATH"].endswith("runtime")
 
 
 def test_install_appends_custom_dirs_without_overwrite(workdir):
@@ -94,6 +94,8 @@ def test_smoke_script_reports_no_session(workdir):
 
 
 def test_smoke_script_defaults_to_runtime_venv(workdir):
+    if not (REPO / ".venv" / "Scripts" / "python.exe").is_file():
+        pytest.skip("runtime .venv is not present")
     io = workdir / "io"
     (io / "999").mkdir(parents=True)
     (io / "999" / "status.json").write_text(

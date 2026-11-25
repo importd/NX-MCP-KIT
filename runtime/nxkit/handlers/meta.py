@@ -9,6 +9,21 @@ def handle_status(router, args, request_id):
         all_sessions = router.bridge.sessions()
     except Exception:
         all_sessions = []
+    requested_pid = args.get("pid")
+    if requested_pid is not None:
+        try:
+            requested_pid = int(requested_pid)
+        except (TypeError, ValueError):
+            return make_error(
+                request_id,
+                "BAD_ARGUMENT",
+                "precheck",
+                "pid 必须是整数，收到 %r" % (args.get("pid"),),
+                next="去掉 pid 看全部，或传整数",
+            )
+        all_sessions = [
+            session for session in all_sessions if session.get("pid") == requested_pid
+        ]
     alive = [session for session in all_sessions if session.get("alive")]
     return make_ok(
         request_id,

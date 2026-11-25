@@ -9,9 +9,9 @@ RUNTIME = REPO / "runtime"
 if str(RUNTIME) not in sys.path:
     sys.path.insert(0, str(RUNTIME))
 
-# The DSH sandbox denies both pytest's 0o700 temp root and directories created
-# by tempfile.mkdtemp (WinError 5 on Windows). Plain pathlib.mkdir under the
-# repo works, so tests get their own directory here.
+# Some restricted Windows sandboxes deny pytest's 0o700 temp root and
+# directories created by tempfile.mkdtemp (WinError 5). Plain pathlib.mkdir
+# under the repo works, so tests get their own directory here.
 _TMP_ROOT = REPO / ".pytest-tmp"
 
 

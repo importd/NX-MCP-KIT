@@ -7,9 +7,11 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]
 
 
-def _start(contract_dir: Path) -> subprocess.Popen:
+def _start(contract_dir: Path, expose: str | None = None) -> subprocess.Popen:
     env = dict(os.environ)
     env["NXKIT_CONTRACT_DIR"] = str(contract_dir)
+    if expose is not None:
+        env["NXKIT_EXPOSE"] = expose
     env["PYTHONPATH"] = str(REPO / "runtime") + os.pathsep + env.get("PYTHONPATH", "")
     return subprocess.Popen(
         [sys.executable, "-m", "nxkit.server"],
@@ -68,6 +70,22 @@ def test_tools_list_uses_catalog_by_default(contract_dir):
         }
         for tool in resp["result"]["tools"]:
             assert tool["inputSchema"]["type"] == "object"
+    finally:
+        proc.stdin.close()
+        proc.wait(timeout=10)
+        proc.stdout.close()
+        proc.stderr.close()
+
+
+def test_tools_list_exposes_session_args_for_nx_tools(contract_dir):
+    proc = _start(contract_dir, expose="all")
+    try:
+        resp = _rpc(proc, "tools/list")
+        tools = {tool["name"]: tool for tool in resp["result"]["tools"]}
+        props = tools["nx_run_python"]["inputSchema"]["properties"]
+        assert props["pid"]["type"] == "integer"
+        assert props["timeout_s"]["type"] == "number"
+        assert "pid" not in tools["nx_find"]["inputSchema"]["properties"]
     finally:
         proc.stdin.close()
         proc.wait(timeout=10)

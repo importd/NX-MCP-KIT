@@ -60,7 +60,7 @@ def _finish(steps):
 
 
 def _pick_session(sessions):
-    """Same preference as Router._pick_session, kept local to avoid a cycle."""
+    """Prefer a fresh session; smoke only needs one target, not router policy."""
     alive = [session for session in sessions if session.get("alive")]
     fresh = [
         session
@@ -71,9 +71,9 @@ def _pick_session(sessions):
     return pool[0] if pool else None
 
 
-def _call_step(router, name, tool, args):
+def _call_step(router, name, tool, args, pid):
     try:
-        envelope = router.call(tool, args)
+        envelope = router.call(tool, dict(args, pid=pid))
     except Exception as exc:
         return _step(name, False, "EXCEPTION", {"code": "EXCEPTION", "msg": repr(exc)}), None
     if not envelope.get("ok"):
@@ -113,9 +113,10 @@ def run(router, io_dir, part_path, *, save=True, timeout_s=120.0):
     if session is None:
         steps.append(_step("session", False, "no alive NX session"))
         return _finish(steps)
-    steps.append(_step("session", True, "pid=%s" % session.get("pid")))
+    pid = session.get("pid")
+    steps.append(_step("session", True, "pid=%s" % pid))
 
-    step, envelope = _call_step(router, "status", "nx_status", {})
+    step, envelope = _call_step(router, "status", "nx_status", {}, pid)
     if step["ok"] and not (envelope.get("data") or {}).get("connected"):
         step = _step("status", False, "not connected")
     steps.append(step)
@@ -133,6 +134,7 @@ def run(router, io_dir, part_path, *, save=True, timeout_s=120.0):
         "part",
         "nx_part",
         {"action": "new", "path": str(part_path), "timeout_s": timeout_s},
+        pid,
     )
     steps.append(step)
     if not step["ok"]:
@@ -149,6 +151,7 @@ def run(router, io_dir, part_path, *, save=True, timeout_s=120.0):
             "skip_search": True,
             "timeout_s": timeout_s,
         },
+        pid,
     )
     steps.append(step)
     if not step["ok"]:
@@ -159,6 +162,7 @@ def run(router, io_dir, part_path, *, save=True, timeout_s=120.0):
         "measure",
         "nx_measure",
         {"target": "last", "skip_search": True, "timeout_s": timeout_s},
+        pid,
     )
     if step["ok"]:
         facts = (envelope.get("verify") or {}).get("facts") or {}
@@ -185,6 +189,7 @@ def run(router, io_dir, part_path, *, save=True, timeout_s=120.0):
         "save",
         "nx_save",
         {"path": str(part_path), "timeout_s": timeout_s},
+        pid,
     )
     steps.append(step)
     return _finish(steps)

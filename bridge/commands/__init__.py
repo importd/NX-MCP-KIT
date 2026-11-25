@@ -5,7 +5,7 @@ no annotations, no dataclasses anywhere under bridge/. The key set here must
 match contract/commands.json exactly (checked by tests/offline).
 """
 
-from . import exec as exec_cmd
+from . import batch, exec as exec_cmd
 from . import model, part, query, view
 
 COMMANDS = {
@@ -25,6 +25,7 @@ COMMANDS = {
     "nx_screenshot": view.screenshot,
     "nx_inspect": query.inspect_part,
     "nx_measure": query.measure,
+    "nx_batch_edit": batch.batch_edit,
 }
 
 

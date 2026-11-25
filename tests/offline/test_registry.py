@@ -33,6 +33,22 @@ def test_expose_catalog_only_always(contract_dir):
     assert {t["name"] for t in reg.list("catalog")} == always
 
 
+def test_nx_routed_tools_expose_session_args(contract_dir):
+    reg = Registry(contract_dir)
+    nx_tools = [t for t in reg.tools.values() if t.route.get("kind") == "nx"]
+    assert nx_tools
+    for tool in nx_tools:
+        props = tool.schema["properties"]
+        assert props["pid"]["type"] == "integer", tool.name
+        assert props["timeout_s"]["type"] == "number", tool.name
+
+
+def test_local_tools_do_not_get_session_args(contract_dir):
+    props = Registry(contract_dir).tools["nx_find"].schema["properties"]
+    assert "pid" not in props
+    assert "timeout_s" not in props
+
+
 def test_duplicate_tool_name_raises(contract_dir, workdir):
     dst = workdir / "contract"
     (dst / "tools").mkdir(parents=True)
